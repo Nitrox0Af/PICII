@@ -38,17 +38,17 @@ while True:
     k = cv2.waitKey(1)
     if k%256 == 27:
         print("Esc")
+        cam.release()
+        cam.destroyAllWindows()
         break
     elif k%256 == 32:
         img_name= "data.png"
         cv2.imwrite(img_name,frame)
-        cam.release()
         # Carrega a imagem desconhecida
         imagem_desconhecida = face_recognition.load_image_file("data.png")
         face_encodings_desconhecido = face_recognition.face_encodings(imagem_desconhecida)
         if len(face_encodings_desconhecido) == 0:
             print("Nenhuma face encontrada na imagem desconhecida")
-            exit()
 
         # Percorre todas as codificações de rosto na imagem desconhecida
         for face_encoding_desconhecido in face_encodings_desconhecido:
