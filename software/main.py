@@ -26,7 +26,7 @@ for nome_pessoa in os.listdir(rostos_conhecidos_pasta):
         rostos_conhecidos[nome_pessoa].append(encoding)
 
 # Carrega a imagem desconhecida
-imagem_desconhecida = face_recognition.load_image_file("gabi4.jpg")
+imagem_desconhecida = face_recognition.load_image_file("gabi1.jpg")
 face_encodings_desconhecido = face_recognition.face_encodings(imagem_desconhecida)
 if len(face_encodings_desconhecido) == 0:
     print("Nenhuma face encontrada na imagem desconhecida")
