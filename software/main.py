@@ -6,7 +6,7 @@ import time
 
 # Inicializa a lista de codificações e nomes conhecidos
 rostos_conhecidos = {}
-print("Iinitializing encoding of database photos, please wait...")
+print("Initializing encoding of database photos, please wait...")
 # Percorre todas as pastas na pasta 'rostos_conhecidos'
 rostos_conhecidos_pasta = "rostos_conhecidos"
 for nome_pessoa in os.listdir(rostos_conhecidos_pasta):
@@ -30,7 +30,7 @@ print("Tap ESC to exit or COMP to take photo")
 while True:
     k = input()
     if k == "ESC":
-        print("Esc")
+        print("EXIT")
         break
     elif k == "COMP":
         cam = cv2.VideoCapture(0)
