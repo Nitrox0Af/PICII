@@ -3,6 +3,8 @@ import numpy as np
 import face_recognition
 import cv2
 import time
+from numpy import asarray
+from numpy import savetxt
 
 # Inicializa a lista de codificações e nomes conhecidos
 rostos_conhecidos = {}
@@ -25,6 +27,11 @@ for nome_pessoa in os.listdir(rostos_conhecidos_pasta):
         encoding = face_recognition.face_encodings(imagem)[0]
         rostos_conhecidos[nome_pessoa].append(encoding)
         
+textfile = open('Encodings/encoding.csv', 'w')
+    
+for nome, face_encodings in rostos_conhecidos.items():
+    textfile.writelines(nome)
+    savetxt(f'Encodings/{nome}.csv', face_encodings, delimiter=',')
 print("Tap ESC to exit or COMP to take photo")
 
 while True:
