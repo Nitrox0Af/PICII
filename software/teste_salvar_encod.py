@@ -85,6 +85,7 @@ def recognize_unknown():
                 if True in matches:
                     found_match = True
                     print(f"This is the image of {identifier}")
+                    print(matches)
                     break
 
             if not found_match:
