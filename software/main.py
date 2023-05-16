@@ -30,6 +30,7 @@ def save_encodings_dict(known_faces_dir: str) -> dict:
             continue
         encoding = encodings[0]
         save_encoding(person_dir, filename, encoding)
+#         encoding = load_encoding(person_dir, filename)
         known_faces[person_identifier].append(encoding)
     return known_faces
 
