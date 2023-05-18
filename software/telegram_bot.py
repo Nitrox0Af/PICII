@@ -50,6 +50,9 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=user_id, text=f"Você escolheu: {response}")
 
 if __name__ == '__main__':
+
+    asyncio.run(send_message("806031627"))
+
     application = ApplicationBuilder().token(TOKEN).build()
 
     start_handler = CommandHandler('start', start)
@@ -60,4 +63,6 @@ if __name__ == '__main__':
 
     application.run_polling()
 
-    asyncio.run(send_message("806031627"))
+    
+
+    

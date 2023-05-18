@@ -62,17 +62,18 @@ async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "nao":
         await context.bot.send_message(chat_id=chat_id, text="Você escolheu 'Não'!")
 
-if __name__ == '__main__':
+async def main():
+    asyncio.create_task(application.run_polling())
 
+    await send_message("806031627")
+
+if __name__ == '__main__':
     application = ApplicationBuilder().token(TOKEN).build()
 
     start_handler = CommandHandler('start', start)
     button_handler = CallbackQueryHandler(button_click)
 
     application.add_handler(start_handler)
-    
     application.add_handler(button_handler)
 
-    application.run_polling()
-
-    asyncio.run(send_message("806031627"))
+    asyncio.run(main())

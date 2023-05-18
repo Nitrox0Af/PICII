@@ -15,7 +15,7 @@ async def send_message():
     mensagem = 'Olá, esta é uma mensagem enviada pelo meu bot do Telegram.'
 
     # Envie a mensagem para o chat
-    await bot.send_message(chat_id=chat_id, text=mensagem)
+    await bot.send_message(chat_id=CHAT_ID, text=mensagem)
 
 # Execute a função assíncrona
 asyncio.run(send_message())
