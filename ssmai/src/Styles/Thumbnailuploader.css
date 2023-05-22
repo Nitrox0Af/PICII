@@ -1,0 +1,23 @@
+.thumbnail-uploader {
+    text-align: center;
+  }
+  
+  .thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .thumbnail {
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+  }
+  
+  input[type='file'] {
+    margin-top: 20px;
+  }
