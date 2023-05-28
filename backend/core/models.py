@@ -5,6 +5,8 @@ from stdimage.models import StdImageField
 from django.db.models import signals
 from django.template.defaultfilters import slugify
 
+from .encodings import generate_encodings, save_encoding
+
 
 class Base(models.Model):
     created = models.DateField('Data de criação', auto_now_add=True)
@@ -57,6 +59,13 @@ class Access(models.Model):
     
 def photo_pre_save(signal, instance, sender, **kwargs):
     instance.slug = slugify(instance.file)
+    path = "media/photo/"
+    encodings = generate_encodings(path + str(instance.file))
+    if instance.guest:
+        filename = f"{instance.guest.cpf}_{str(instance.file)}"
+    else:
+        filename = f"{instance.owner.cpf}_{str(instance.file)}"
+    save_encoding(path, filename, encodings)
 
 
 signals.pre_save.connect(photo_pre_save, sender=Photo)
