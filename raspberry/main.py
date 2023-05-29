@@ -1,17 +1,16 @@
 import os
 import time
 import subprocess
+import requests
 
 import numpy as np
-# import cv2
+import cv2
 import face_recognition
 import pickle
 
-import requests
-import json
-
 
 OWNER = "00000000000"
+
 
 def main():
     known_faces_dir = "./encoding/"
@@ -20,7 +19,7 @@ def main():
 
 
 def save_encodings_dict(known_faces_dir: str) -> dict:
-    """Runs through all folders and images to save the generated encodings"""
+    """Runs through all encodings to save in a dictionary"""
     known_faces = {}
     for filename in os.listdir(known_faces_dir):
         encoding = load_encoding(known_faces_dir, filename)
@@ -41,9 +40,6 @@ def generate_encodings(path: str) -> list:
 def load_encoding(path: str, filename: str):
     """Loads encoding from pickle format"""
     encoding = pickle.load(open(path+filename, 'rb'))
-    print(encoding)
-    print(type(encoding))
-    # encoding = pickle.load(encoding)
     return encoding
 
 
@@ -51,28 +47,27 @@ def recognize_unknown(known_faces: dict, tolerance: float = 0.6):
     """Takes a photo and recognizes the unknown person"""
     while True:
         print("Take the picture of the unknown person")
-        img_name = "unknown_face/data.jpg"
-        # key = input()
-        key = "COMP"
+        img_name = "unknown_face/data.png"
+        key = input()
         if key == "ESC":
             print("EXIT")
             break
 
         elif key == "COMP":
-            # cam = cv2.VideoCapture(0)
-            # num = 5
-            # print("Look at the camera")
-            # print("Taking foto in:")
-            # while num > 0:
-            #     print(num)
-            #     time.sleep(1)
-            #     num -= 1
-            # ret,frame = cam.read()
-            # if not ret:
-            #     print("Failed to grab frame")
-            #     break
-            # cv2.imwrite(img_name,frame)
-            # cam.release()
+            cam = cv2.VideoCapture(0)
+            num = 5
+            print("Look at the camera")
+            print("Taking foto in:")
+            while num > 0:
+                print(num)
+                time.sleep(1)
+                num -= 1
+            ret,frame = cam.read()
+            if not ret:
+                print("Failed to grab frame")
+                break
+            cv2.imwrite(img_name,frame)
+            cam.release()
 
             unknown_face_encodings = generate_encodings(img_name)
             if len(unknown_face_encodings) == 0:
@@ -88,12 +83,24 @@ def recognize_unknown(known_faces: dict, tolerance: float = 0.6):
 
                     if np.any(matches):
                         found_match = True
+
                         if identifier == OWNER:
                             identifier = "Você"
+
                         else:
                             guest = get_guest(identifier)
-                            identifier = guest["name"]
+                            if "fail" in guest:
+                                identifier = guest["fail"]
+                            else:
+                                identifier = ""
+                                if guest["relationship"] != None and guest["nickname"] != "" and guest["nickname"] != " ":
+                                    identifier = f"Seu/Sua {guest['relationship']} "
+                                if guest["nickname"] != None and guest["nickname"] != "" and guest["nickname"] != " ":
+                                    identifier += f"{guest['nickname']}"
+                                else:
+                                    identifier += f"{guest['name']}"
                         print(f"This is the image of {identifier}!")
+
                         average_distance = np.average(face_recognition.face_distance(face_encodings, unknown_face_encoding))
                         print(f"Has an average distance of {round(average_distance, 3)}")
 
@@ -113,25 +120,21 @@ def recognize_unknown(known_faces: dict, tolerance: float = 0.6):
             print("Invalid command")
             print("Press ESC to exit or COMP to take photo")
 
+
 def get_guest(identifier):
     """Get the guest's infos from the server"""
-    url = "http://127.0.0.1:8000/guest/json/{identifier}/" 
-    print(identifier)
-
+    url = f"http://127.0.0.1:8000/guest/json/{identifier}" 
     response = requests.get(url)
-    print(response.status_code)
-
+    data = {}
     if response.status_code == 200:
         data = response.json()
-        print(data)
     else:
-        print("Falha ao obter informações do guest.")
-
-    return False
+        data["fail"] = "Falha ao obter informações"
+    return data
 
 
 def run_telegram_bot(person):
-    """RunS Telegram Bot to send the photo of the person you want to enter. Ask the owner if you can open the gate or not"""
+    """Run Telegram Bot to send the photo of the person you want to enter. Ask the owner if you can open the gate or not"""
     command = ["python", "telegram_bot.py", person]
     result = subprocess.run(command, capture_output=True, text=True)
     if result.returncode == 1:

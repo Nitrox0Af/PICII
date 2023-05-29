@@ -1,9 +1,31 @@
 import paho.mqtt.client as mqtt
 import requests
 import os
-import pickle
+
 
 OWNER = "00000000000"
+
+
+def main():
+    # MQTT client configuration
+    client = mqtt.Client()
+
+    # Definition of callback functions
+    client.on_connect = on_connect
+    client.on_message = on_message
+
+    # Connection to the MQTT broker
+    broker = "127.0.0.1" 
+    porta = 1883 
+    client.connect(broker, porta, 60)
+
+    # Loop to maintain connection and process incoming messages
+    try:
+        client.loop_forever()
+    except KeyboardInterrupt:
+        print("Interruption of the connection with the MQTT broker")
+        client.disconnect()
+
 
 def on_connect(client, userdata, flags, rc):
     """Callback that will be executed when the connection with the MQTT broker is established"""
@@ -31,11 +53,9 @@ def get_encoding(filename):
     url = f"http://127.0.0.1:8000/encoding/{filename}"
     path = f"./encoding/{filename}.pkl"
 
-    response = requests.get(url)
-    print(response)
+    response = requests.get(url, stream=True)
 
     if response.status_code == 200:
-        # pickle.dump(response.content, open(path, 'wb'))
         with open(path, "wb") as file:
             file.write(response.content)
         print("File successfully downloaded and saved.")
@@ -52,25 +72,6 @@ def delete_encoding(filename):
     except FileNotFoundError:
         print("File not found.")
 
-def main():
-    # MQTT client configuration
-    client = mqtt.Client()
-
-    # Definition of callback functions
-    client.on_connect = on_connect
-    client.on_message = on_message
-
-    # Connection to the MQTT broker
-    broker = "127.0.0.1" 
-    porta = 1883 
-    client.connect(broker, porta, 60)
-
-    # Loop to maintain connection and process incoming messages
-    try:
-        client.loop_forever()
-    except KeyboardInterrupt:
-        print("Interruption of the connection with the MQTT broker")
-        client.disconnect()
 
 if __name__ == "__main__":
     main()
