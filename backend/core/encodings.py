@@ -8,7 +8,7 @@ def generate_encodings(path: str) -> list:
     return encodings
 
 
-def save_encoding(path: str, filename: str, encoding):
+def save_encoding(path: str, filename: str, encoding) -> None:
     """Saves encoding in pickle format"""
     path_file = path.replace("photo", "encoding")
     path_file += f"{filename}.pkl"

@@ -1,11 +1,12 @@
 import os
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.shortcuts import redirect
-from django.http import HttpResponse, FileResponse
+from django.http import HttpResponse, FileResponse, JsonResponse
 
 from .forms import OwnerModelForm, GuestModelForm
+from .models import Owner, Guest, Photo
 
 
 def index(request):
@@ -64,3 +65,15 @@ def encoding(request, filename):
     except Exception:
         messages.error(request, 'Ocorreu um erro durante o download do arquivo.')
         return redirect('index')
+
+
+def guest_json(request, cpf):
+    guest = get_object_or_404(Guest, cpf=cpf)
+    guest_data = {
+        'name': guest.name,
+        'cpf': guest.cpf,
+        'nickname': guest.nickname,
+        'relationship': guest.relationship,
+        'owner': guest.owner.cpf
+    }
+    return JsonResponse(guest_data)
