@@ -69,14 +69,15 @@ def photo_post_save(sender, instance, created, **kwargs):
         path = "media/photo/"
         file_name = str(instance.file.name).replace("photo/", "")
         encodings = generate_encodings(path + str(file_name))
+        if len(encodings) == 0:
+            print(f"No faces found in image {file_name}")
         if instance.guest:
             filename = f"{instance.guest.cpf}--{str(file_name)}"
             topic = f"ssmai/encodings/{instance.guest.owner.cpf}"
-            message = f"ADDED {filename}"
         else:
             filename = f"{instance.owner.cpf}--{str(file_name)}"
             topic = f"ssmai/encodings/{instance.cpf}"
-        message = f"ADDED {filename}"
+        message = f"ADDED: {filename}"
         save_encoding(path, filename, encodings)
         publish.single(topic, message, hostname="localhost")
 
@@ -89,11 +90,10 @@ def photo_pre_delete(sender, instance, **kwargs):
     if instance.guest:
         filename = f"{instance.guest.cpf}--{str(file_name)}"
         topic = f"ssmai/encodings/{instance.guest.owner.cpf}"
-        message = f"DELETE {instance.guest.cpf}--{file_name}"
     else:
         filename = f"{instance.owner.cpf}--{str(file_name)}"
         topic = f"ssmai/encodings/{instance.cpf}"
-        message = f"DELETE {instance.owner.cpf}--{file_name}"
+    message = f"DELETED: {filename}"
     publish.single(topic, message, hostname="localhost")
     delete_encoding(path, filename)
 
