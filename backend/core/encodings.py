@@ -1,3 +1,4 @@
+import os
 import face_recognition
 import pickle
 
@@ -13,3 +14,14 @@ def save_encoding(path: str, filename: str, encoding) -> None:
     path_file = path.replace("photo", "encoding")
     path_file += f"{filename}.pkl"
     pickle.dump(encoding, open(path_file, 'wb'))
+    
+
+def delete_encoding(path: str, filename: str) -> None:
+    """Delete encoding in pickle format"""
+    print("delete")
+    print(filename)
+    path += f"{filename}.pkl"
+    print(path)
+    if os.path.exists(path):
+        print("existe")
+        os.remove(path)

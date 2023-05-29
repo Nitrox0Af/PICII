@@ -5,7 +5,8 @@ from stdimage.models import StdImageField
 from django.db.models import signals
 from django.template.defaultfilters import slugify
 
-from .encodings import generate_encodings, save_encoding
+from paho.mqtt import publish
+from .encodings import generate_encodings, save_encoding, delete_encoding
 
 
 class Base(models.Model):
@@ -59,13 +60,41 @@ class Access(models.Model):
     
 def photo_pre_save(signal, instance, sender, **kwargs):
     instance.slug = slugify(instance.file)
-    path = "media/photo/"
-    encodings = generate_encodings(path + str(instance.file))
-    if instance.guest:
-        filename = f"{instance.guest.cpf}_{str(instance.file)}"
-    else:
-        filename = f"{instance.owner.cpf}_{str(instance.file)}"
-    save_encoding(path, filename, encodings)
-
 
 signals.pre_save.connect(photo_pre_save, sender=Photo)
+
+
+def photo_post_save(sender, instance, created, **kwargs):
+    if created:
+        path = "media/photo/"
+        file_name = str(instance.file.name).replace("photo/", "")
+        encodings = generate_encodings(path + str(file_name))
+        if instance.guest:
+            filename = f"{instance.guest.cpf}--{str(file_name)}"
+            topic = f"ssmai/encodings/{instance.guest.owner.cpf}"
+            message = f"ADDED {filename}"
+        else:
+            filename = f"{instance.owner.cpf}--{str(file_name)}"
+            topic = f"ssmai/encodings/{instance.cpf}"
+        message = f"ADDED {filename}"
+        save_encoding(path, filename, encodings)
+        publish.single(topic, message, hostname="localhost")
+
+signals.post_save.connect(photo_post_save, sender=Photo)
+
+
+def photo_pre_delete(sender, instance, **kwargs):
+    path = "media/encoding/"
+    file_name = str(instance.file.name).replace("photo/", "")
+    if instance.guest:
+        filename = f"{instance.guest.cpf}--{str(file_name)}"
+        topic = f"ssmai/encodings/{instance.guest.owner.cpf}"
+        message = f"DELETE {instance.guest.cpf}--{file_name}"
+    else:
+        filename = f"{instance.owner.cpf}--{str(file_name)}"
+        topic = f"ssmai/encodings/{instance.cpf}"
+        message = f"DELETE {instance.owner.cpf}--{file_name}"
+    publish.single(topic, message, hostname="localhost")
+    delete_encoding(path, filename)
+
+signals.pre_delete.connect(photo_pre_delete, sender=Photo)
