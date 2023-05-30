@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Owner, Guest, Photo
+from .models import Owner, Guest, Photo, Access
 
 class PhotoInline(admin.TabularInline):
     model = Photo
@@ -20,3 +20,8 @@ class GuestAdmin(admin.ModelAdmin):
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
     list_display = ('file', 'slug', 'guest')
+
+@admin.register(Access)
+class AccessAdmin(admin.ModelAdmin):
+    list_display = ('date', 'hour', 'guest')
+    readonly_fields = ('date', 'hour', 'guest')

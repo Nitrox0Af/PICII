@@ -8,7 +8,7 @@ from django.http import HttpResponse, FileResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from .forms import OwnerModelForm, GuestModelForm
-from .models import Owner, Guest, Photo
+from .models import Owner, Guest, Photo, Access
 
 
 def index(request):
@@ -78,6 +78,8 @@ def guest_json(request, cpf):
         'relationship': guest.relationship,
         'owner': guest.owner.cpf
     }
+    access = Access(guest=guest)
+    access.save()
     return JsonResponse(guest_data)
 
 
