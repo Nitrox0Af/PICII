@@ -3,15 +3,14 @@ import asyncio
 import threading
 import os
 import sys
+import requests
 
 from telegram import Update, Bot
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 
 TOKEN = '5813859429:AAH1KS33INDbN1LMa2SDALBH53WngdU2aJk'
-CHAT_ID = '806031627'
 args = sys.argv
-reports = {}
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -26,11 +25,9 @@ def main():
     thread.start()
     thread.join()
 
-    start_handler = CommandHandler('start', start)
     sim_handler = CommandHandler('sim', sim)
     nao_handler = CommandHandler('nao', nao)
 
-    application.add_handler(start_handler)
     application.add_handler(sim_handler)
     application.add_handler(nao_handler)
         
@@ -40,7 +37,8 @@ def main():
 def my_thread():
     """Function that runs in a separate thread"""
     person = args[1]
-    asyncio.run(send_message(CHAT_ID, person))
+    chat_id = args[2]
+    asyncio.run(send_message(chat_id, person))
 
 
 async def send_message(chat_id: str, person: str):
@@ -53,15 +51,6 @@ async def send_message(chat_id: str, person: str):
     person = "Essa pessoa" if person == "unknown" else person
     mensagem = f"{person} deseja entrar. Você permite sua entrada?\n\n- Mande /sim para ABRIR portão\n- Mande /nao para manter o portão FECHADO"
     await bot.send_message(chat_id=chat_id, text=mensagem)
-
-
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handler function for the /start command"""
-    name = update.message.from_user.first_name
-    chat_id = update.effective_chat.id
-    reports["chat_id"] = chat_id
-    text=f"{name}, você está cadastrado(a) no sistema!"
-    await context.bot.send_message(chat_id=chat_id, text=text)
 
 
 async def sim(update: Update, context: ContextTypes.DEFAULT_TYPE):

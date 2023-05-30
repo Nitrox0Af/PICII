@@ -50,7 +50,7 @@ def on_message(client, userdata, msg):
 
 def get_encoding(filename):
     """Download the encoding file from the server"""
-    url = f"http://127.0.0.1:8000/encoding/{filename}"
+    url = f"http://127.0.0.1:8000/encoding/{filename}/"
     path = f"./encoding/{filename}.pkl"
 
     response = requests.get(url, stream=True)

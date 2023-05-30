@@ -17,5 +17,6 @@ class GuestAdmin(admin.ModelAdmin):
     readonly_fields = ('owner',)
     inlines = [PhotoInline]
 
+@admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
     list_display = ('file', 'slug', 'guest')

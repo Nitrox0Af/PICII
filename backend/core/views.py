@@ -1,9 +1,11 @@
 import os
+import subprocess
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.http import HttpResponse, FileResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from .forms import OwnerModelForm, GuestModelForm
 from .models import Owner, Guest, Photo
@@ -77,3 +79,35 @@ def guest_json(request, cpf):
         'owner': guest.owner.cpf
     }
     return JsonResponse(guest_data)
+
+
+@csrf_exempt
+def owner_json(request, cpf):
+    owner = get_object_or_404(Owner, cpf=cpf)
+    if request.method == 'POST':
+        chat_id = request.POST.get('chat_id')
+        owner.chat_id = chat_id
+        owner.save()
+
+    owner_data = {
+        'name': owner.name,
+        'cpf': owner.cpf,
+        'first_access': owner.first_access,
+        'chat_id': owner.chat_id
+    }
+    return JsonResponse(owner_data)
+
+
+def telegram(request):
+    return render(request, 'telegram.html', {})
+
+
+def telegram_bot(request) -> None:
+    command = ["python", "./core/telegram_bot.py"]
+    result = subprocess.run(command, capture_output=True, text=True)
+    if result.returncode == 1:
+        print("Sucesso")
+    else:
+        print("Error:")
+        print(result.stderr)
+    return redirect('index')

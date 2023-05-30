@@ -76,7 +76,7 @@ def photo_post_save(sender, instance, created, **kwargs):
             topic = f"ssmai/encodings/{instance.guest.owner.cpf}"
         else:
             filename = f"{instance.owner.cpf}--{str(file_name)}"
-            topic = f"ssmai/encodings/{instance.cpf}"
+            topic = f"ssmai/encodings/{instance.owner.cpf}"
         message = f"ADDED: {filename}"
         save_encoding(path, filename, encodings)
         publish.single(topic, message, hostname="localhost")
@@ -92,7 +92,7 @@ def photo_pre_delete(sender, instance, **kwargs):
         topic = f"ssmai/encodings/{instance.guest.owner.cpf}"
     else:
         filename = f"{instance.owner.cpf}--{str(file_name)}"
-        topic = f"ssmai/encodings/{instance.cpf}"
+        topic = f"ssmai/encodings/{instance.owner.cpf}"
     message = f"DELETED: {filename}"
     publish.single(topic, message, hostname="localhost")
     delete_encoding(path, filename)

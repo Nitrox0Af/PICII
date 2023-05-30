@@ -9,7 +9,7 @@ import face_recognition
 import pickle
 
 
-OWNER = "00000000000"
+OWNER = "123"
 
 
 def main():
@@ -104,9 +104,14 @@ def recognize_unknown(known_faces: dict, tolerance: float = 0.6):
                         average_distance = np.average(face_recognition.face_distance(face_encodings, unknown_face_encoding))
                         print(f"Has an average distance of {round(average_distance, 3)}")
 
-                        print("Opening Telegram Bot")
-                        run_telegram_bot(identifier)
-                        break
+                        owner = get_owner()
+                        if "fail" in owner:
+                            print(owner["fail"])
+                            return False
+                        else:
+                            print("Opening Telegram Bot")
+                            run_telegram_bot(identifier, owner["chat_id"])
+                            break
 
                 if not found_match:
                     print("This person is not recognized")
@@ -123,7 +128,7 @@ def recognize_unknown(known_faces: dict, tolerance: float = 0.6):
 
 def get_guest(identifier):
     """Get the guest's infos from the server"""
-    url = f"http://127.0.0.1:8000/guest/json/{identifier}" 
+    url = f"http://127.0.0.1:8000/guest/json/{identifier}/" 
     response = requests.get(url)
     data = {}
     if response.status_code == 200:
@@ -133,9 +138,21 @@ def get_guest(identifier):
     return data
 
 
-def run_telegram_bot(person):
+def get_owner():
+    """Get the guest's infos from the server"""
+    url = f"http://127.0.0.1:8000/owner/json/{OWNER}/" 
+    response = requests.get(url)
+    data = {}
+    if response.status_code == 200:
+        data = response.json()
+    else:
+        data["fail"] = "Falha ao obter informações"
+    return data
+
+
+def run_telegram_bot(person, chat_id):
     """Run Telegram Bot to send the photo of the person you want to enter. Ask the owner if you can open the gate or not"""
-    command = ["python", "telegram_bot.py", person]
+    command = ["python", "telegram_bot.py", person, chat_id]
     result = subprocess.run(command, capture_output=True, text=True)
     if result.returncode == 1:
         print("Abrir Portão")
