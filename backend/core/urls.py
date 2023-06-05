@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import index, owner, guest, encoding, guest_json, owner_json, telegram, telegram_bot
+from .views import index, owner, guest, encoding, guest_json, owner_json, telegram, telegram_bot, create_owner, create_guest
 
 urlpatterns = [
     path('', index, name='index'),
@@ -11,4 +11,6 @@ urlpatterns = [
     path('owner/json/<str:cpf>/', owner_json, name='owner-json'),
     path('telegram/', telegram, name='telegram'),
     path('telegram/bot/', telegram_bot, name='telegram-bot'),
+    path('create/owner/', create_owner, name='create-owner'),
+    path('create/guest/', create_guest, name='create-guest'),
 ]

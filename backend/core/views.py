@@ -113,3 +113,45 @@ def telegram_bot(request) -> None:
         print("Error:")
         print(result.stderr)
     return redirect('index')
+
+
+@csrf_exempt
+def create_owner(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        cpf = request.POST.get('cpf')
+        password = request.POST.get('password')
+
+        owner = Owner(name=name, cpf=cpf, password=password)
+        owner.save()
+
+        owner_data = {
+            'name': owner.name,
+            'cpf': owner.cpf,
+            'password': owner.password,
+        }
+        return JsonResponse(owner_data)
+
+    return JsonResponse({'message': 'Método não permitido'}, status=405)
+
+
+@csrf_exempt
+def create_guest(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        cpf = request.POST.get('cpf')
+        nickname = request.POST.get('nickname')
+        relationship = request.POST.get('relationship')
+
+        guest = Guest(name=name, cpf=cpf, nickname=nickname, relationship=relationship)
+        guest.save()
+
+        guest_data = {
+            'name': guest.name,
+            'cpf': guest.cpf,
+            'nickname': guest.nickname,
+            'relationship': guest.relationship,
+        }
+        return JsonResponse(guest_data)
+
+    return JsonResponse({'message': 'Método não permitido'}, status=405)
