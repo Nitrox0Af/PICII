@@ -1,0 +1,19 @@
+.thumbnail-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 800px;
+  }
+  
+  .thumbnail {
+    flex: 0 0 20%;
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+  }
+  
+  .thumbnail img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }

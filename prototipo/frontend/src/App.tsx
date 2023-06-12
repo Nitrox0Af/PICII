@@ -8,7 +8,6 @@ const App = () => {
   const [str2, setStr2] = useState('');
   const [str3, setStr3] = useState('');
   const [str4, setStr4] = useState('');
-  const [str5, setStr5] = useState('');
   const [photoFiles, setPhotoFiles] = useState<File[]>([]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>, setValue: React.Dispatch<React.SetStateAction<string>>) => {
@@ -34,12 +33,15 @@ const App = () => {
   const handleStringsSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
-    const response = await fetch('http://localhost:8000/api/strings/', {
+    const response = await fetch('http://localhost:8000/create/guest/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ str_field: [str1, str2, str3, str4, str5] }),
+      body: JSON.stringify({ name: str1,
+      cpf: str2,
+      nickname: str3,
+      relationship: str4}),
     });
 
     if (response.ok) {
@@ -117,11 +119,6 @@ const App = () => {
         <label>
           String 4:
           <input type="text" value={str4} onChange={(event) => handleInputChange(event, setStr4)} />
-        </label>
-        <br />
-        <label>
-          String 5:
-          <input type="text" value={str5} onChange={(event) => handleInputChange(event, setStr5)} />
         </label>
         <br />
         <button type="submit">Enviar Strings</button>

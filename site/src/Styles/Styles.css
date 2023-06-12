@@ -1,0 +1,79 @@
+@import url(Colors.css);
+
+.infos .cpf{
+    position: absolute;
+    margin-left: 500px;
+    margin-top: 200px;
+}
+
+.infos .cpf::placeholder{
+    color: var(--azul-medio)
+}
+
+.infos .name{
+    position: absolute;
+    margin-left: 800px;
+    margin-top: 200px;
+}
+
+.infos .name::placeholder{
+    color: var(--azul-medio)
+}
+.infos .surname{
+    position: absolute;
+    margin-left: 500px;
+    margin-top: 300px;
+}
+
+.infos .surname::placeholder{
+    color: var(--azul-medio)
+}
+.infos .relationship{
+    position: absolute;
+    margin-left: 800px;
+    margin-top: 300px;
+}
+.infos .relationship::placeholder{
+    color: var(--azul-medio)
+}
+
+.infos .n1{
+    position: absolute;
+    margin-left: 500px;
+    margin-top: 165px;
+}
+
+.infos .n2{
+    position: absolute;
+    margin-left: 800px;
+    margin-top: 165px;
+}
+
+.infos .n3{
+    position: absolute;
+    margin-left: 500px;
+    margin-top: 260px;
+}
+
+.infos .n4{
+    position: absolute;
+    margin-left: 800px;
+    margin-top: 260px;
+}
+
+.infos .upload{
+    position: absolute;
+    margin-left: 700px;
+    margin-top: 600px;
+    width: 190px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: var(--cinza);
+    color: var(--azul-medio);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 29px;
+    text-align: center;
+    border-color: none;
+}

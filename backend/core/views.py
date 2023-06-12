@@ -1,5 +1,6 @@
 import os
 import subprocess
+import json
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -138,10 +139,11 @@ def create_owner(request):
 @csrf_exempt
 def create_guest(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        cpf = request.POST.get('cpf')
-        nickname = request.POST.get('nickname')
-        relationship = request.POST.get('relationship')
+        data=json.loads(request.body)
+        name = data.get('name')
+        cpf = data.get('cpf')
+        nickname = data.get('nickname')
+        relationship = data.get('relationship')
 
         guest = Guest(name=name, cpf=cpf, nickname=nickname, relationship=relationship)
         guest.save()
