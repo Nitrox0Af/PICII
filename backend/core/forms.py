@@ -1,4 +1,5 @@
 from django import forms
+import json
 
 from .models import Owner, Guest, Photo
 
@@ -24,7 +25,7 @@ class OwnerModelForm(forms.ModelForm):
 
 
 class GuestModelForm(forms.ModelForm):
-    photo = forms.ImageField(label='Foto', required=True)
+    photo = forms.ImageField(label='Foto', required=False)
 
     class Meta:
         model = Guest
@@ -37,12 +38,23 @@ class GuestModelForm(forms.ModelForm):
         }
 
     def save(self, commit=True):
-        instance = self.instance
-        file = self.cleaned_data.get('file')
+        instance = super().save(commit=False)
+        data = json.loads(self.data['guest'])
+        instance.name = data.get('name')
+        instance.cpf = data.get('cpf')
+        instance.nickname = data.get('nickname')
+        instance.relationship = data.get('relationship')
+        
+
+        if commit:
+            instance.save()
+
+        file = self.cleaned_data.get('photo')
         if file:
             photo_instance = Photo(file=file, guest=instance)
             photo_instance.save()
-        return super().save(commit=commit)
+
+        return instance
 
 
 

@@ -32,15 +32,14 @@ def owner(request):
     }
     return render(request, 'owner.html', context)
 
-
+@csrf_exempt
 def guest(request):
     print(f'Usuario: {request.user}')
     if str(request.user) != 'AnonymousUser':
-        form = GuestModelForm(request.POST or None, request.FILES or None)
         if request.method == 'POST':
             form = GuestModelForm(request.POST, request.FILES)
             if form.is_valid():
-                guest = form.save()
+                form.save()
                 messages.success(request, 'Hóspede cadastrado com sucesso!')
                 # return redirect('guest-detail', pk=guest.pk) 
             else:
