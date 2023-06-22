@@ -1,11 +1,11 @@
 from django.db import models
 from stdimage.models import StdImageField
-
 from django.db.models import signals
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth import get_user_model
 
+import os
 from paho.mqtt import publish
 from .encodings import generate_encodings, save_encoding, delete_encoding
 
@@ -115,6 +115,16 @@ signals.post_save.connect(photo_post_save, sender=Photo)
 
 
 def photo_pre_delete(sender, instance, **kwargs):
+    path = f"media/{instance.file.name}"
+    if os.path.exists(path):
+        os.remove(path)
+
+    index = path.rfind('.')
+    extension = path[index:]
+    path = path[:index] + '.thumb' + extension
+    if os.path.exists(path):
+        os.remove(path)
+
     path = "media/encoding/"
     file_name = str(instance.file.name).replace("photo/", "")
     filename = f"{instance.guest.email}--{str(file_name)}"

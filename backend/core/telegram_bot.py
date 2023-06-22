@@ -36,14 +36,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def get_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handler function for text messages"""
     chat_id = update.effective_chat.id
-    message_received = update.message.text.strip().replace(" ", "").replace("-", "").replace(".", "").replace("_", "")
+    message_received = update.message.text.strip().replace(" ", "").lower()
     if set_chat_id(message_received, chat_id):
-        text = "Você foi cadastrado com sucesso"
+        text = "Você foi cadastrado(a) com sucesso!"
         await context.bot.send_message(chat_id=chat_id, text=text)
         os._exit(1)
     else:
-        message_received = "E-mail inválido. Tente novamente"
-        await context.bot.send_message(chat_id=chat_id, text=message_received)
+        text = "E-mail inválido. Tente novamente"
+        await context.bot.send_message(chat_id=chat_id, text=text)
 
 
 def set_chat_id(email: str, chat_id: str):

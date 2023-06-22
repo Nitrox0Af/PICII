@@ -3,7 +3,7 @@ import requests
 import os
 
 
-OWNER = "00000000000"
+OWNER = "carlos@gmail.com"
 
 
 def main():
