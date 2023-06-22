@@ -15,9 +15,9 @@ def main():
     client.on_message = on_message
 
     # Connection to the MQTT broker
-    broker = "127.0.0.1" 
+    broker = "10.9.10.17" 
     porta = 1883 
-    client.connect(broker, porta, 60)
+    client.connect(broker, porta)
 
     # Loop to maintain connection and process incoming messages
     try:

@@ -21,6 +21,11 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('panel/', admin.site.urls),
+    path('ssmai/', admin.site.urls),
     path('', include('core.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+admin.site.site_header = "SSMAI Admin"
+admin.site.site_title = "SSMAI Admin Portal"
+admin.site.index_title = "Welcome to SSMAI Researcher Portal"
