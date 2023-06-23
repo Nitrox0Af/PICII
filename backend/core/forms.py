@@ -1,27 +1,34 @@
 from django import forms
+<<<<<<< HEAD
 import json
+=======
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+>>>>>>> fe80b15df7c6dbf484fcf184382bb80c223f5684
 
-from .models import Owner, Guest, Photo
+from .models import Guest, Photo, CustomUser
 
-class OwnerModelForm(forms.ModelForm):
+
+class CustomUserCreateForm(UserCreationForm):
+
     class Meta:
-        model = Owner
-        fields = ['name', 'cpf', 'password', 'first_access', 'chat_id']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'cpf': forms.TextInput(attrs={'class': 'form-control'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
-            'first_access': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'chat_id': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-    
+        model = CustomUser
+        fields = ('first_name', 'last_name')
+        labels = {'username': 'E-mail'}
+
     def save(self, commit=True):
-        instance = self.instance
-        file = self.cleaned_data.get('file')
-        if file:
-            photo_instance = Photo(file=file, guest=instance)
-            photo_instance.save()
-        return super().save(commit=commit)
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        user.email = self.cleaned_data["username"]
+        if commit:
+            user.save()
+        return user
+
+
+class CustomUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ('first_name', 'last_name')
 
 
 class GuestModelForm(forms.ModelForm):
@@ -29,10 +36,10 @@ class GuestModelForm(forms.ModelForm):
 
     class Meta:
         model = Guest
-        fields = ['name', 'cpf', 'nickname', 'relationship']
+        fields = ['name', 'email', 'nickname', 'relationship']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'cpf': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
             'nickname': forms.TextInput(attrs={'class': 'form-control'}),
             'relationship': forms.TextInput(attrs={'class': 'form-control'}),
         }

@@ -29,26 +29,26 @@ def main():
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handler function for the /start command"""
     name = update.message.from_user.first_name
-    text=f"{name}, informe o seu CPF, apenas com numeros no formato 00000000000, para ser cadastrado(a) no sistema"
+    text=f"{name}, informe o seu e-mail para ser cadastrado(a) no sistema"
     await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 
 async def get_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handler function for text messages"""
     chat_id = update.effective_chat.id
-    message_received = update.message.text.strip().replace(" ", "").replace("-", "").replace(".", "").replace("_", "")
+    message_received = update.message.text.strip().replace(" ", "").lower()
     if set_chat_id(message_received, chat_id):
-        text = "Você foi cadastrado com sucesso"
+        text = "Você foi cadastrado(a) com sucesso!"
         await context.bot.send_message(chat_id=chat_id, text=text)
         os._exit(1)
     else:
-        message_received = "CPF inválido. Tente novamente"
-        await context.bot.send_message(chat_id=chat_id, text=message_received)
+        text = "E-mail inválido. Tente novamente"
+        await context.bot.send_message(chat_id=chat_id, text=text)
 
 
-def set_chat_id(cpf: str, chat_id: str):
+def set_chat_id(email: str, chat_id: str):
     """Set the chat_id"""
-    url = f'http://127.0.0.1:8000/owner/json/{cpf}/'  
+    url = f'http://10.9.10.17:8000/owner/json/{email}/'  
     data = {
         'chat_id': chat_id
     }

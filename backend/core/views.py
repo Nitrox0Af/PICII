@@ -5,17 +5,18 @@ from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.shortcuts import redirect
-from django.http import HttpResponse, FileResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from .forms import OwnerModelForm, GuestModelForm
-from .models import Owner, Guest, Photo, Access
+from .forms import GuestModelForm
+from .models import Guest, Access, CustomUser
 
 
 def index(request):
     return render(request, 'index.html', {})
 
 
+<<<<<<< HEAD
 def owner(request):
     print(f'Usuario: {request.user}')
     form = OwnerModelForm(request.POST or None, request.FILES or None)
@@ -33,6 +34,8 @@ def owner(request):
     return render(request, 'owner.html', context)
 
 @csrf_exempt
+=======
+>>>>>>> fe80b15df7c6dbf484fcf184382bb80c223f5684
 def guest(request):
     print(f'Usuario: {request.user}')
     if str(request.user) != 'AnonymousUser':
@@ -69,14 +72,14 @@ def encoding(request, filename):
         return redirect('index')
 
 
-def guest_json(request, cpf):
-    guest = get_object_or_404(Guest, cpf=cpf)
+def guest_json(request, email):
+    guest = get_object_or_404(Guest, email=email)
     guest_data = {
         'name': guest.name,
-        'cpf': guest.cpf,
+        'email': guest.email,
         'nickname': guest.nickname,
         'relationship': guest.relationship,
-        'owner': guest.owner.cpf
+        'owner': guest.owner.email
     }
     access = Access(guest=guest)
     access.save()
@@ -84,16 +87,17 @@ def guest_json(request, cpf):
 
 
 @csrf_exempt
-def owner_json(request, cpf):
-    owner = get_object_or_404(Owner, cpf=cpf)
+def owner_json(request, email):
+    owner = get_object_or_404(CustomUser, email=email)
     if request.method == 'POST':
         chat_id = request.POST.get('chat_id')
         owner.chat_id = chat_id
+        owner.first_access = False
         owner.save()
 
     owner_data = {
-        'name': owner.name,
-        'cpf': owner.cpf,
+        'name': owner.get_full_name(),
+        'email': owner.email,
         'first_access': owner.first_access,
         'chat_id': owner.chat_id
     }
@@ -116,40 +120,27 @@ def telegram_bot(request) -> None:
 
 
 @csrf_exempt
-def create_owner(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        cpf = request.POST.get('cpf')
-        password = request.POST.get('password')
-
-        owner = Owner(name=name, cpf=cpf, password=password)
-        owner.save()
-
-        owner_data = {
-            'name': owner.name,
-            'cpf': owner.cpf,
-            'password': owner.password,
-        }
-        return JsonResponse(owner_data)
-
-    return JsonResponse({'message': 'Método não permitido'}, status=405)
-
-
-@csrf_exempt
 def create_guest(request):
     if request.method == 'POST':
+<<<<<<< HEAD
         data=json.loads(request.body)
         name = data.get('name')
         cpf = data.get('cpf')
         nickname = data.get('nickname')
         relationship = data.get('relationship')
+=======
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        nickname = request.POST.get('nickname')
+        relationship = request.POST.get('relationship')
+>>>>>>> fe80b15df7c6dbf484fcf184382bb80c223f5684
 
-        guest = Guest(name=name, cpf=cpf, nickname=nickname, relationship=relationship)
+        guest = Guest(name=name, email=email, nickname=nickname, relationship=relationship)
         guest.save()
 
         guest_data = {
             'name': guest.name,
-            'cpf': guest.cpf,
+            'email': guest.email,
             'nickname': guest.nickname,
             'relationship': guest.relationship,
         }

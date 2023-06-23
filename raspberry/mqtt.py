@@ -3,7 +3,7 @@ import requests
 import os
 
 
-OWNER = "00000000000"
+OWNER = "carlos@gmail.com"
 
 
 def main():
@@ -15,9 +15,9 @@ def main():
     client.on_message = on_message
 
     # Connection to the MQTT broker
-    broker = "127.0.0.1" 
+    broker = "10.9.10.17" 
     porta = 1883 
-    client.connect(broker, porta, 60)
+    client.connect(broker, porta)
 
     # Loop to maintain connection and process incoming messages
     try:
@@ -50,7 +50,7 @@ def on_message(client, userdata, msg):
 
 def get_encoding(filename):
     """Download the encoding file from the server"""
-    url = f"http://127.0.0.1:8000/encoding/{filename}/"
+    url = f"http://10.9.10.17:8000/encoding/{filename}/"
     path = f"./encoding/{filename}.pkl"
 
     response = requests.get(url, stream=True)

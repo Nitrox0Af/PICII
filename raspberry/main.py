@@ -9,7 +9,7 @@ import face_recognition
 import pickle
 
 
-OWNER = "123"
+OWNER = "123456789"
 
 
 def main():
@@ -45,90 +45,59 @@ def load_encoding(path: str, filename: str):
 
 def recognize_unknown(known_faces: dict, tolerance: float = 0.6):
     """Takes a photo and recognizes the unknown person"""
-    while True:
-        print("Take the picture of the unknown person")
-        img_name = "unknown_face/data.png"
-        key = input()
-        if key == "ESC":
-            print("EXIT")
-            break
+    img_name = "foto.jpg"
+    unknown_face_encodings = generate_encodings(img_name)
+    if len(unknown_face_encodings) == 0:
+        print(f"No faces found in image!")
+        return False
+    
+    print("Cycling through all face encodings in unknown image")
+    for unknown_face_encoding in unknown_face_encodings:
+        found_match = False
 
-        elif key == "COMP":
-            cam = cv2.VideoCapture(0)
-            num = 5
-            print("Look at the camera")
-            print("Taking foto in:")
-            while num > 0:
-                print(num)
-                time.sleep(1)
-                num -= 1
-            ret,frame = cam.read()
-            if not ret:
-                print("Failed to grab frame")
-                break
-            cv2.imwrite(img_name,frame)
-            cam.release()
+        for identifier, face_encodings in known_faces.items():
+            matches = face_recognition.compare_faces(face_encodings, unknown_face_encoding, tolerance=tolerance)
 
-            unknown_face_encodings = generate_encodings(img_name)
-            if len(unknown_face_encodings) == 0:
-                print(f"No faces found in image!")
-                return False
-            
-            print("Cycling through all face encodings in unknown image")
-            for unknown_face_encoding in unknown_face_encodings:
-                found_match = False
+            if np.any(matches):
+                print("Found Match!!!")
+                found_match = True
+                
+                if identifier == OWNER:
+                    identifier = "Você"
 
-                for identifier, face_encodings in known_faces.items():
-                    matches = face_recognition.compare_faces(face_encodings, unknown_face_encoding, tolerance=tolerance)
-
-                    if np.any(matches):
-                        found_match = True
-
-                        if identifier == OWNER:
-                            identifier = "Você"
-
+                else:
+                    guest = get_guest(identifier)
+                    if "fail" in guest:
+                        identifier = guest["fail"]
+                    else:
+                        identifier = ""
+                        if guest["relationship"] != None and guest["nickname"] != "" and guest["nickname"] != " ":
+                            identifier = f"Seu/Sua {guest['relationship']} "
+                        if guest["nickname"] != None and guest["nickname"] != "" and guest["nickname"] != " ":
+                            identifier += f"{guest['nickname']}"
                         else:
-                            guest = get_guest(identifier)
-                            if "fail" in guest:
-                                identifier = guest["fail"]
-                            else:
-                                identifier = ""
-                                if guest["relationship"] != None and guest["nickname"] != "" and guest["nickname"] != " ":
-                                    identifier = f"Seu/Sua {guest['relationship']} "
-                                if guest["nickname"] != None and guest["nickname"] != "" and guest["nickname"] != " ":
-                                    identifier += f"{guest['nickname']}"
-                                else:
-                                    identifier += f"{guest['name']}"
-                        print(f"This is the image of {identifier}!")
+                            identifier += f"{guest['name']}"
+                print(f"This is the image of {identifier}!")
 
-                        average_distance = np.average(face_recognition.face_distance(face_encodings, unknown_face_encoding))
-                        print(f"Has an average distance of {round(average_distance, 3)}")
+                average_distance = np.average(face_recognition.face_distance(face_encodings, unknown_face_encoding))
+                print(f"Has an average distance of {round(average_distance, 3)}")
 
-                        owner = get_owner()
-                        if "fail" in owner:
-                            print(owner["fail"])
-                            return False
-                        else:
-                            print("Opening Telegram Bot")
-                            run_telegram_bot(identifier, owner["chat_id"])
-                            break
-
-                if not found_match:
-                    print("This person is not recognized")
-
+                owner = get_owner()
+                if "fail" in owner:
+                    print(owner["fail"])
+                    break
+                else:
                     print("Opening Telegram Bot")
-                    run_telegram_bot("unknown")
+                    run_telegram_bot(identifier, owner["chat_id"])
+                    break
 
-            print("Press ESC to exit or COMP to take photo")
-
-        else:
-            print("Invalid command")
-            print("Press ESC to exit or COMP to take photo")
+        if not found_match:
+            print("This person is not recognized")
 
 
 def get_guest(identifier):
     """Get the guest's infos from the server"""
-    url = f"http://127.0.0.1:8000/guest/json/{identifier}/" 
+    url = f"http://10.9.10.17:8000/guest/json/{identifier}/" 
     response = requests.get(url)
     data = {}
     if response.status_code == 200:
@@ -140,7 +109,7 @@ def get_guest(identifier):
 
 def get_owner():
     """Get the guest's infos from the server"""
-    url = f"http://127.0.0.1:8000/owner/json/{OWNER}/" 
+    url = f"http://10.9.10.17:8000/owner/json/{OWNER}/" 
     response = requests.get(url)
     data = {}
     if response.status_code == 200:

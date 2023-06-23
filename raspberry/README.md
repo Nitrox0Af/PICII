@@ -24,8 +24,6 @@
 
 1. Execute o seguinte comando para iniciar o Mosquitto: ``` sudo service mosquitto start ```
 
-1. Execute o seguinte comando para iniciar o Mosquitto: ``` sudo service mosquitto start ```
-
 1. Para verificar o status do serviço Mosquitto e garantir que ele esteja em execução, execute o seguinte comando: ``` sudo service mosquitto status ```
 
 ### Passos para código python que recebe as mensagens do MQTT:
