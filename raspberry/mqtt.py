@@ -7,6 +7,7 @@ OWNER = "carlos@gmail.com"
 
 
 def main():
+    """Main function of the MQTT client"""
     # MQTT client configuration
     client = mqtt.Client()
 
@@ -40,12 +41,14 @@ def on_message(client, userdata, msg):
     """Callback that will be executed when the message is published successfully"""
     message = str(msg.payload.decode())
     print(message)
-    messages = message.split(': ')
+    messages = message.split(": ")
     filename = messages[1]
     if messages[0] == "ADDED":
         get_encoding(filename)
     elif messages[0] == "DELETED":
         delete_encoding(filename)
+    else:
+        print("Invalid message.")
 
 
 def get_encoding(filename):

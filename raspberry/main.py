@@ -1,136 +1,301 @@
-import os
+import RPi.GPIO as GPIO
 import time
-import subprocess
-import requests
-
-import numpy as np
 import cv2
-import face_recognition
-import pickle
+import recognizer
 
+# Configuração teclado matricial 4x4
+# R - Linha; C - Colunas
+R1 = 7
+R2 = 11
+R3 = 13
+R4 = 15
 
-OWNER = "123456789"
+C1 = 12
+C2 = 16
+C3 = 18
+C4 = 22
 
+# Flag
+LOCKED = 1
 
-def main():
-    known_faces_dir = "./encoding/"
-    known_faces = save_encodings_dict(known_faces_dir)
-    recognize_unknown(known_faces, tolerance=0.6)
+# Configuração dos LEDs
+RED_LED_PIN = 10
+GREEN_LED_PIN = 8
 
+# Configuração do botão
+BUTTON_PIN = 38
 
-def save_encodings_dict(known_faces_dir: str) -> dict:
-    """Runs through all encodings to save in a dictionary"""
-    known_faces = {}
-    for filename in os.listdir(known_faces_dir):
-        encoding = load_encoding(known_faces_dir, filename)
-        person_identifier = filename.split("--")[0]
-        if person_identifier not in known_faces:
-            known_faces[person_identifier] = []
-        known_faces[person_identifier].append(encoding)
-    return known_faces
+# Configuração do sensor de distância
+# Define os pinos TRIG e ECHO
+TRIG_PIN = 32
+ECHO_PIN = 36
 
+PASSWORD = ""
+SYSTEM_PASSWORD = "1234"
+button_pressed = False
+temp1 = 0.0
+temp2 = 0.0
+keyBoard=[["1", "2", "3", "A"],
+		  ["4", "5", "6", "B"],
+		  ["7", "8", "9", "C"],
+		  ["*", "0", "#", "D"]]
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
 
-def generate_encodings(path: str) -> list:
-    """Generates encodings from a photo"""
-    image = face_recognition.load_image_file(path, mode='RGB')
-    encodings = face_recognition.face_encodings(image)
-    return encodings
+GPIO.setup(R1, GPIO.OUT)
+GPIO.setup(R2, GPIO.OUT)
+GPIO.setup(R3, GPIO.OUT)
+GPIO.setup(R4, GPIO.OUT)
 
+GPIO.setup(C1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(C2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(C3, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(C4, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-def load_encoding(path: str, filename: str):
-    """Loads encoding from pickle format"""
-    encoding = pickle.load(open(path+filename, 'rb'))
-    return encoding
+GPIO.setup(GREEN_LED_PIN, GPIO.OUT)
+GPIO.setup(RED_LED_PIN, GPIO.OUT)
 
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-def recognize_unknown(known_faces: dict, tolerance: float = 0.6):
-    """Takes a photo and recognizes the unknown person"""
-    img_name = "foto.jpg"
-    unknown_face_encodings = generate_encodings(img_name)
-    if len(unknown_face_encodings) == 0:
-        print(f"No faces found in image!")
-        return False
+GPIO.setup(TRIG_PIN, GPIO.OUT)
+GPIO.setup(ECHO_PIN, GPIO.IN)
+
+def measure_distance():
+    # Envia um pulso curto no pino TRIG
+    GPIO.output(TRIG_PIN, GPIO.HIGH)
+    time.sleep(0.00001)
+    GPIO.output(TRIG_PIN, GPIO.LOW)
     
-    print("Cycling through all face encodings in unknown image")
-    for unknown_face_encoding in unknown_face_encodings:
-        found_match = False
+    # Espera até que o pino ECHO esteja em nível alto
+    while GPIO.input(ECHO_PIN) == GPIO.LOW:
+        pulse_start = time.time()
+    
+    # Espera até que o pino ECHO volte para o nível baixo
+    while GPIO.input(ECHO_PIN) == GPIO.HIGH:
+        pulse_end = time.time()
+    
+    # Calcula a duração do pulso do ECHO
+    pulse_duration = pulse_end - pulse_start
+    
+    # Calcula a distância com base na velocidade do som (343m/s) e na duração do pulso
+    distance = pulse_duration * 34300 / 2
+    
+    return distance
 
-        for identifier, face_encodings in known_faces.items():
-            matches = face_recognition.compare_faces(face_encodings, unknown_face_encoding, tolerance=tolerance)
+def get_char(row, char):
+	GPIO.output(row, GPIO.HIGH)
+	if GPIO.input(C1) == 1:
+		GPIO.output(row, GPIO.LOW)
+		return char[0]
+	if GPIO.input(C2) == 1:
+		GPIO.output(row, GPIO.LOW)
+		return char[1]
+	if GPIO.input(C3) == 1:
+		GPIO.output(row, GPIO.LOW)
+		return char[2]
+	if GPIO.input(C4) == 1:
+		GPIO.output(row, GPIO.LOW)
+		return char[3]
+	GPIO.output(row, GPIO.LOW)
+	return "P"
 
-            if np.any(matches):
-                print("Found Match!!!")
-                found_match = True
-                
-                if identifier == OWNER:
-                    identifier = "Você"
+def take_picture():
+	photo_path = "unknown_face/photo.jpg"
+	cap = cv2.VideoCapture(0)
+	flag = 0
+	while True:
+		# Lê um quadro da webcam
+		ret, frame = cap.read()
+		if frame is None:
+            # Lidar com a falta de um quadro válido da webcam
+            # Exibir uma mensagem de erro, tentar novamente ou sair do loop
+			continue
+		# Obtém as dimensões da imagem
+		height, width, _ = frame.shape
+		dist = round(measure_distance())
+		# Define a mensagem e suas propriedades
+		message = "Aproxime no max 40cm e precione A, Distancia atual: "
+		font = cv2.FONT_HERSHEY_SIMPLEX
+		font_scale = 0.5
+		thickness = 1
 
+		# Obtém as dimensões da mensagem
+		text_size, _ = cv2.getTextSize(message, font, font_scale, thickness)
+		# Define a posição da mensagem
+		x = 10
+		y = height - text_size[1] - 10
+
+		# Desenha um retângulo preto no fundo
+		cv2.rectangle(frame, (x-4, y-4), (x + text_size[0]+4, y + text_size[1]+4), (0, 0, 0), -1)
+
+		# Escreve a mensagem na imagem
+		cv2.putText(frame, message, (x, y + text_size[1]), font, font_scale, (255, 255, 255), thickness, cv2.LINE_AA)
+		# Mostra o quadro na janela
+		cv2.imshow("Webcam", frame)
+
+		# Aguarda a entrada do teclado
+		key = cv2.waitKey(1)
+		key2=get_char(R1, ["1", "2", "3", "A"])
+		# Captura a foto ao pressionar as teclas 1 ou 2
+		if key == ord('2') or dist < 40 and key2== "A":
+			# Salva a imagem capturada
+			cv2.imwrite(photo_path, frame)
+			cap.release()
+			cv2.destroyAllWindows()
+			time.sleep(1)
+			img = cv2.imread(photo_path)
+			message = "Aperte A para continuar o processo ou B para retirar outra foto"
+			font = cv2.FONT_HERSHEY_SIMPLEX
+			font_scale = 0.5
+			thickness = 1
+
+			# Obtém as dimensões da mensagem
+			text_size, _ = cv2.getTextSize(message, font, font_scale, thickness)
+			# Define a posição da mensagem
+			x = 10
+			y = height - text_size[1] - 10
+
+			# Desenha um retângulo preto no fundo
+			cv2.rectangle(img, (x-4, y-4), (x + text_size[0]+4, y + text_size[1]+4), (0, 0, 0), -1)
+
+			# Escreve a mensagem na imagem
+			cv2.putText(img, message, (x, y + text_size[1]), font, font_scale, (255, 255, 255), thickness, cv2.LINE_AA)
+			cv2.imshow("Foto Capturada", img)
+			while True:
+				key = cv2.waitKey(1)
+				key2=get_char(R1, ["1", "2", "3", "A"])
+				# Captura a foto ao pressionar as teclas 1 ou 2
+				if key == ord('2') or key2 == "A":
+					cv2.destroyAllWindows()
+					flag = 0
+					break
+				key2=get_char(R2, ["4", "5", "6", "B"])
+				if key == ord('1') or key == ord('2') or key2 == "B":
+					cv2.destroyAllWindows()
+					flag = 1
+					break
+			if flag == 0:
+				open_gate = recognizer.main()
+				time.sleep(0.5)
+				control_gate(open_gate)
+				break
+			else:
+				time.sleep(0.5)
+				cap = cv2.VideoCapture(0)
+				continue
+
+def control_gate(open_gate: bool) -> None:
+	if open_gate:
+		# Pisca o LED verde 3 vezes
+		for _ in range(3):
+			GPIO.output(GREEN_LED_PIN, GPIO.HIGH)
+			time.sleep(1)
+			GPIO.output(GREEN_LED_PIN, GPIO.LOW)
+			time.sleep(0.5)
+		print("Destrancado")
+		PASSWORD = ""
+		LOCKED = 0
+	else:
+		for _ in range(3):
+			GPIO.output(RED_LED_PIN, GPIO.HIGH)
+			time.sleep(1)
+			GPIO.output(RED_LED_PIN, GPIO.LOW)
+			time.sleep(0.5)
+
+def printChar(row, char):
+	global PASSWORD, LOCKED
+	GPIO.output(row, GPIO.HIGH)
+    
+	if LOCKED == 1:
+		if GPIO.input(C1) == 1:
+			PASSWORD += char[0]
+			time.sleep(0.1)
+		if GPIO.input(C2) == 1:
+			PASSWORD += char[1]
+			time.sleep(0.1)
+		if GPIO.input(C3) == 1:
+			if char[2] == "#":
+				print(PASSWORD)
+				if PASSWORD == SYSTEM_PASSWORD:
+					# Pisca o LED verde 3 vezes
+					for _ in range(3):
+						GPIO.output(GREEN_LED_PIN, GPIO.HIGH)
+						time.sleep(1)
+						GPIO.output(GREEN_LED_PIN, GPIO.LOW)
+						time.sleep(0.5)
+					print("Destrancado")
+					PASSWORD = ""
+					LOCKED = 0
+				else:
+					for _ in range(3):
+						GPIO.output(RED_LED_PIN, GPIO.HIGH)
+						time.sleep(1)
+						GPIO.output(RED_LED_PIN, GPIO.LOW)
+						time.sleep(0.5)
+					print("Senha errada")
+					PASSWORD = ""
+			else:
+				PASSWORD += char[2]
+				time.sleep(0.1)
+		if GPIO.input(C4) == 1:
+			if char[3] == "A":
+				take_picture()
+				PASSOWORD = ""
+			else:
+				PASSWORD += char[3]
+				time.sleep(0.1)
+	else:
+		if GPIO.input(C1) == 1 or GPIO.input(C2) == 1 or GPIO.input(C3) == 1:
+			print("Porta está aberta")
+			time.sleep(0.1)
+		if GPIO.input(C4) == 1:
+			if char[3] == "D":
+				print("Porta trancada")
+				LOCKED = 1
+				time.sleep(0.1)
+			else:
+				print("Porta está aberta")
+				time.sleep(0.1)
+	GPIO.output(row, GPIO.LOW)
+
+try:
+    while True:
+        # Verifica se o botão foi pressionado
+        while GPIO.input(BUTTON_PIN) == GPIO.LOW and not button_pressed:
+            button_pressed = True
+            temp1 = time.time()  # Armazena o tempo inicial
+
+        # Verifica se o botão foi solto
+        while button_pressed:
+            temp2 = time.time()  # Armazena o tempo final
+
+            # Verifica o intervalo de tempo
+            if temp2 - temp1 > 0.5:
+                if LOCKED == 1:
+                    print("Destrancado")
+                    LOCKED = 0
                 else:
-                    guest = get_guest(identifier)
-                    if "fail" in guest:
-                        identifier = guest["fail"]
-                    else:
-                        identifier = ""
-                        if guest["relationship"] != None and guest["nickname"] != "" and guest["nickname"] != " ":
-                            identifier = f"Seu/Sua {guest['relationship']} "
-                        if guest["nickname"] != None and guest["nickname"] != "" and guest["nickname"] != " ":
-                            identifier += f"{guest['nickname']}"
-                        else:
-                            identifier += f"{guest['name']}"
-                print(f"This is the image of {identifier}!")
+                    print("Porta está aberta")
+                button_pressed = False
 
-                average_distance = np.average(face_recognition.face_distance(face_encodings, unknown_face_encoding))
-                print(f"Has an average distance of {round(average_distance, 3)}")
+            if GPIO.input(BUTTON_PIN) == GPIO.LOW:
+                temp1 = temp2  # Atualiza temp1 para o próximo pressionamento dentro do intervalo
 
-                owner = get_owner()
-                if "fail" in owner:
-                    print(owner["fail"])
-                    break
-                else:
-                    print("Opening Telegram Bot")
-                    run_telegram_bot(identifier, owner["chat_id"])
-                    break
+        printChar(R1, ["1", "2", "3", "A"])
+        printChar(R2, ["4", "5", "6", "B"])
+        printChar(R3, ["7", "8", "9", "C"])
+        printChar(R4, ["*", "0", "#", "D"])
+        
+        #if PASSWORD.endswith("A"):
+            # Acionar o sensor de distância
+            # Verificar se objeto está a menos de 20 cm do sensor
+            # Se estiver, capturar a foto e exibir ao usuário
+            #PASSWORD = ""
+            #capture_photo()
+            
+        
+        time.sleep(0.1)
 
-        if not found_match:
-            print("This person is not recognized")
+except KeyboardInterrupt:
+    print("Stopped")
 
-
-def get_guest(identifier):
-    """Get the guest's infos from the server"""
-    url = f"http://10.9.10.17:8000/guest/json/{identifier}/" 
-    response = requests.get(url)
-    data = {}
-    if response.status_code == 200:
-        data = response.json()
-    else:
-        data["fail"] = "Falha ao obter informações"
-    return data
-
-
-def get_owner():
-    """Get the guest's infos from the server"""
-    url = f"http://10.9.10.17:8000/owner/json/{OWNER}/" 
-    response = requests.get(url)
-    data = {}
-    if response.status_code == 200:
-        data = response.json()
-    else:
-        data["fail"] = "Falha ao obter informações"
-    return data
-
-
-def run_telegram_bot(person, chat_id):
-    """Run Telegram Bot to send the photo of the person you want to enter. Ask the owner if you can open the gate or not"""
-    command = ["python", "telegram_bot.py", person, chat_id]
-    result = subprocess.run(command, capture_output=True, text=True)
-    if result.returncode == 1:
-        print("Abrir Portão")
-    elif result.returncode == 2:
-        print("Manter Portão Fechado")
-    else:
-        print("Error:")
-        print(result.stderr)
-
-
-if __name__ == "__main__":
-    main()
