@@ -23,3 +23,5 @@
 - Mandar o Djang executar as migrations: ``` python manage.py migrate ```
 
 - Criar conta de administrador: ``` python manage.py createsuperuser ```
+
+- Importando pacote estático: ``` python manage.py collectstatic ```

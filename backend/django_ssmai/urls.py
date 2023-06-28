@@ -26,6 +26,6 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
-admin.site.site_header = "SSMAI Admin"
+admin.site.site_header = "SSMAI"
 admin.site.site_title = "SSMAI Admin Portal"
-admin.site.index_title = "Welcome to SSMAI Researcher Portal"
+admin.site.index_title = "Welcome to SSMAI"

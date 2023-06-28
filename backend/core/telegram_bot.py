@@ -29,7 +29,7 @@ def main():
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handler function for the /start command"""
     name = update.message.from_user.first_name
-    text=f"{name}, informe o seu e-mail para ser cadastrado(a) no sistema"
+    text=f"{name}, informe o seu e-mail para ser cadastrado no sistema"
     await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 
