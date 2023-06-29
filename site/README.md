@@ -1,46 +1,27 @@
-# Getting Started with Create React App
+# Backend Django
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Passos para rodar o backend:
 
-## Available Scripts
+1. Só faça uma vez se ainda não tiver o pacote venv, rode: ``` sudo apt install python3.8-venv ```
 
-In the project directory, you can run:
+1. Dê um nome e crie o ambiente virtual. Exemplo para criação do ambiente virtual de nome .env: ``` python3.8 -m venv .env ```
 
-### `npm start`
+1. **Ative o ambiente virtual usando** (sempre faça esse passo antes de rodar código): ``` source .env/bin/activate ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Instale as bibliotecas do requirements no seu ambiente virtual usando: ``` pip install -U -r requirements.txt ```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. Rode o servidor: ``` python manage.py runserver ```
 
-### `npm test`
+## Outros comandos importantes:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Criar um projeto Django: ``` django-admin startproject nome_projeto . ```
 
-### `npm run build`
+- Dentro do um projeto, criar uma aplicação Django: ``` django-admin startapp nome_app ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Pegar todas as aplicações existentes em um projeto Django e criar migrations para elas: ``` python manage.py makemigrations ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Mandar o Djang executar as migrations: ``` python manage.py migrate ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Criar conta de administrador: ``` python manage.py createsuperuser ```
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Importando pacote estático: ``` python manage.py collectstatic ```
