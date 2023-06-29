@@ -6,7 +6,7 @@ from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
 
 
-TOKEN = '5813859429:AAH1KS33INDbN1LMa2SDALBH53WngdU2aJk'
+TOKEN = '6108504715:AAGnfS26xOpHLsu-TZ1NXzRyzHMWo73Ohhk'
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -40,7 +40,6 @@ async def get_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if set_chat_id(message_received, chat_id):
         text = "Você foi cadastrado(a) com sucesso!"
         await context.bot.send_message(chat_id=chat_id, text=text)
-        os._exit(1)
     else:
         text = "E-mail inválido. Tente novamente"
         await context.bot.send_message(chat_id=chat_id, text=text)
