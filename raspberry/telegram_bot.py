@@ -3,7 +3,6 @@ import asyncio
 import threading
 import os
 import sys
-import requests
 
 from telegram import Update, Bot
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
@@ -21,6 +20,7 @@ application = ApplicationBuilder().token(TOKEN).build()
 
 
 def main():
+    """Run the bot."""
     thread = threading.Thread(target=my_thread)
     thread.start()
     thread.join()
@@ -45,7 +45,7 @@ async def send_message(chat_id: str, person: str):
     """Asynchronously sends a message with a photo"""
     bot = Bot(token=TOKEN)
     
-    photo_path = "unknown_face/data.png" 
+    photo_path = "unknown_face/photo.jpg" 
     await bot.send_photo(chat_id=chat_id, photo=open(photo_path, 'rb'))
 
     person = "Essa pessoa" if person == "unknown" else person
@@ -57,14 +57,14 @@ async def sim(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handler function for the /sim command"""
     text = "Você mandou SIM. O portão será ABERTO"
     await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
-    os._exit(1)
+    os._exit(0)
 
 
 async def nao(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handler function for the /nao command"""
     text = "Você mandou NÃO. O portão ficará FECHADO"
     await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
-    os._exit(2)
+    os._exit(1)
 
 
 if __name__ == '__main__':
