@@ -64,26 +64,67 @@
         .back-button:hover {
             background-color: #999999;
         }
+
+        /* Modo Noturno */
+        body.dark-mode {
+            background-color: #111111;
+            color: #ffffff;
+        }
+
+        body.dark-mode .container {
+            background-color: #222222;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode h1 {
+            color: #00aaff;
+        }
+
+        body.dark-mode p {
+            color: #cccccc;
+        }
+
+        body.dark-mode .button {
+            background-color: #00aaff;
+            color: #ffffff;
+        }
+
+        body.dark-mode .button:hover {
+            background-color: #0088cc;
+        }
+
+        body.dark-mode .back-button {
+            background-color: #555555;
+            color: #cccccc;
+        }
+
+        body.dark-mode .back-button:hover {
+            background-color: #333333;
+        }
     </style>
 </head>
-<body>
+<body class="dark-mode">
     <div class="container">
         <h1>Cadastro no Bot</h1>
         <p>Para configurar o bot do Telegram, siga estes passos:</p>
-        <ol>
+        <ul>
             <li>
-                Instale o Telegram no seu celular
+                Instale o Telegram no seu celular <br><br>
             </li>
             <li>
-                <a href="http://t.me/SSMAICadastroBot" class="button" target="_blank" rel="noopener noreferrer">Cadastre no bot</a>
-                Ou pesquise SSMAICadastroBot no Telegram
+                <a href="http://t.me/SSMAICadastroBot" class="button" target="_blank" rel="noopener noreferrer">Acesse o bot aqui</a> <br>
+                Ou pesquise <strong>SSMAICadastroBot</strong> no Telegram <br><br>
             </li>
-            <li>Inicie o chat com comando /start</li>
-            <li>Siga as instruções que o bot fornecer</li>
+            <li>
+                Inicie o chat com comando <strong>/start</strong> <br><br>
+            </li>
+            <li>
+                Siga as instruções que o bot fornecer <br><br>
+            </li>
             <li>
                 <a href="/" class="back-button">Voltar à Página Inicial</a>
             </li>
-        </ol>
+        </ul>
     </div>
 </body>
 </html>

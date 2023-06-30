@@ -64,9 +64,46 @@
         .back-button:hover {
             background-color: #999999;
         }
+
+        /* Modo Noturno */
+        body.dark-mode {
+            background-color: #111111;
+            color: #ffffff;
+        }
+
+        body.dark-mode .container {
+            background-color: #222222;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode h1 {
+            color: #00aaff;
+        }
+
+        body.dark-mode p {
+            color: #cccccc;
+        }
+
+        body.dark-mode .btn {
+            background-color: #00aaff;
+            color: #ffffff;
+        }
+
+        body.dark-mode .btn:hover {
+            background-color: #0088cc;
+        }
+
+        body.dark-mode .back-button {
+            background-color: #555555;
+            color: #cccccc;
+        }
+
+        body.dark-mode .back-button:hover {
+            background-color: #333333;
+        }
     </style>
 </head>
-<body>
+<body class="dark-mode">
     <div class="container">
         <h1>SSMAI</h1>
         {% if user.is_anonymous %}
