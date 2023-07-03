@@ -66,106 +66,20 @@ def main():
 	have_person = 0
 	while True:
 		dist = round(measure_distance())
+		print("Distancia: ", dist)
 		if dist > config.MAX_DISTANCE:
 			print(f"Aproxime no max 40cm. Distancia atual: {dist}cm")
-			have_person = 0
 		elif config.MAX_DISTANCE <= 40:
 			have_person += 1
-			print(f"Pessoa detectada a {dist}cm")
+			print("Pessoa detectada")
 		# if dist < 5:
 		# 	print("Afaste-se do sensor")
 		# 	have_person += 1
 		if have_person >= config.QNTD_RECOGNIZE:
 			print("Iniciando processo de reconhecimento...")
-			capture_an_image()
+			take_picture()
 		time.sleep(config.TIME_TO_RECOGNIZE)
 
-def capture_an_image():
-	"""Capture an image from the camera"""
-	time_start = time.time()
-	time_end = time.time()
-	cap = cv2.VideoCapture(0)
-	flag = 0
-	while True:
-		# Lê um quadro da webcam
-		ret, frame = cap.read()
-		if frame is None:
-            # Lidar com a falta de um quadro válido da webcam
-            # Exibir uma mensagem de erro, tentar novamente ou sair do loop
-			print("Erro ao capturar imagem!")
-			time.sleep(1)
-			continue
-		time_end = time.time()
-		# Obtém as dimensões da imagem
-		height, width, _ = frame.shape
-
-		# Desenha a mensagem na imagem
-		message = f"Prepare-se para a foto vai ser tirada em {config.TIME_TO_TAKE_PHOTO} segundos!"
-		font = cv2.FONT_HERSHEY_SIMPLEX
-		font_scale = 0.5
-		thickness = 1
-		
-		font = cv2.FONT_HERSHEY_SIMPLEX
-		font_scale = 0.5
-		thickness = 1
-
-		# Obtém as dimensões da mensagem
-		text_size, _ = cv2.getTextSize(message, font, font_scale, thickness)
-		# Define a posição da mensagem
-		x = 10
-		y = height - text_size[1] - 10
-
-		# Desenha um retângulo preto no fundo
-		cv2.rectangle(frame, (x-4, y-4), (x + text_size[0]+4, y + text_size[1]+4), (0, 0, 0), -1)
-
-		# Escreve a mensagem na imagem
-		cv2.putText(frame, message, (x, y + text_size[1]), font, font_scale, (255, 255, 255), thickness, cv2.LINE_AA)
-		# Mostra o quadro na janela
-		cv2.imshow("Webcam", frame)
-
-		# Captura a foto ao pressionar as teclas 1 ou 2
-		if (time_end - time_start) >= config.TIME_TO_TAKE_PHOTO:
-			# Salva a imagem capturada
-			cv2.imwrite(config.POTHO_PATH, frame)
-			cap.release()
-			cv2.destroyAllWindows()
-			time.sleep(1)
-
-			
-			img = cv2.imread(config.POTHO_PATH)
-			message = "Precione #, se preferir tirar outra foto"
-			font = cv2.FONT_HERSHEY_SIMPLEX
-			font_scale = 0.5
-			thickness = 1
-
-			# Obtém as dimensões da mensagem
-			text_size, _ = cv2.getTextSize(message, font, font_scale, thickness)
-			# Define a posição da mensagem
-			x = 10
-			y = height - text_size[1] - 10
-
-			# Desenha um retângulo preto no fundo
-			cv2.rectangle(img, (x-4, y-4), (x + text_size[0]+4, y + text_size[1]+4), (0, 0, 0), -1)
-
-			# Escreve a mensagem na imagem
-			cv2.putText(img, message, (x, y + text_size[1]), font, font_scale, (255, 255, 255), thickness, cv2.LINE_AA)
-			cv2.imshow("Foto Capturada", img)
-
-def check_distance(dist):
-	"""Check if the distance is between the max and min distance"""
-	have_person = 0
-	if dist > config.MAX_DISTANCE:
-		print(f"Aproxime no max 40cm. Distancia atual: {dist}cm")
-		have_person = 0
-	elif config.MAX_DISTANCE <= 40:
-		have_person += 1
-		print("Pessoa detectada")
-	# if dist < 5:
-	# 	print("Afaste-se do sensor")
-	# 	have_person += 1
-	if have_person >= config.QNTD_RECOGNIZE:
-		return True
-	time.sleep(config.TIME_TO_RECOGNIZE)
 
 def measure_distance():
     # Envia um pulso curto no pino TRIG
@@ -207,6 +121,7 @@ def get_char(row, char):
 	return "P"
 
 def take_picture():
+	photo_path = "unknown_face/photo.jpg"
 	time_start = time.time()
 	time_end = time.time()
 	cap = cv2.VideoCapture(0)
@@ -218,14 +133,14 @@ def take_picture():
             # Lidar com a falta de um quadro válido da webcam
             # Exibir uma mensagem de erro, tentar novamente ou sair do loop
 			print("Erro ao capturar imagem!")
-			time.sleep(1)
+			time.sleep(5)
 			continue
 		time_end = time.time()
 		# Obtém as dimensões da imagem
 		height, width, _ = frame.shape
 
 		# Desenha a mensagem na imagem
-		message = f"Prepare-se para a foto vai ser tirada em {config.TIME_TO_TAKE_PHOTO} segundos!"
+		message = "Prepare-se para a foto que será tirada em 10 segundos!"
 		font = cv2.FONT_HERSHEY_SIMPLEX
 		font_scale = 0.5
 		thickness = 1
@@ -248,16 +163,17 @@ def take_picture():
 		# Mostra o quadro na janela
 		cv2.imshow("Webcam", frame)
 
+		# Aguarda a entrada do teclado
+		key = cv2.waitKey(1)
+		key2=get_char(R1, ["1", "2", "3", "A"])
 		# Captura a foto ao pressionar as teclas 1 ou 2
 		if (time_end - time_start) >= config.TIME_TO_TAKE_PHOTO:
 			# Salva a imagem capturada
-			cv2.imwrite(config.POTHO_PATH, frame)
+			cv2.imwrite(photo_path, frame)
 			cap.release()
 			cv2.destroyAllWindows()
 			time.sleep(1)
-
-			
-			img = cv2.imread(config.POTHO_PATH)
+			img = cv2.imread(photo_path)
 			message = "Precione #, se preferir tirar outra foto"
 			font = cv2.FONT_HERSHEY_SIMPLEX
 			font_scale = 0.5
