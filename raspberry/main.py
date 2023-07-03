@@ -87,6 +87,9 @@ def capture_an_image():
 
 	# Inicializa a webcam
 	cap = cv2.VideoCapture(0)
+	
+	# Lê um quadro da webcam
+	ret, frame = cap.read()
 	while (time_end - time_start) >= config.TIME_TO_TAKE_PHOTO:
 		# Lê um quadro da webcam
 		ret, frame = cap.read()
