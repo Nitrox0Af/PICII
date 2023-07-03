@@ -65,9 +65,20 @@ GPIO.setup(ECHO_PIN, GPIO.IN)
 def main():
 	while True:
 		dist = round(measure_distance())
-		if check_distance(dist):
+		have_person = 0
+		if dist > config.MAX_DISTANCE:
+			print(f"Aproxime no max 40cm. Distancia atual: {dist}cm")
+			have_person = 0
+		elif config.MAX_DISTANCE <= 40:
+			have_person += 1
+			print("Pessoa detectada")
+		# if dist < 5:
+		# 	print("Afaste-se do sensor")
+		# 	have_person += 1
+		if have_person >= config.QNTD_RECOGNIZE:
 			print("Iniciando processo de reconhecimento...")
 			capture_an_image()
+		time.sleep(config.TIME_TO_RECOGNIZE)
 
 def capture_an_image():
 	"""Capture an image from the camera"""
