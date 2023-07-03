@@ -77,7 +77,7 @@ def main():
 		# 	have_person += 1
 		if have_person >= config.QNTD_RECOGNIZE:
 			print("Iniciando processo de reconhecimento...")
-			take_picture()
+			capture_an_image()
 		time.sleep(config.TIME_TO_RECOGNIZE)
 
 def capture_an_image():
