@@ -69,9 +69,10 @@ def main():
 		print("Distancia: ", dist)
 		if dist > config.MAX_DISTANCE:
 			print(f"Aproxime no max 40cm. Distancia atual: {dist}cm")
+			have_person = 0
 		elif config.MAX_DISTANCE <= 40:
 			have_person += 1
-			print("Pessoa detectada")
+			print(f"Pessoa detectada a {dist}cm")
 		# if dist < 5:
 		# 	print("Afaste-se do sensor")
 		# 	have_person += 1
@@ -121,7 +122,6 @@ def get_char(row, char):
 	return "P"
 
 def take_picture():
-	photo_path = "unknown_face/photo.jpg"
 	time_start = time.time()
 	time_end = time.time()
 	cap = cv2.VideoCapture(0)
@@ -140,7 +140,7 @@ def take_picture():
 		height, width, _ = frame.shape
 
 		# Desenha a mensagem na imagem
-		message = "Prepare-se para a foto que será tirada em 10 segundos!"
+		message = f"Prepare-se para a foto vai ser tirada em {config.TIME_TO_TAKE_PHOTO} segundos!"
 		font = cv2.FONT_HERSHEY_SIMPLEX
 		font_scale = 0.5
 		thickness = 1
@@ -163,17 +163,16 @@ def take_picture():
 		# Mostra o quadro na janela
 		cv2.imshow("Webcam", frame)
 
-		# Aguarda a entrada do teclado
-		key = cv2.waitKey(1)
-		key2=get_char(R1, ["1", "2", "3", "A"])
 		# Captura a foto ao pressionar as teclas 1 ou 2
 		if (time_end - time_start) >= config.TIME_TO_TAKE_PHOTO:
 			# Salva a imagem capturada
-			cv2.imwrite(photo_path, frame)
+			cv2.imwrite(config.POTHO_PATH, frame)
 			cap.release()
 			cv2.destroyAllWindows()
 			time.sleep(1)
-			img = cv2.imread(photo_path)
+
+			
+			img = cv2.imread(config.POTHO_PATH)
 			message = "Precione #, se preferir tirar outra foto"
 			font = cv2.FONT_HERSHEY_SIMPLEX
 			font_scale = 0.5
