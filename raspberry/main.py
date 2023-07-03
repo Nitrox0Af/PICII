@@ -70,9 +70,9 @@ def main():
 		elif dist <= 40:
 			have_person += 1
 			print("Pessoa detectada")
-		if dist < 5:
-			print("Afaste-se do sensor")
-			have_person += 1
+		# if dist < 5:
+		# 	print("Afaste-se do sensor")
+		# 	have_person += 1
 		if have_person >= 2:
 			print("Pessoa detectada")
 			have_person = 0
