@@ -84,13 +84,9 @@ def capture_an_image():
 	"""Capture an image from the camera"""
 	time_start = time.time()
 	time_end = time.time()
-
-	# Inicializa a webcam
 	cap = cv2.VideoCapture(0)
-	
-	# Lê um quadro da webcam
-	ret, frame = cap.read()
-	while (time_end - time_start) >= config.TIME_TO_TAKE_PHOTO:
+	flag = 0
+	while True:
 		# Lê um quadro da webcam
 		ret, frame = cap.read()
 		if frame is None:
@@ -99,7 +95,6 @@ def capture_an_image():
 			print("Erro ao capturar imagem!")
 			time.sleep(1)
 			continue
-
 		time_end = time.time()
 		# Obtém as dimensões da imagem
 		height, width, _ = frame.shape
@@ -128,11 +123,33 @@ def capture_an_image():
 		# Mostra o quadro na janela
 		cv2.imshow("Webcam", frame)
 
-	# Salva a imagem capturada
-	cv2.imwrite(config.POTHO_PATH, frame)
-	cap.release()
-	cv2.destroyAllWindows()
-	time.sleep(1)
+		# Captura a foto ao pressionar as teclas 1 ou 2
+		if (time_end - time_start) >= config.TIME_TO_TAKE_PHOTO:
+			# Salva a imagem capturada
+			cv2.imwrite(config.POTHO_PATH, frame)
+			cap.release()
+			cv2.destroyAllWindows()
+			time.sleep(1)
+
+			
+			img = cv2.imread(config.POTHO_PATH)
+			message = "Precione #, se preferir tirar outra foto"
+			font = cv2.FONT_HERSHEY_SIMPLEX
+			font_scale = 0.5
+			thickness = 1
+
+			# Obtém as dimensões da mensagem
+			text_size, _ = cv2.getTextSize(message, font, font_scale, thickness)
+			# Define a posição da mensagem
+			x = 10
+			y = height - text_size[1] - 10
+
+			# Desenha um retângulo preto no fundo
+			cv2.rectangle(img, (x-4, y-4), (x + text_size[0]+4, y + text_size[1]+4), (0, 0, 0), -1)
+
+			# Escreve a mensagem na imagem
+			cv2.putText(img, message, (x, y + text_size[1]), font, font_scale, (255, 255, 255), thickness, cv2.LINE_AA)
+			cv2.imshow("Foto Capturada", img)
 
 def check_distance(dist):
 	"""Check if the distance is between the max and min distance"""
@@ -190,7 +207,6 @@ def get_char(row, char):
 	return "P"
 
 def take_picture():
-	photo_path = "unknown_face/photo.jpg"
 	time_start = time.time()
 	time_end = time.time()
 	cap = cv2.VideoCapture(0)
@@ -235,13 +251,13 @@ def take_picture():
 		# Captura a foto ao pressionar as teclas 1 ou 2
 		if (time_end - time_start) >= config.TIME_TO_TAKE_PHOTO:
 			# Salva a imagem capturada
-			cv2.imwrite(photo_path, frame)
+			cv2.imwrite(config.POTHO_PATH, frame)
 			cap.release()
 			cv2.destroyAllWindows()
 			time.sleep(1)
 
 			
-			img = cv2.imread(photo_path)
+			img = cv2.imread(config.POTHO_PATH)
 			message = "Precione #, se preferir tirar outra foto"
 			font = cv2.FONT_HERSHEY_SIMPLEX
 			font_scale = 0.5
