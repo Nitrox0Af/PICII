@@ -7,7 +7,7 @@ import sys
 from telegram import Update, Bot
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-from config import TOKEN
+from config import TOKEN, POTHO_PATH
 
 
 args = sys.argv
@@ -46,8 +46,7 @@ async def send_message(chat_id: str, person: str):
     """Asynchronously sends a message with a photo"""
     bot = Bot(token=TOKEN)
     
-    photo_path = "unknown_face/photo.jpg" 
-    await bot.send_photo(chat_id=chat_id, photo=open(photo_path, 'rb'))
+    await bot.send_photo(chat_id=chat_id, photo=open(POTHO_PATH, 'rb'))
 
     person = "Essa pessoa" if person == "unknown" else person
     mensagem = f"{person} deseja entrar. Você permite sua entrada?\n\n- Mande /sim para ABRIR portão\n- Mande /nao para manter o portão FECHADO"

@@ -11,6 +11,8 @@ QNTD_RECOGNIZE = 2
 
 TIME_TO_TAKE_PHOTO = 100
 
+POTHO_PATH = "./unknown_face/photo.jpg"
+
 # Configuração teclado matricial 4x4
 # R - Linha; C - Colunas
 R1 = 7

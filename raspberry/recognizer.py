@@ -6,12 +6,14 @@ import numpy as np
 import face_recognition
 import pickle
 
-from config import OWNER
+from config import OWNER, POTHO_PATH
 
 
 def main() -> bool:
     """Main function of the recognizer"""
     known_faces_dir = "./encoding/"
+    if not os.path.exists(known_faces_dir):
+        os.makedirs(known_faces_dir)
     known_faces = save_encodings_dict(known_faces_dir)
     identifier = recognize_unknown(known_faces, tolerance=0.6)
     open_gate = identify_person(identifier)
@@ -45,8 +47,7 @@ def load_encoding(path: str, filename: str):
 
 def recognize_unknown(known_faces: dict, tolerance: float = 0.6) -> str:
     """Takes a photo and recognizes the unknown person"""
-    photo_path = "unknown_face/photo.jpg"
-    unknown_face_encodings = generate_encodings(photo_path)
+    unknown_face_encodings = generate_encodings(POTHO_PATH)
     if len(unknown_face_encodings) == 0:
         print(f"No faces found in image!")
         return False
