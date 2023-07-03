@@ -63,15 +63,15 @@ GPIO.setup(TRIG_PIN, GPIO.OUT)
 GPIO.setup(ECHO_PIN, GPIO.IN)
 
 def main():
+	have_person = 0
 	while True:
 		dist = round(measure_distance())
-		have_person = 0
 		if dist > config.MAX_DISTANCE:
 			print(f"Aproxime no max 40cm. Distancia atual: {dist}cm")
 			have_person = 0
 		elif config.MAX_DISTANCE <= 40:
 			have_person += 1
-			print("Pessoa detectada")
+			print(f"Pessoa detectada a {dist}cm")
 		# if dist < 5:
 		# 	print("Afaste-se do sensor")
 		# 	have_person += 1
