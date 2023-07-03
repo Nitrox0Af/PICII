@@ -7,8 +7,9 @@ import sys
 from telegram import Update, Bot
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
+from config import TOKEN
 
-TOKEN = '5813859429:AAH1KS33INDbN1LMa2SDALBH53WngdU2aJk'
+
 args = sys.argv
 
 logging.basicConfig(

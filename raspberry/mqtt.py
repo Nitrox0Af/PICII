@@ -2,8 +2,7 @@ import paho.mqtt.client as mqtt
 import requests
 import os
 
-
-OWNER = "carlos@gmail.com"
+from config import OWNER
 
 
 def main():

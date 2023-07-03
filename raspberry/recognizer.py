@@ -6,8 +6,7 @@ import numpy as np
 import face_recognition
 import pickle
 
-
-OWNER = "carlos@gmail.com"
+from config import OWNER
 
 
 def main() -> bool:
