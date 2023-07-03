@@ -60,26 +60,6 @@ GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(TRIG_PIN, GPIO.OUT)
 GPIO.setup(ECHO_PIN, GPIO.IN)
 
-def main():
-	have_person = 0
-	while True:
-		dist = round(measure_distance())
-		print("Distancia: ", dist)
-		if dist > 40:
-			print("Aproxime-se do sensor para ser reconhecido")
-		elif dist <= 40:
-			have_person += 1
-			print("Pessoa detectada")
-		if dist < 5:
-			print("Afaste-se do sensor")
-			have_person += 1
-		if have_person >= 2:
-			print("Pessoa detectada")
-			have_person = 0
-			break
-		time.sleep(100)
-
-
 def measure_distance():
     # Envia um pulso curto no pino TRIG
     GPIO.output(TRIG_PIN, GPIO.HIGH)
@@ -278,45 +258,44 @@ def printChar(row, char):
 				time.sleep(0.1)
 	GPIO.output(row, GPIO.LOW)
 
-# try:
-#     while True:
-#         # Verifica se o botão foi pressionado
-#         while GPIO.input(BUTTON_PIN) == GPIO.LOW and not button_pressed:
-#             button_pressed = True
-#             temp1 = time.time()  # Armazena o tempo inicial
+try:
+    while True:
+        # Verifica se o botão foi pressionado
+        while GPIO.input(BUTTON_PIN) == GPIO.LOW and not button_pressed:
+            button_pressed = True
+            temp1 = time.time()  # Armazena o tempo inicial
 
-#         # Verifica se o botão foi solto
-#         while button_pressed:
-#             temp2 = time.time()  # Armazena o tempo final
+        # Verifica se o botão foi solto
+        while button_pressed:
+            temp2 = time.time()  # Armazena o tempo final
 
-#             # Verifica o intervalo de tempo
-#             if temp2 - temp1 > 0.5:
-#                 if LOCKED == 1:
-#                     print("Destrancado")
-#                     LOCKED = 0
-#                 else:
-#                     print("Porta está aberta")
-#                 button_pressed = False
+            # Verifica o intervalo de tempo
+            if temp2 - temp1 > 0.5:
+                if LOCKED == 1:
+                    print("Destrancado")
+                    LOCKED = 0
+                else:
+                    print("Porta está aberta")
+                button_pressed = False
 
-#             if GPIO.input(BUTTON_PIN) == GPIO.LOW:
-#                 temp1 = temp2  # Atualiza temp1 para o próximo pressionamento dentro do intervalo
+            if GPIO.input(BUTTON_PIN) == GPIO.LOW:
+                temp1 = temp2  # Atualiza temp1 para o próximo pressionamento dentro do intervalo
 
-#         printChar(R1, ["1", "2", "3", "A"])
-#         printChar(R2, ["4", "5", "6", "B"])
-#         printChar(R3, ["7", "8", "9", "C"])
-#         printChar(R4, ["*", "0", "#", "D"])
+        printChar(R1, ["1", "2", "3", "A"])
+        printChar(R2, ["4", "5", "6", "B"])
+        printChar(R3, ["7", "8", "9", "C"])
+        printChar(R4, ["*", "0", "#", "D"])
         
-#         #if PASSWORD.endswith("A"):
-#             # Acionar o sensor de distância
-#             # Verificar se objeto está a menos de 20 cm do sensor
-#             # Se estiver, capturar a foto e exibir ao usuário
-#             #PASSWORD = ""
-#             #capture_photo()
+        #if PASSWORD.endswith("A"):
+            # Acionar o sensor de distância
+            # Verificar se objeto está a menos de 20 cm do sensor
+            # Se estiver, capturar a foto e exibir ao usuário
+            #PASSWORD = ""
+            #capture_photo()
             
         
-#         time.sleep(0.1)
+        time.sleep(0.1)
 
-# except KeyboardInterrupt:
-#     print("Stopped")
+except KeyboardInterrupt:
+    print("Stopped")
 
-main()
