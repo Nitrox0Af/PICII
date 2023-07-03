@@ -73,11 +73,11 @@ def main():
 		# if dist < 5:
 		# 	print("Afaste-se do sensor")
 		# 	have_person += 1
-		if have_person >= 2:
+		if have_person >= 10:
 			print("Pessoa detectada")
 			have_person = 0
 			break
-		time.sleep(100)
+		time.sleep(10)
 
 
 def measure_distance():
