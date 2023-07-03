@@ -68,7 +68,7 @@ def main():
 		dist = round(measure_distance())
 		print("Distancia: ", dist)
 		if dist > config.MAX_DISTANCE:
-			print("Aproxime-se do sensor para ser reconhecido")
+			print(f"Aproxime no max 40cm e precione A, Distancia atual: {dist}cm")
 		elif config.MAX_DISTANCE <= 40:
 			have_person += 1
 			print("Pessoa detectada")
@@ -76,7 +76,7 @@ def main():
 		# 	print("Afaste-se do sensor")
 		# 	have_person += 1
 		if have_person >= config.QNTD_RECOGNIZE:
-			print("Indo reconhecer")
+			print("Iniciando processo de reconhecimento...")
 			have_person = 0
 			break
 		time.sleep(config.TIME_TO_RECOGNIZE)
@@ -123,6 +123,8 @@ def get_char(row, char):
 
 def take_picture():
 	photo_path = "unknown_face/photo.jpg"
+	time_start = time.time()
+	time_end = time.time()
 	cap = cv2.VideoCapture(0)
 	flag = 0
 	while True:
@@ -131,12 +133,19 @@ def take_picture():
 		if frame is None:
             # Lidar com a falta de um quadro válido da webcam
             # Exibir uma mensagem de erro, tentar novamente ou sair do loop
+			print("Erro ao capturar imagem!")
+			time.sleep(5)
 			continue
+		time_end = time.time()
 		# Obtém as dimensões da imagem
 		height, width, _ = frame.shape
-		dist = round(measure_distance())
-		# Define a mensagem e suas propriedades
-		message = "Aproxime no max 40cm e precione A, Distancia atual: "
+
+		# Desenha a mensagem na imagem
+		message = "Prepare-se para a foto que será tirada em 10 segundos!"
+		font = cv2.FONT_HERSHEY_SIMPLEX
+		font_scale = 0.5
+		thickness = 1
+		
 		font = cv2.FONT_HERSHEY_SIMPLEX
 		font_scale = 0.5
 		thickness = 1
@@ -159,14 +168,14 @@ def take_picture():
 		key = cv2.waitKey(1)
 		key2=get_char(R1, ["1", "2", "3", "A"])
 		# Captura a foto ao pressionar as teclas 1 ou 2
-		if key == ord('2') or dist < 40 and key2== "A":
+		if (time_end - time_start) >= config.TIME_TO_TAKE_PHOTO:
 			# Salva a imagem capturada
 			cv2.imwrite(photo_path, frame)
 			cap.release()
 			cv2.destroyAllWindows()
 			time.sleep(1)
 			img = cv2.imread(photo_path)
-			message = "Aperte A para continuar o processo ou B para retirar outra foto"
+			message = "Precione #, se preferir tirar outra foto"
 			font = cv2.FONT_HERSHEY_SIMPLEX
 			font_scale = 0.5
 			thickness = 1
