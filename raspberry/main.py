@@ -77,7 +77,10 @@ def main():
 		# 	have_person += 1
 		if have_person >= config.QNTD_RECOGNIZE:
 			print("Iniciando processo de reconhecimento...")
-			take_picture()
+			process_recognition = take_picture()
+			if process_recognition:
+				open_gate = recognizer.main()
+				control_gate(open_gate)
 		time.sleep(config.TIME_TO_RECOGNIZE)
 
 def capture_an_image():
@@ -280,23 +283,19 @@ def take_picture():
 			time_end_hash = time.time()
 			while (time_end_hash - time_start_hash) < config.TIME_TO_PRESS_HASH:
 				time_end_hash = time.time()
-				key = get_char(R4, ["*", "0", "#", "D"])
-
-				# Captura a foto ao pressionar as teclas 1 ou 2
-				if key == "#":
+				key = cv2.waitKey(1)
+				key2=get_char(R4, ["*", "0", "#", "D"])
+				if key == ord('2') or key2 == "#":
 					cv2.destroyAllWindows()
 					flag = 1
 					break
-
-			if flag == 0:
-				open_gate = recognizer.main()
-				time.sleep(0.5)
-				control_gate(open_gate)
-				break
-			else:
-				time.sleep(0.5)
+			if flag == 1:
+				time.sleep(1)
+				print("Tirando outra foto")
 				cap = cv2.VideoCapture(0)
 				continue
+			else:
+				return True
 
 def control_gate(open_gate: bool) -> None:
 	if open_gate:
