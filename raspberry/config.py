@@ -4,6 +4,11 @@ OWNER = "carlos@gmail.com"
 TOKEN = '5813859429:AAH1KS33INDbN1LMa2SDALBH53WngdU2aJk'
 
 
+MAX_DISTANCE = 40
+MIN_DISTANCE = 5
+TIME_TO_RECOGNIZE = 10
+QNTD_RECOGNIZE = 2
+
 # Configuração teclado matricial 4x4
 # R - Linha; C - Colunas
 R1 = 7

@@ -1,7 +1,9 @@
 import RPi.GPIO as GPIO
 import time
 import cv2
+
 import recognizer
+import config
 
 # Configuração teclado matricial 4x4
 # R - Linha; C - Colunas
@@ -65,19 +67,19 @@ def main():
 	while True:
 		dist = round(measure_distance())
 		print("Distancia: ", dist)
-		if dist > 40:
+		if dist > config.MAX_DISTANCE:
 			print("Aproxime-se do sensor para ser reconhecido")
-		elif dist <= 40:
+		elif config.MAX_DISTANCE <= 40:
 			have_person += 1
 			print("Pessoa detectada")
 		# if dist < 5:
 		# 	print("Afaste-se do sensor")
 		# 	have_person += 1
-		if have_person >= 2:
+		if have_person >= config.QNTD_RECOGNIZE:
 			print("Indo reconhecer")
 			have_person = 0
 			break
-		time.sleep(10)
+		time.sleep(config.TIME_TO_RECOGNIZE)
 
 
 def measure_distance():
