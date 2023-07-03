@@ -73,8 +73,8 @@ def main():
 		# if dist < 5:
 		# 	print("Afaste-se do sensor")
 		# 	have_person += 1
-		if have_person >= 10:
-			print("Pessoa detectada")
+		if have_person >= 2:
+			print("Indo reconhecer")
 			have_person = 0
 			break
 		time.sleep(10)
