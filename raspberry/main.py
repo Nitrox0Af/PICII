@@ -68,7 +68,7 @@ def main():
 		dist = round(measure_distance())
 		print("Distancia: ", dist)
 		if dist > config.MAX_DISTANCE:
-			print(f"Aproxime no max 40cm e precione A, Distancia atual: {dist}cm")
+			print(f"Aproxime no max 40cm. Distancia atual: {dist}cm")
 		elif config.MAX_DISTANCE <= 40:
 			have_person += 1
 			print("Pessoa detectada")

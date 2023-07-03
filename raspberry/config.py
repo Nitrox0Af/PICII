@@ -9,7 +9,7 @@ MIN_DISTANCE = 5
 TIME_TO_RECOGNIZE = 10
 QNTD_RECOGNIZE = 2
 
-TIME_TO_TAKE_PHOTO = 10
+TIME_TO_TAKE_PHOTO = 100
 
 # Configuração teclado matricial 4x4
 # R - Linha; C - Colunas
