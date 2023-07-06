@@ -15,6 +15,21 @@ TIME_TO_PRESS_HASH = 10
 
 POTHO_PATH = "./unknown_face/photo.jpg"
 
+
+ROW_PINS = [7, 11, 13, 15]
+COL_PINS = [12, 16, 18]
+
+KEY_MATRIX = [
+    ['1', '2', '3'],
+    ['4', '5', '6'],
+    ['7', '8', '9'],
+    ['*', '0', '#']
+]
+
+
+BUTTON_PIN = 38
+
+
 # Configuração teclado matricial 4x4
 # R - Linha; C - Colunas
 R1 = 7
@@ -31,8 +46,9 @@ C4 = 22
 LOCKED = 1
 
 # Configuração dos LEDs
-RED_LED_PIN = 10
-GREEN_LED_PIN = 8
+RED_LED_PIN = 5
+GREEN_LED_PIN = 3
+LED_PIN = 3
 
 # Configuração do botão
 BUTTON_PIN = 38
