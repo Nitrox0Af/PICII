@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
-from config import LED_PIN
+from config import LED_PIN, DELAY_LED
+import time
 
 class LED:
     def __init__(self, pin):
@@ -29,6 +30,13 @@ class LED:
         else:
             self.turn_on()
 
+    def blink(self, delay):
+        """Blink the LED with the specified delay."""
+        self.turn_on()
+        time.sleep(delay)
+        self.turn_off()
+        time.sleep(delay)
+
     def cleanup(self):
         """Clean up the GPIO resources."""
         GPIO.cleanup()
@@ -39,7 +47,7 @@ def main():
 
     try:
         while True:
-            led.toggle()
+            led.blink(DELAY_LED)  # Blink with a delay of 1 second
 
     except KeyboardInterrupt:
         led.cleanup()
