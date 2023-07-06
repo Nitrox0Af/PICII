@@ -14,33 +14,27 @@ class Biometric:
 
     def enroll_fingerprint(self):
         """Enroll a new fingerprint."""
-        self.serial.write(b"ENROLL\n")
-        response = self.serial.readline().strip().decode()
-        if response == "READY":
-            print("Coloque o dedo no módulo...")
-            while True:
-                response = self.serial.readline().strip().decode()
-                if response == "OK":
-                    print("Fingerprint enrolled successfully!")
-                    break
-                elif response == "ERROR":
-                    print("Error enrolling fingerprint!")
-                    break
+        print("Coloque o dedo no módulo...")
+        while True:
+            response = self.serial.readline().strip().decode()
+            if response == "OK":
+                print("Fingerprint enrolled successfully!")
+                break
+            elif response == "ERROR":
+                print("Error enrolling fingerprint!")
+                break
 
     def verify_fingerprint(self):
         """Verify a fingerprint."""
-        self.serial.write(b"VERIFY\n")
-        response = self.serial.readline().strip().decode()
-        if response == "READY":
-            print("Coloque o dedo no módulo...")
-            while True:
-                response = self.serial.readline().strip().decode()
-                if response == "MATCH":
-                    print("Fingerprint verified successfully!")
-                    break
-                elif response == "NO MATCH":
-                    print("Fingerprint not verified!")
-                    break
+        print("Coloque o dedo no módulo...")
+        while True:
+            response = self.serial.readline().strip().decode()
+            if response == "MATCH":
+                print("Fingerprint verified successfully!")
+                break
+            elif response == "NO MATCH":
+                print("Fingerprint not verified!")
+                break
 
     def disconnect(self):
         """Disconnect from the biometric module."""
