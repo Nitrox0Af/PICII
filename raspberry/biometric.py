@@ -45,16 +45,33 @@ class Biometric:
     def disconnect(self):
         """Disconnect from the biometric module."""
         self.serial.close()
+    
+    def test_connection(self):
+        """Test the connection with the biometric module."""
+        self.serial.write(b"TEST\n")
+        response = self.serial.readline().strip().decode()
+        if response == "OK":
+            print("Connection test successful!")
+        else:
+            print("Connection test failed!")
 
 def main():
     biometric = Biometric(BIOMETRIC_PORT)  # Insira a porta correta do módulo
+    print("Conectando ao módulo...")
     biometric.connect()
+    print("Conectado!")
 
     try:
+        print("Testando conexão...")
+        biometric.test_connection()
+        print("Teste concluído!")
+
         biometric.enroll_fingerprint()
+        print("Impressão digital registrada!")
 
         # Faça a verificação de impressão digital apenas após a impressão digital ser registrada
         biometric.verify_fingerprint()
+        print("Verificação concluída!")
 
     except Exception as e:
         print("An error occurred:", str(e))
