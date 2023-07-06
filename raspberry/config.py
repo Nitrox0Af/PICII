@@ -31,6 +31,8 @@ BUTTON_PIN = 38
 
 DELAY_LED = 1
 
+BIOMETRIC_PORT = '/dev/ttyAMA0'
+
 
 # Configuração teclado matricial 4x4
 # R - Linha; C - Colunas

@@ -1,5 +1,6 @@
 import serial
 import time
+from config import BIOMETRIC_PORT
 
 class Biometric:
     def __init__(self, port):
@@ -9,7 +10,7 @@ class Biometric:
     def connect(self):
         """Connect to the biometric module."""
         self.serial = serial.Serial(self.port, baudrate=9600, timeout=1)
-        time.sleep(2)  # Tempo de espera para a inicialização do módulo
+        time.sleep(2) 
 
     def enroll_fingerprint(self):
         """Enroll a new fingerprint."""
@@ -46,13 +47,12 @@ class Biometric:
         self.serial.close()
 
 def main():
-    biometric = Biometric("/dev/ttyUSB0")  # Insira a porta correta do módulo
+    biometric = Biometric(BIOMETRIC_PORT)
     biometric.connect()
 
     try:
         biometric.enroll_fingerprint()
 
-        # Faça a verificação de impressão digital apenas após a impressão digital ser registrada
         biometric.verify_fingerprint()
 
     except Exception as e:
