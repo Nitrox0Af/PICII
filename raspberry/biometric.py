@@ -1,84 +1,59 @@
-import serial
-import time
-from config import BIOMETRIC_PORT
+import fingerprinth
 
-class Biometric:
-    def __init__(self, port):
-        self.port = port
-        self.serial = None
-
+class BiometricModule:
+    def __init__(self):
+        self.sensor = fingerprinth.Fingerprint()
+    
     def connect(self):
         """Connect to the biometric module."""
-        self.serial = serial.Serial(self.port, baudrate=9600, timeout=1)
-        time.sleep(2)  # Tempo de espera para a inicialização do módulo
+        try:
+            self.sensor.open()
+        except fingerprinth.FingerprintException as e:
+            print(f"Failed to connect to the biometric module: {e}")
 
-    def enroll_fingerprint(self):
-        """Enroll a new fingerprint."""
-        self.serial.write(b"ENROLL\n")
-        response = self.serial.readline().strip().decode()
-        if response == "READY":
-            print("Coloque o dedo no módulo...")
-            while True:
-                response = self.serial.readline().strip().decode()
-                if response == "OK":
-                    print("Fingerprint enrolled successfully!")
-                    break
-                elif response == "ERROR":
-                    print("Error enrolling fingerprint!")
-                    break
+    def enroll(self, fingerprint_id):
+        """Enroll a new fingerprint with the given ID."""
+        try:
+            self.sensor.enroll(fingerprint_id)
+            print(f"Fingerprint enrolled successfully with ID: {fingerprint_id}")
+        except fingerprinth.FingerprintException as e:
+            print(f"Failed to enroll fingerprint: {e}")
+    
+    def verify(self):
+        """Verify the fingerprint."""
+        try:
+            fingerprint_id = self.sensor.capture()
+            if fingerprint_id >= 0:
+                print(f"Fingerprint verified successfully with ID: {fingerprint_id}")
+            else:
+                print("Fingerprint verification failed")
+        except fingerprinth.FingerprintException as e:
+            print(f"Failed to verify fingerprint: {e}")
 
-    def verify_fingerprint(self):
-        """Verify a fingerprint."""
-        self.serial.write(b"VERIFY\n")
-        response = self.serial.readline().strip().decode()
-        if response == "READY":
-            print("Coloque o dedo no módulo...")
-            while True:
-                response = self.serial.readline().strip().decode()
-                if response == "MATCH":
-                    print("Fingerprint verified successfully!")
-                    break
-                elif response == "NO MATCH":
-                    print("Fingerprint not verified!")
-                    break
+    def delete(self, fingerprint_id):
+        """Delete the fingerprint with the given ID."""
+        try:
+            self.sensor.delete(fingerprint_id)
+            print(f"Fingerprint with ID {fingerprint_id} deleted successfully")
+        except fingerprinth.FingerprintException as e:
+            print(f"Failed to delete fingerprint: {e}")
 
     def disconnect(self):
         """Disconnect from the biometric module."""
-        self.serial.close()
-    
-    def test_connection(self):
-        """Test the connection with the biometric module."""
-        self.serial.write(b"TEST\n")
-        response = self.serial.readline().strip().decode()
-        print(response)
-        if response == "OK":
-            print("Connection test successful!")
-        else:
-            print("Connection test failed!")
+        self.sensor.close()
 
 def main():
-    biometric = Biometric(BIOMETRIC_PORT)  # Insira a porta correta do módulo
-    print("Conectando ao módulo...")
-    biometric.connect()
-    print("Conectado!")
+    biometric_module = BiometricModule()
+    biometric_module.connect()
 
     try:
-        print("Testando conexão...")
-        biometric.test_connection()
-        print("Teste concluído!")
+        # Use the biometric module
+        biometric_module.enroll(1)
+        biometric_module.verify()
+        biometric_module.delete(1)
 
-        biometric.enroll_fingerprint()
-        print("Impressão digital registrada!")
-
-        # Faça a verificação de impressão digital apenas após a impressão digital ser registrada
-        biometric.verify_fingerprint()
-        print("Verificação concluída!")
-
-    except Exception as e:
-        print("An error occurred:", str(e))
-
-    finally:
-        biometric.disconnect()
+    except KeyboardInterrupt:
+        biometric_module.disconnect()
 
 if __name__ == '__main__':
     main()
