@@ -50,6 +50,7 @@ class Biometric:
         """Test the connection with the biometric module."""
         self.serial.write(b"TEST\n")
         response = self.serial.readline().strip().decode()
+        print(response)
         if response == "OK":
             print("Connection test successful!")
         else:
