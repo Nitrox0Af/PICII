@@ -1,6 +1,6 @@
+import time
 import RPi.GPIO as GPIO
 from config import LED_PIN, DELAY_LED
-import time
 
 class LED:
     def __init__(self, pin):
