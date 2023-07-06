@@ -19,8 +19,8 @@ C4 = 22
 LOCKED = 1
 
 # Configuração dos LEDs
-RED_LED_PIN = 10
-GREEN_LED_PIN = 8
+RED_LED_PIN = 5
+GREEN_LED_PIN = 3
 
 # Configuração do botão
 BUTTON_PIN = 38
