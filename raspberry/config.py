@@ -28,7 +28,7 @@ KEY_MATRIX = [
 
 
 BUTTON_PIN = 38
-DELAY_LED = 5
+DELAY_LED = 1
 
 
 # Configuração teclado matricial 4x4
