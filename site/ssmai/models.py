@@ -65,9 +65,10 @@ class Base(models.Model):
 
 class Hospede(Base):
     name = models.CharField('Nome', max_length=100, null=False, blank=False)
-    email = models.CharField('E-mail', max_length=150, unique=True, null=False, blank=False)
+    phone = models.CharField('Telefone', max_length=150, unique=True, null=False, blank=False)
     nickname = models.CharField('Apelido', max_length=100, null=True, blank=True)
     relationship = models.CharField('Parentesco', max_length=100, null=True, blank=True)
+    has_fingerprint = models.BooleanField('Digital cadastrada', default=False, null=False, blank=False)
     owner = models.ForeignKey(get_user_model(), verbose_name='Proprietário(a)', on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
@@ -105,7 +106,7 @@ def photo_post_save(sender, instance, created, **kwargs):
         encodings = generate_encodings(path + str(file_name))
         if len(encodings) == 0:
             print(f"No faces found in image {file_name}")
-        filename = f"{instance.guest.email}--{str(file_name)}"
+        filename = f"{instance.guest.phone}--{str(file_name)}"
         topic = f"ssmai/encodings/{instance.guest.owner.email}"
         message = f"ADDED: {filename}"
         save_encoding(path, filename, encodings)
@@ -127,7 +128,7 @@ def photo_pre_delete(sender, instance, **kwargs):
 
     path = "media/encoding/"
     file_name = str(instance.file.name).replace("photo/", "")
-    filename = f"{instance.guest.email}--{str(file_name)}"
+    filename = f"{instance.guest.phone}--{str(file_name)}"
     topic = f"ssmai/encodings/{instance.guest.owner.email}"
     message = f"DELETED: {filename}"
     publish.single(topic, message, hostname="10.9.10.17")

@@ -30,37 +30,80 @@ def encoding(request, filename):
         return redirect('index')
 
 
-def guest_json(request, email):
-    guest = get_object_or_404(Hospede, email=email)
-    guest_data = {
-        'name': guest.name,
-        'email': guest.email,
-        'nickname': guest.nickname,
-        'relationship': guest.relationship,
-        'owner': guest.owner.email
-    }
-    access = Acesso(guest=guest)
-    access.save()
-    return JsonResponse(guest_data)
+def guest_json(request, phone):
+    guest = get_object_or_404(Hospede, phone=phone)
+    if guest:
+        guest_data = {
+            'name': guest.name,
+            'phone': guest.phone,
+            'nickname': guest.nickname,
+            'relationship': guest.relationship,
+            'has_fingerprint': guest.has_fingerprint,
+            'owner': guest.owner.email
+        }
+        access = Acesso(guest=guest)
+        access.save()
+        return JsonResponse(guest_data)
+    else:
+        return HttpResponse('Hospede não encontrado.')
 
 
 @csrf_exempt
 def owner_json(request, email):
     owner = get_object_or_404(CustomUser, email=email)
-    if request.method == 'POST':
-        chat_id = request.POST.get('chat_id')
-        owner.chat_id = chat_id
-        owner.first_access = False
-        owner.save()
+    if owner:
+        if request.method == 'POST':
+            chat_id = request.POST.get('chat_id')
+            owner.chat_id = chat_id
+            owner.first_access = False
+            owner.save()
 
-    owner_data = {
-        'name': owner.get_full_name(),
-        'email': owner.email,
-        'first_access': owner.first_access,
-        'chat_id': owner.chat_id
-    }
-    return JsonResponse(owner_data)
+        owner_data = {
+            'name': owner.get_full_name(),
+            'email': owner.email,
+            'first_access': owner.first_access,
+            'chat_id': owner.chat_id
+        }
+        return JsonResponse(owner_data)
+    else:
+        return HttpResponse('Proprietário(a) não encontrado.')
 
 
 def telegram(request):
     return render(request, 'telegram.html', {})
+
+
+def check_fingerprint(request, phone):
+    guest = get_object_or_404(Hospede, phone=phone)
+    if guest:
+        guest.has_fingerprint = True
+        guest.save()
+        guest_data = {
+            'name': guest.name,
+            'phone': guest.phone,
+            'nickname': guest.nickname,
+            'relationship': guest.relationship,
+            'has_fingerprint': guest.has_fingerprint,
+            'owner': guest.owner.email
+        }
+        return JsonResponse(guest_data)
+    else:
+        return HttpResponse('Hospede não encontrado.')
+    
+
+def delete_fingerprint(request, phone):
+    guest = get_object_or_404(Hospede, phone=phone)
+    if guest:
+        guest.has_fingerprint = False
+        guest.save()
+        guest_data = {
+            'name': guest.name,
+            'phone': guest.phone,
+            'nickname': guest.nickname,
+            'relationship': guest.relationship,
+            'has_fingerprint': guest.has_fingerprint,
+            'owner': guest.owner.email
+        }
+        return JsonResponse(guest_data)
+    else:
+        return HttpResponse('Hospede não encontrado.')

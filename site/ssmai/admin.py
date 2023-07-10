@@ -24,8 +24,8 @@ class FotoInline(admin.TabularInline):
 
 @admin.register(Hospede)
 class HospedeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'nickname', 'relationship', 'owner')
-    exclude = ['owner',]
+    list_display = ('name', 'phone', 'nickname', 'relationship', 'has_fingerprint', 'owner')
+    exclude = ['owner', 'has_fingerprint']
     inlines = [FotoInline]
 
     def owner(self, obj):
