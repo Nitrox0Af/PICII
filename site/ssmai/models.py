@@ -9,6 +9,7 @@ import os
 from paho.mqtt import publish
 from .encodings import generate_encodings, save_encoding, delete_encoding
 
+HOSTNAME = "10.9.10.17"
 
 class CustomUserManager(BaseUserManager):
 
@@ -110,7 +111,7 @@ def photo_post_save(sender, instance, created, **kwargs):
         topic = f"ssmai/encodings/{instance.guest.owner.email}"
         message = f"ADDED: {filename}"
         save_encoding(path, filename, encodings)
-        publish.single(topic, message, hostname="10.9.10.17")
+        publish.single(topic, message, hostname=HOSTNAME)
 
 signals.post_save.connect(photo_post_save, sender=Foto)
 
@@ -131,7 +132,7 @@ def photo_pre_delete(sender, instance, **kwargs):
     filename = f"{instance.guest.phone}--{str(file_name)}"
     topic = f"ssmai/encodings/{instance.guest.owner.email}"
     message = f"DELETED: {filename}"
-    publish.single(topic, message, hostname="10.9.10.17")
+    publish.single(topic, message, hostname=HOSTNAME)
     delete_encoding(path, filename)
 
 signals.pre_delete.connect(photo_pre_delete, sender=Foto)

@@ -5,7 +5,7 @@ import requests
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
 
-
+HOSTNAME = "10.9.10.17"
 TOKEN = '6108504715:AAGnfS26xOpHLsu-TZ1NXzRyzHMWo73Ohhk'
 
 logging.basicConfig(
@@ -47,7 +47,7 @@ async def get_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def set_chat_id(email: str, chat_id: str):
     """Set the chat_id"""
-    url = f'http://10.9.10.17:8000/owner/json/{email}/'  
+    url = f'http://{HOSTNAME}:8000/owner/json/{email}/'  
     data = {
         'chat_id': chat_id
     }

@@ -1,6 +1,9 @@
 OWNER = "carlos@gmail.com"
 
 
+HOSTNAME = "10.9.10.17"
+
+
 TOKEN = '5813859429:AAH1KS33INDbN1LMa2SDALBH53WngdU2aJk'
 
 
@@ -29,9 +32,15 @@ KEY_MATRIX = [
 
 BUTTON_PIN = 38
 
+LED_PIN = 3
 DELAY_LED = 1
 
-BIOMETRIC_PORT = '/dev/ttyAMA0'
+FINGERPRINT_PORT = '/dev/ttyAMA0'
+
+DELAY_RELAY = 5
+RELAY_PIN = 40
+
+REED_SENSOR_PIN = 37
 
 
 # Configuração teclado matricial 4x4
@@ -52,7 +61,7 @@ LOCKED = 1
 # Configuração dos LEDs
 RED_LED_PIN = 5
 GREEN_LED_PIN = 3
-LED_PIN = 3
+
 
 # Configuração do botão
 BUTTON_PIN = 38

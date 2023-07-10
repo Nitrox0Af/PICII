@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import requests
 import os
 
-from config import OWNER
+from config import OWNER, HOSTNAME
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
     client.on_message = on_message
 
     # Connection to the MQTT broker
-    broker = "10.9.10.17" 
+    broker = HOSTNAME
     porta = 1883 
     client.connect(broker, porta)
 
@@ -52,7 +52,7 @@ def on_message(client, userdata, msg):
 
 def get_encoding(filename):
     """Download the encoding file from the server"""
-    url = f"http://10.9.10.17:8000/encoding/{filename}/"
+    url = f"http://{HOSTNAME}:8000/encoding/{filename}/"
     path = f"./encoding/{filename}.pkl"
 
     response = requests.get(url, stream=True)

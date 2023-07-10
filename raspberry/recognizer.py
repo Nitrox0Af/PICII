@@ -6,7 +6,7 @@ import numpy as np
 import face_recognition
 import pickle
 
-from config import OWNER, POTHO_PATH
+from config import OWNER, POTHO_PATH, HOSTNAME
 
 
 def main() -> bool:
@@ -113,7 +113,7 @@ def identify_person(identifier: str) -> bool:
 
 def get_guest(identifier):
     """Get the guest's infos from the server"""
-    url = f"http://10.9.10.17:8000/guest/json/{identifier}/" 
+    url = f"http://{HOSTNAME}:8000/guest/json/{identifier}/" 
     response = requests.get(url)
     data = {}
     if response.status_code == 200:
@@ -125,7 +125,7 @@ def get_guest(identifier):
 
 def get_owner():
     """Get the guest's infos from the server"""
-    url = f"http://10.9.10.17:8000/owner/json/{OWNER}/" 
+    url = f"http://{HOSTNAME}:8000/owner/json/{OWNER}/" 
     response = requests.get(url)
     data = {}
     if response.status_code == 200:
