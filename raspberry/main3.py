@@ -76,3 +76,6 @@ def process_password_choice(keyboard):
         else:
             print("Opção inválida!")
             continue
+
+
+main()
