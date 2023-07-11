@@ -1,5 +1,6 @@
 import cv2
 import time
+import keyboard
 
 from config import POTHO_PATH, TIME_TO_TAKE_PHOTO
 
@@ -36,7 +37,7 @@ def show_and_capture():
             cv2.destroyAllWindows()
             break
 
-def show_photo_and_get_response(keyboard):
+def show_photo_and_get_response():
     """Display captured photo and get response."""
     img = cv2.imread(POTHO_PATH)
     height, width, _ = img.shape
@@ -54,15 +55,15 @@ def show_photo_and_get_response(keyboard):
 
     while True:
         key2 = cv2.waitKey(1)
-        key = keyboard.get_key()
+        key = keyboard.main()
         print("Opção escolhida:", key)
         return key
 
 
-def main(keyboard):
+def main():
     """Main function."""
     show_and_capture()
-    response = show_photo_and_get_response(keybord)
+    response = show_photo_and_get_response()
 
     if response == "2":
         print("Foto aceita!")

@@ -1,24 +1,21 @@
 import os
 from gpiozero import DistanceSensor
 from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, ROW_PINS, COL_PINS, KEY_MATRIX
-from keyboard import Keyboard
-from photo_capture import main
+import keyboard
+import photo_capture
 
 def main():
     """Main function."""
     ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
 
-    keyboard = Keyboard(ROW_PINS, COL_PINS, KEY_MATRIX)
-    keyboard.setup()
-
     while True:
-        choice = display_menu(keyboard)
+        choice = display_menu()
 
         if choice == "1":
-            facial_recognition(ultrasonic, keyboard)
+            facial_recognition(ultrasonic)
 
         elif choice == "2":
-            process_password_choice(keyboard)
+            process_password_choice()
 
         else:
             print("Opção inválida!")
@@ -26,14 +23,14 @@ def main():
         break
 
 
-def display_menu(keyboard):
+def display_menu():
     """Displays the menu and obtains user's choice."""
     os.system('clear')
     print("Escolha uma opção: ")
     print("1 - Reconhecimento Facial")
     print("2 - Senha")
 
-    key = keyboard.get_key()
+    key = keyboard.main()
     print("Opção escolhida:", key)
     return key
 
@@ -43,14 +40,14 @@ def facial_recognition(ultrasonic):
     if ultrasonic.distance <= MAX_DISTANCE:
         if ultrasonic.distance >= MIN_DISTANCE:
             print("Iniciando o Reconhecimento Facial...")
-            photo_capture.main(keyboard)
+            photo_capture.main()
         else:
             print("Aproxime-se da camera! Sua distância é de", ultrasonic.distance*100, "cm.")
     else:
         print("Afastem-se da camera! Sua distância é de", ultrasonic.distance*100, "cm.")
 
 
-def display_password(keyboard):
+def display_password():
     """Performs password."""
     os.system('clear')
     print("Escolha uma opção: ")
@@ -58,15 +55,15 @@ def display_password(keyboard):
     print("2 - Alterar a senha")
     print("0 - Voltar")
 
-    key = keyboard.get_key()
+    key = keyboard.main()
     print("Opção escolhida:", key)
     return key
 
 
-def process_password_choice(keyboard):
+def process_password_choice():
     """Process password Choice."""
     while True:
-        choice = display_password(keyboard)
+        choice = display_password()
         if choice == "1":
             print("Digite a senha: ")
         elif choice == "2":

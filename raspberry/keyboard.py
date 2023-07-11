@@ -1,48 +1,41 @@
 import RPi.GPIO as GPIO
-from config import ROW_PINS, COL_PINS, KEY_MATRIX
+import time
 
-class Keyboard:
-    def __init__(self, row_pins, col_pins, key_matrix):
-        self.row_pins = row_pins
-        self.col_pins = col_pins
-        self.key_matrix = key_matrix
+row_list = [26, 20, 19, 16]
+col_list = [6, 13, 5]
 
-    def setup(self):
-        """Setup the GPIO pins for the keyboard."""
-        GPIO.setmode(GPIO.BCM)
-        
-        for x in range(0, 4):
-            GPIO.setup(self.row_pins[x], GPIO.OUT)
-            GPIO.output(self.row_pins[x], GPIO.HIGH)
-        
-        for x in range(0, 3):
-            GPIO.setup(self.col_pins[x], GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setmode(GPIO.BCM)
 
-    def get_key(self):
-        """Get the pressed key based on the key matrix."""
-        try:
-            while True:
-                for row_pin in self.row_pins:
-                    GPIO.output(row_pin, GPIO.HIGH)
-                    result = [GPIO.input(self.col_pins[0]), GPIO.input(self.col_pins[1]), GPIO.input(self.col_pins[2])]
-                    
-                    if min(result) == 0:
-                        key = self.key_matrix[int(self.row_pins.index(row_pin))][int(result.index(0))]
-                        GPIO.output(row_pin, GPIO.HIGH)
-                        print("Key:", key)
-                        return key
-                    GPIO.output(row_pin, GPIO.HIGH)
-        except KeyboardInterrupt:
-            self.cleanup() 
+for x in range(0, 4):
+    GPIO.setup(row_list[x], GPIO.OUT)
+    GPIO.output(row_list[x], GPIO.HIGH)
 
-    def cleanup(self):
-        """Clean up the GPIO resources."""
-        GPIO.cleanup()
+for x in range(0, 3):
+    GPIO.setup(col_list[x], GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+key_list = [["1", "2", "3"],
+            ["4", "5", "6"],
+            ["7", "8", "9"],
+            ["*", "0", "#"]]
+
+def keypad(col, row):
+    for r in row:
+        GPIO.output(r, GPIO.LOW)
+        result = [GPIO.input(col[0]), GPIO.input(col[1]), GPIO.input(col[2])]
+        if min(result) == 0:
+            key = key_list[int(row.index(r))][int(result.index(0))]
+            GPIO.output(r, GPIO.HIGH)
+            return key
+        GPIO.output(r, GPIO.HIGH)
 
 def main():
-    keyboard = Keyboard(ROW_PINS, COL_PINS, KEY_MATRIX)
-    keyboard.setup()
-    keyboard.get_key()
+    try:
+        while True:
+            key = keypad(col_list, row_list)
+            if key is not None:
+                print("Key: " + key)
+                return key
+    except KeyboardInterrupt:
+        GPIO.cleanup()
 
-if __name__ == '__main__':
-    main()
+main()
