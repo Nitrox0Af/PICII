@@ -44,27 +44,5 @@ REED_SENSOR_PIN = 37
 
 BUZZER_PIN = 17
 
-
-# Configuração teclado matricial 4x4
-# R - Linha; C - Colunas
-R1 = 7
-R2 = 11
-R3 = 13
-R4 = 15
-
-C1 = 12
-C2 = 16
-C3 = 18
-C4 = 22
-
-# Flag
-LOCKED = 1
-
-# Configuração dos LEDs
-RED_LED_PIN = 5
-GREEN_LED_PIN = 3
-
-# Configuração do sensor de distância
-# Define os pinos TRIG e ECHO
-TRIG_PIN = 32
-ECHO_PIN = 36
+TRIG_PIN = 4
+ECHO_PIN = 27
