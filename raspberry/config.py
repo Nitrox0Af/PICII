@@ -42,6 +42,8 @@ RELAY_PIN = 40
 
 REED_SENSOR_PIN = 37
 
+BUZZER_PIN = 17
+
 
 # Configuração teclado matricial 4x4
 # R - Linha; C - Colunas
