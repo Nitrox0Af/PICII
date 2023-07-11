@@ -64,10 +64,6 @@ LOCKED = 1
 RED_LED_PIN = 5
 GREEN_LED_PIN = 3
 
-
-# Configuração do botão
-BUTTON_PIN = 38
-
 # Configuração do sensor de distância
 # Define os pinos TRIG e ECHO
 TRIG_PIN = 32
