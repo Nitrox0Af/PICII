@@ -28,8 +28,14 @@ def keypad(col, row):
             return key
         GPIO.output(r, GPIO.HIGH)
 
-while True:
-    key = keypad(col_list, row_list)
-    if key is not None:
-        print("Key: " + key)
-        time.sleep(0.3)
+def main():
+    try:
+        while True:
+            key = keypad(col_list, row_list)
+            if key is not None:
+                print("Key: " + key)
+                return key
+    except KeyboardInterrupt:
+        GPIO.cleanup()
+
+main()
