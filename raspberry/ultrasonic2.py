@@ -1,5 +1,6 @@
 from gpiozero import DistanceSensor
 from config import TRIG_PIN, ECHO_PIN
+from signal import pause
 
 def hello():
     print("Hello")
@@ -13,5 +14,7 @@ ultrasonic.when_in_range = hello
 
 ultrasonic.when_out_of_range = bye
 
-while True:
-    print(ultrasonic.distance)
+# while True:
+#     print(ultrasonic.distance)
+
+pause()
