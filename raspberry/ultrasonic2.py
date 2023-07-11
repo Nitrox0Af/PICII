@@ -14,7 +14,6 @@ ultrasonic.when_in_range = hello
 
 ultrasonic.when_out_of_range = bye
 
-# while True:
-#     print(ultrasonic.distance)
-
-pause()
+while True:
+    print(ultrasonic.distance)
+    pause()
