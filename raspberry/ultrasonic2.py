@@ -8,7 +8,7 @@ def hello():
 def bye():
     print("Bye")
 
-ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN, threshold_distance=0.5, max_distance=2)
+ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN, threshold_distance=0.05)
 
 ultrasonic.when_in_range = hello
 
