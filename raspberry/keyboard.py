@@ -21,7 +21,7 @@ class Keyboard:
         for pin in self.col_pins:
             GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-    def get_key(self, key_matrix):
+    def get_key(self):
         """Get the pressed key based on the key matrix."""
         try:
             while True:
