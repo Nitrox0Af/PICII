@@ -10,6 +10,8 @@
 
 1. **Ative o ambiente virtual usando** (sempre faça esse passo antes de rodar código): ``` source .env/bin/activate ```
 
+1. Instale o pacote necessário: ``` sudo pip3 install adafruit-circuitpython-fingerprint ```
+
 1. Instale as bibliotecas do requirements no seu ambiente virtual usando: ``` pip install -U -r requirements.txt ```
 
     - Caso tenha erro com face-recognition, veja [aqui](https://www.youtube.com/watch?v=ALKggf-Mwmo) como resolver 
