@@ -10,16 +10,13 @@ class Keyboard:
     def setup(self):
         """Setup the GPIO pins for the keyboard."""
         GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
-
-        # Configure row pins as outputs
-        for pin in self.row_pins:
-            GPIO.setup(pin, GPIO.OUT)
-            GPIO.output(pin, GPIO.HIGH)
-
-        # Configure column pins as inputs with pull-up
-        for pin in self.col_pins:
-            GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        
+        for x in range(0, 4):
+            GPIO.setup(self.row_pins[x], GPIO.OUT)
+            GPIO.output(self.row_pins[x], GPIO.HIGH)
+        
+        for x in range(0, 3):
+            GPIO.setup(self.col_pins[x], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
     def get_key(self):
         """Get the pressed key based on the key matrix."""
