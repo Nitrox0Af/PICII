@@ -29,6 +29,7 @@ class Keyboard:
                     if min(result) == 0:
                         key = self.key_matrix[int(self.row_pins.index(row_pin))][int(result.index(0))]
                         GPIO.output(row_pin, GPIO.HIGH)
+                        print("Key:", key)
                         return key
                     GPIO.output(row_pin, GPIO.HIGH)
         except KeyboardInterrupt:
