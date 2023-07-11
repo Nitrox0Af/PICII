@@ -29,7 +29,7 @@ def show_and_capture():
         # key2 = get_char(R1, ["1", "2", "3", "A"])
 
         if key == ord('2'): #or (dist < 40 and key2 == "A"):
-            cv2.imwrite("foto.jpg", frame)
+            cv2.imwrite(POTHO_PATH, frame)
             cap.release()
             cv2.destroyAllWindows()
             break
