@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 row_list = [26, 20, 19, 16]
-col_list = [13, 6, 5]
+col_list = [6, 13, 5]
 
 GPIO.setmode(GPIO.BCM)
 
