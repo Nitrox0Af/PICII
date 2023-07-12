@@ -22,7 +22,7 @@ GPIO.setmode(GPIO.BCM)
 ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
 keyboard.setup()
 # button = Button(BUTTON_PIN)
-# led_red = LED(RED_LED_PIN)
+led_red = LED(RED_LED_PIN)
 # led_green = LED(GREEN_LED_PIN)
 # buzzer = Buzzer(BUZZER_PIN)
 # reed.setup()
@@ -58,8 +58,12 @@ def main():
 def display():
     """Displays"""
     os.system('clear')
+    print("")
+    print("")
     print("Para entrar na residência: ")
+    print("")
     print("Digite a senha e pressione # para confirmar.")
+    print("")
     print("Ou aproxime-se do sensor de distância para ter seu rosto reconhecido.")
 
 
@@ -95,7 +99,7 @@ def distance_sensor():
 
                 else:
                     print("Não Abrir!")
-                    # not_open_gate()
+                    not_open_gate()
 
 
 # def password():
@@ -172,18 +176,18 @@ def distance_sensor():
 #         display()
 
 
-# def not_open_gate():
-#     """Not open gate"""
-#     print("Não Abrir!")
-#     blink_led_buzzer(led_red)
-#     display()
+def not_open_gate():
+    """Not open gate"""
+    print("Não Abrir!")
+    blink_led(led_red)
+    display()
 
 
 
-# def blink_led(led):
-#     """Blink led"""
-#     for _ in range(QNT_BLINK):
-#         led.blink()
+def blink_led(led):
+    """Blink led"""
+    for _ in range(QNT_BLINK):
+        led.blink()
 
 
 # def blink_led_buzzer(led):
