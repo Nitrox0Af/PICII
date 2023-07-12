@@ -33,6 +33,7 @@ def main():
     while True:
         display()
         response = keyboard.get_char()
+        print("Opção selecionada:	")
         print(response)
 
         os.system('clear')
