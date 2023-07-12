@@ -23,7 +23,6 @@ def keypad(col=COL_PINS, row=ROW_PINS):
 def get_char():
     try:
         while True:
-            time.sleep(DEBOUNCE_TIME)
             key = keypad(COL_PINS, ROW_PINS)
             if key is not None:
                 return key

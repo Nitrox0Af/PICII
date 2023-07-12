@@ -33,6 +33,7 @@ def main():
     while True:
         display()
         response = keyboard.get_char()
+        time.sleep(DEBOUNCE_TIME)
         print("Opção selecionada:	")
         print(response)
 
@@ -91,7 +92,8 @@ def recognizer_face():
         distance = round(ultrasonic.distance * 100, 2)
 
         if distance > MAX_DISTANCE:
-            time.sleep(1)
+            print("Aproxime-se do sensor. A distância máxima é {MAX_DISTANCE}cm. Distancia atual: {distance}cm")
+            time.sleep(DEBOUNCE_TIME)
             have_person = 0
         elif distance <= MAX_DISTANCE:
             have_person += 1
@@ -124,13 +126,15 @@ def password():
 
     while True:
         char = keyboard.get_char()
+        time.sleep(DEBOUNCE_TIME)
         if char == "#":
             break
         characters += char
 
         os.system('clear')
-        print("Termine de digitar a senha e pressione # para confirmar.")
+        print("\nTermine de digitar a senha e pressione # para confirmar.")
         print(char)
+        print(characters)
     
     print("Senha digitada!")
     
