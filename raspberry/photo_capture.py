@@ -1,6 +1,7 @@
 import cv2
 import time
 import keyboard
+import RPi.GPIO as GPIO
 from config import POTHO_PATH, WAITING_TIME
 
 def take_photo():
@@ -81,4 +82,6 @@ def main() -> bool:
         main()
 
 if __name__ == '__main__':
+    GPIO.setmode(GPIO.BCM)
+    keyboard.setup()
     main()
