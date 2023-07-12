@@ -2,7 +2,7 @@ import cv2
 import time
 import keyboard
 import RPi.GPIO as GPIO
-from config import POTHO_PATH, WAITING_TIME
+from config import POTHO_PATH, WAITING_TIME, DEBOUNCE_TIME
 
 def take_photo():
     """Display webcam video and capture photo."""
@@ -31,7 +31,7 @@ def take_photo():
 
         key = cv2.waitKey(1)
 
-        if (time_end - time_start) >= WAITING_TIME or key == ord('2'): #or (dist < 40 and key2 == "A"):
+        if (time_end - time_start) >= WAITING_TIME or key == ord('2'):
             cv2.imwrite(POTHO_PATH, frame)
             cap.release()
             cv2.destroyAllWindows()
@@ -59,7 +59,7 @@ def get_response():
     time_end = time.time()
     key = None
     while True:
-            time.sleep(0.1)
+            time.sleep(DEBOUNCE_TIME)
             key2 = cv2.waitKey(1)
             time_end = time.time()
             key = keyboard.keypad()
