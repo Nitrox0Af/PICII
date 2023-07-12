@@ -189,3 +189,6 @@ def blink_led_buzzer(led):
         buzzer.beep()
     led.off()
     buzzer.off()
+
+
+    main()
