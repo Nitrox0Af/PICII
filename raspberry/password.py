@@ -12,6 +12,7 @@ def main():
 
     while True:
         char = keyboard.get_char()
+        print(char)
         if char == "#":
             break
         characters += char
