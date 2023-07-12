@@ -65,6 +65,8 @@ def display():
     print("Digite a senha e pressione # para confirmar.")
     print("\n")
     print("Ou aproxime-se do sensor de distância para ter seu rosto reconhecido.")
+    print("\n")
+    print("\n")
 
 
 def distance_sensor():
@@ -188,6 +190,7 @@ def blink_led(led):
     """Blink led"""
     for _ in range(QNT_BLINK):
         led.blink()
+    led.off()
 
 
 # def blink_led_buzzer(led):
