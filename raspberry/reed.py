@@ -10,6 +10,7 @@ def get_input():
     return input_reed
 
 def main():
+    GPIO.setmode(GPIO.BCM)
     setup()
     while True:
         input_reed = get_input()

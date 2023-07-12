@@ -29,6 +29,7 @@ def get_char():
         GPIO.cleanup()
 
 def main():
+    GPIO.setmode(GPIO.BCM)
     setup()
     key = get_char()
     print(key)
