@@ -15,7 +15,7 @@ OPEN = False
 time_of_change = time.time()
 
 # Criar um objeto Lock
-lock = threading.Lock()
+# lock = threading.Lock()
 
 GPIO.setmode(GPIO.BCM)
 ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)

@@ -84,6 +84,6 @@ def main() -> bool:
         main()
 
 if __name__ == '__main__':
-    GPIO.setmode(GPIO.BCM)
-    keyboard.setup()
+    # GPIO.setmode(GPIO.BCM)
+    # keyboard.setup()
     main()
