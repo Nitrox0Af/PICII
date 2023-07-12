@@ -1,11 +1,11 @@
 import os
-import threading
+# import threading
 import time
 import RPi. GPIO as GPIO
 import photo_capture
 import recognizer
 import keyboard
-import reed
+# import reed
 from gpiozero import DistanceSensor, LED, Buzzer, Button
 from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, QNT_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME
 
@@ -97,96 +97,98 @@ def distance_sensor():
                     # not_open_gate()
 
 
-def password():
-    characters = ""
-    while True:
+# def password():
+#     characters = ""
+#     while True:
 
-        while True:
-            char = keyboard.get_char()
-            if char == "#":
-                break
-            characters += char
+#         while True:
+#             char = keyboard.get_char()
+#             if char == "#":
+#                 break
+#             characters += char
 
-            os.system('clear')
-            print("Termine de digitar a senha e pressione # para confirmar.")
+#             os.system('clear')
+#             print("Termine de digitar a senha e pressione # para confirmar.")
         
-        print("Senha digitada!")
+#         print("Senha digitada!")
         
-        if characters == SYSTEM_PASSWORD:
-            characters = ""
-            print("Correct password!")
-            # open_gate()
-        else:
-            characters = ""
-            print("Wrong password!")
-            # not_open_gate()
+#         if characters == SYSTEM_PASSWORD:
+#             characters = ""
+#             print("Correct password!")
+#             # open_gate()
+#         else:
+#             characters = ""
+#             print("Wrong password!")
+#             # not_open_gate()
 
 
-def close_gate():
-    """Close gate"""
-    state_reed = reed.get_input()
-    while True:
-        last_state_reed = state_reed
-        state_reed = reed.get_input()
+# def close_gate():
+#     """Close gate"""
+#     state_reed = reed.get_input()
+#     while True:
+#         last_state_reed = state_reed
+#         state_reed = reed.get_input()
 
-        if last_state_reed == 1 and state_reed == 0:
-            if (time.time() - time_of_change) >= OPEN_TIME:
-                # Bloquear o Lock
-                lock.acquire()
-                try:
-                    if OPEN:
-                        print("Fechar Portão!")
-                        OPEN = False
-                finally:
-                    # Liberar o Lock
-                    lock.release()
-                    # blink_led_buzzer(led_green)
-                    blink_led_buzzer(led_red)
-                    display()
+#         if last_state_reed == 1 and state_reed == 0:
+#             if (time.time() - time_of_change) >= OPEN_TIME:
+#                 # Bloquear o Lock
+#                 lock.acquire()
+#                 try:
+#                     if OPEN:
+#                         print("Fechar Portão!")
+#                         OPEN = False
+#                 finally:
+#                     # Liberar o Lock
+#                     lock.release()
+#                     # blink_led_buzzer(led_green)
+#                     blink_led_buzzer(led_red)
+#                     display()
                     
-        time.sleep(DELAY_REED)
+#         time.sleep(DELAY_REED)
 
 
-def button():
-    """Button"""
-    while True:
-        button.wait_for_press()
-        open_gate()
+# def button():
+#     """Button"""
+#     while True:
+#         button.wait_for_press()
+#         open_gate()
 
 
-def open_gate():
-    """Open gate"""
-    # Bloquear o Lock
-    lock.acquire()
-    try:
-        if not OPEN:
-            print("Abrir Portão!")
-            time_of_change = time.time()
-            OPEN = True
-    finally:
-        # Liberar o Lock
-        lock.release()
-        # blink_led(led_green)
-        blink_led(led_red)
-        display()
+# def open_gate():
+#     """Open gate"""
+#     # Bloquear o Lock
+#     lock.acquire()
+#     try:
+#         if not OPEN:
+#             print("Abrir Portão!")
+#             time_of_change = time.time()
+#             OPEN = True
+#     finally:
+#         # Liberar o Lock
+#         lock.release()
+#         # blink_led(led_green)
+#         blink_led(led_red)
+#         display()
 
 
-def not_open_gate():
-    """Not open gate"""
-    print("Não Abrir!")
-    blink_led_buzzer(led_red)
-    display()
+# def not_open_gate():
+#     """Not open gate"""
+#     print("Não Abrir!")
+#     blink_led_buzzer(led_red)
+#     display()
 
 
 
-def blink_led(led):
-    """Blink led"""
-    for _ in range(QNT_BLINK):
-        led.blink()
+# def blink_led(led):
+#     """Blink led"""
+#     for _ in range(QNT_BLINK):
+#         led.blink()
 
 
-def blink_led_buzzer(led):
-    """Blink led"""
-    for _ in range(QNT_BLINK):
-        led.blink()
-        buzzer.beep()
+# def blink_led_buzzer(led):
+#     """Blink led"""
+#     for _ in range(QNT_BLINK):
+#         led.blink()
+#         buzzer.beep()
+
+main()
