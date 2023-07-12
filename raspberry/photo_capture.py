@@ -1,6 +1,7 @@
 import cv2
 import time
 import keyboard
+import recognizer
 import RPi.GPIO as GPIO
 from config import POTHO_PATH, WAITING_TIME, DEBOUNCE_TIME
 
@@ -77,7 +78,9 @@ def main() -> bool:
 
     if response == "2" or response is None:
         print("Foto aceita!")
-        return True
+        print("Iniciando processo de reconhecimento...")
+        open_gate = recognizer.main()
+        return open_gate
 
     elif response == "3":
         print("Tirando outra foto...")

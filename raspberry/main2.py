@@ -89,19 +89,14 @@ def distance_sensor():
             have_person = 0
 
             print("Iniciando processo de tirar foto...")
-            take_photo = photo_capture.main()
+            open_gate = photo_capture.main()
+            if open_gate:
+                print("Abrir Portão!")
+                # open_gate()
 
-            if take_photo:
-                print("Iniciando processo de reconhecimento...")
-                open_gate = recognizer.main()
-
-                if open_gate:
-                    print("Abrir Portão!")
-                    # open_gate()
-
-                else:
-                    print("Não Abrir!")
-                    not_open_gate()
+            else:
+                print("Não Abrir!")
+                not_open_gate()
 
 
 # def password():
