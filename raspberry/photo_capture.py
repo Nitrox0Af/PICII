@@ -42,7 +42,7 @@ def show_photo():
     """Display captured photo and get response."""
     img = cv2.imread(POTHO_PATH)
     height, width, _ = img.shape
-    message = "Essa foto ficou boa? Espere 5 segundo ou aperte 2 para continuar ou 3 para tirar outra foto."
+    message = "Espere 5 segundo ou aperte 2 para continuar ou 3 para tirar outra foto."
     font = cv2.FONT_HERSHEY_SIMPLEX
     font_scale = 0.5
     thickness = 1
