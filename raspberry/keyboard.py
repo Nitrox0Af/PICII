@@ -1,3 +1,4 @@
+import time
 import RPi.GPIO as GPIO
 from config import ROW_PINS, COL_PINS, KEY_MATRIX
 
@@ -22,6 +23,7 @@ def keypad(col=COL_PINS, row=ROW_PINS):
 def get_char():
     try:
         while True:
+            time.sleep(0.1)
             key = keypad(COL_PINS, ROW_PINS)
             if key is not None:
                 return key

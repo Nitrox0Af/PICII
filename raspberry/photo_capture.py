@@ -59,6 +59,7 @@ def get_response():
     time_end = time.time()
     key = None
     while True:
+            time.sleep(0.1)
             key2 = cv2.waitKey(1)
             time_end = time.time()
             key = keyboard.keypad()
