@@ -1,6 +1,10 @@
 import os
+import RPi. GPIO as GPIO
 import keyboard
 from config import SYSTEM_PASSWORD
+
+GPIO.setmode(GPIO.BCM)
+keyboard.setup()
 
 def main():
     """Main function."""
