@@ -12,13 +12,13 @@ def main():
 
     while True:
         char = keyboard.get_char()
-        print(char)
         if char == "#":
             break
         characters += char
 
         os.system('clear')
         print("Termine de digitar a senha e pressione # para confirmar.")
+        print(char)
     
     print("Senha digitada!")
     characters = ""
