@@ -35,8 +35,12 @@ def main():
         response = keyboard.get_char()
 
         if response == '1':
+            os.system('clear')
+            print("Iniciando processo de reconhecimento facial...")
             recognizer_face()
         elif response == '2':
+            os.system('clear')
+            print("\nDigite a senha: ")
             password()
         else:
             print("Opção inválida!")
