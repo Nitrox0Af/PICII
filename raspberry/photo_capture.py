@@ -78,9 +78,7 @@ def main() -> bool:
 
     if response == "2" or response is None:
         print("Foto aceita!")
-        print("Iniciando processo de reconhecimento...")
-        open_gate = recognizer.main()
-        return open_gate
+        return True
 
     elif response == "3":
         print("Tirando outra foto...")

@@ -8,7 +8,7 @@ import recognizer
 import keyboard
 # import reed
 from gpiozero import DistanceSensor, LED, Buzzer, Button
-from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, QNT_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME
+from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, QNT_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME, DEBOUNCE_TIME
 
 
 # Variável compartilhada
@@ -30,26 +30,37 @@ led_red = LED(RED_LED_PIN)
 
 def main():
     """Main function."""
-    display()
+    while True:
+        display()
+        response = keyboard.get_char()
+
+        if response == '1':
+            recognizer_face()
+        elif response == '2':
+            password()
+        else:
+            print("Opção inválida!")
+            time.sleep(DEBOUNCE_TIME)
+            continue
 
     # password()
 
     # distance_sensor()
 
     # Criar as threads
-    thread_distance_sensor = threading.Thread(target=distance_sensor)
+    # thread_distance_sensor = threading.Thread(target=distance_sensor)
     # thread_password = threading.Thread(target=password)
     # thread_button = threading.Thread(target=button)
     # thread_close_gate = threading.Thread(target=close_gate)
 
     # Iniciar as threads
-    thread_distance_sensor.start()
+    # thread_distance_sensor.start()
     # thread_password.start()
     # thread_button.start()
     # thread_close_gate.start()
 
     # Aguardar as threads terminarem
-    thread_distance_sensor.join()
+    # thread_distance_sensor.join()
     # thread_password.join()
     # thread_button.join()
     # thread_close_gate.join()
@@ -60,22 +71,23 @@ def display():
     os.system('clear')
     print("\n")
     print("\n")
-    print("Para entrar na residência: ")
+    print("Digite uma opção para entrar na residência: ")
     print("\n")
-    print("Digite a senha e pressione # para confirmar.")
+    print("1 - Entrar com Reconhecimento Facial")
     print("\n")
-    print("Ou aproxime-se do sensor de distância para ter seu rosto reconhecido.")
+    print("2 - Entrar com Senha")
     print("\n")
     print("\n")
 
 
-def distance_sensor():
+def recognizer_face():
     have_person = 0
     while True:
         distance = round(ultrasonic.distance * 100, 2)
 
         if distance > MAX_DISTANCE:
             time.sleep(1)
+            have_person = 0
         elif distance <= MAX_DISTANCE:
             have_person += 1
             print(f"Pessoa detectada a {distance}cm")
@@ -89,39 +101,42 @@ def distance_sensor():
             have_person = 0
 
             print("Iniciando processo de tirar foto...")
-            open_gate = photo_capture.main()
-            if open_gate:
-                print("Abrir Portão!")
-                # open_gate()
+            take_photo = photo_capture.main()
+            
+            if take_photo:
+                print("Iniciando processo de reconhecimento...")
+                open_gate = recognizer.main()
+                if open_gate:
+                        print("Abrir Portão!")
+                        # open_gate()
+                else:
+                    print("Não Abrir!")
+                    not_open_gate()
 
-            else:
-                print("Não Abrir!")
-                not_open_gate()
 
+def password():
+    characters = ""
+    while True:
 
-# def password():
-#     characters = ""
-#     while True:
+        while True:
+            char = keyboard.get_char()
+            if char == "#":
+                break
+            characters += char
 
-#         while True:
-#             char = keyboard.get_char()
-#             if char == "#":
-#                 break
-#             characters += char
-
-#             os.system('clear')
-#             print("Termine de digitar a senha e pressione # para confirmar.")
+            os.system('clear')
+            print("Termine de digitar a senha e pressione # para confirmar.")
         
-#         print("Senha digitada!")
+        print("Senha digitada!")
         
-#         if characters == SYSTEM_PASSWORD:
-#             characters = ""
-#             print("Correct password!")
-#             # open_gate()
-#         else:
-#             characters = ""
-#             print("Wrong password!")
-#             # not_open_gate()
+        if characters == SYSTEM_PASSWORD:
+            characters = ""
+            print("Correct password!")
+            # open_gate()
+        else:
+            characters = ""
+            print("Wrong password!")
+            not_open_gate()
 
 
 # def close_gate():
