@@ -57,6 +57,7 @@ def get_response():
     """Get response."""
     time_start = time.time()
     time_end = time.time()
+    key = None
     while True:
             key2 = cv2.waitKey(1)
             time_end = time.time()
@@ -73,7 +74,7 @@ def main() -> bool:
     show_photo()
     response = get_response()
 
-    if response == "2":
+    if response == "2" or response is None:
         print("Foto aceita!")
         return True
 
