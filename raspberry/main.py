@@ -20,11 +20,11 @@ lock = threading.Lock()
 GPIO.setmode(GPIO.BCM)
 ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
 keyboard.setup()
-button = Button(BUTTON_PIN)
-led_red = LED(RED_LED_PIN)
+# button = Button(BUTTON_PIN)
+# led_red = LED(RED_LED_PIN)
 # led_green = LED(GREEN_LED_PIN)
-buzzer = Buzzer(BUZZER_PIN)
-reed.setup()
+# buzzer = Buzzer(BUZZER_PIN)
+# reed.setup()
 
 
 def main():
@@ -33,21 +33,21 @@ def main():
 
     # Criar as threads
     thread_distance_sensor = threading.Thread(target=distance_sensor)
-    thread_password = threading.Thread(target=password)
-    thread_button = threading.Thread(target=button)
-    thread_close_gate = threading.Thread(target=close_gate)
+    # thread_password = threading.Thread(target=password)
+    # thread_button = threading.Thread(target=button)
+    # thread_close_gate = threading.Thread(target=close_gate)
 
     # Iniciar as threads
     thread_distance_sensor.start()
-    thread_password.start()
-    thread_button.start()
-    thread_close_gate.start()
+    # thread_password.start()
+    # thread_button.start()
+    # thread_close_gate.start()
 
     # Aguardar as threads terminarem
     thread_distance_sensor.join()
-    thread_password.join()
-    thread_button.join()
-    thread_close_gate.join()
+    # thread_password.join()
+    # thread_button.join()
+    # thread_close_gate.join()
 
 
 def display():
@@ -86,10 +86,11 @@ def distance_sensor():
 
                 if open_gate:
                     print("Abrir Portão!")
-                    open_gate()
+                    # open_gate()
 
                 else:
-                    not_open_gate()
+                    print("Não Abrir!")
+                    # not_open_gate()
 
 
 def password():
