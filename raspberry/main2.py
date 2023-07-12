@@ -58,12 +58,12 @@ def main():
 def display():
     """Displays"""
     os.system('clear')
-    print("")
-    print("")
+    print("\n")
+    print("\n")
     print("Para entrar na residência: ")
-    print("")
+    print("\n")
     print("Digite a senha e pressione # para confirmar.")
-    print("")
+    print("\n")
     print("Ou aproxime-se do sensor de distância para ter seu rosto reconhecido.")
 
 
