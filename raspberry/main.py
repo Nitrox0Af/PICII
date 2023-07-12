@@ -106,11 +106,12 @@ def password():
             print("Termine de digitar a senha e pressione # para confirmar.")
         
         print("Senha digitada!")
-        characters = ""
 
         if characters == SYSTEM_PASSWORD:
+            characters = ""
             open_gate()
         else:
+            characters = ""
             not_open_gate()
 
 

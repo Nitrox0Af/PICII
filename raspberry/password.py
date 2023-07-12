@@ -21,12 +21,13 @@ def main():
         print(char)
     
     print("Senha digitada!")
-    characters = ""
 
     if characters == SYSTEM_PASSWORD:
+        characters = ""
         print("Correct password!")
         print("Abrir Portão!")
     else:
+        characters = ""
         print("Wrong password!")
         print("Não Abrir!")
 
