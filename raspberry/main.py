@@ -1,13 +1,13 @@
 import os
 import threading
 import time
-import RPi. GPIO as GPIO
 import photo_capture
 import recognizer
 import keyboard
 import reed
+import RPi. GPIO as GPIO
 from gpiozero import DistanceSensor, LED, Buzzer, Button
-from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, QNT_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME
+from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, TIME_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME
 
 
 # Variável compartilhada
@@ -15,43 +15,39 @@ OPEN = False
 time_of_change = time.time()
 
 # Criar um objeto Lock
-# lock = threading.Lock()
+lock = threading.Lock()
 
 GPIO.setmode(GPIO.BCM)
 ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
 keyboard.setup()
-# button = Button(BUTTON_PIN)
-# led_red = LED(RED_LED_PIN)
+button = Button(BUTTON_PIN)
+led_red = LED(RED_LED_PIN)
 # led_green = LED(GREEN_LED_PIN)
-# buzzer = Buzzer(BUZZER_PIN)
-# reed.setup()
+buzzer = Buzzer(BUZZER_PIN)
+reed.setup()
 
 
 def main():
     """Main function."""
     display()
 
-    # password()
-
-    distance_sensor()
-
     # Criar as threads
-    # thread_distance_sensor = threading.Thread(target=distance_sensor)
-    # thread_password = threading.Thread(target=password)
-    # thread_button = threading.Thread(target=button)
-    # thread_close_gate = threading.Thread(target=close_gate)
+    thread_distance_sensor = threading.Thread(target=distance_sensor)
+    thread_password = threading.Thread(target=password)
+    thread_button = threading.Thread(target=button)
+    thread_close_gate = threading.Thread(target=close_gate)
 
     # Iniciar as threads
-    # thread_distance_sensor.start()
-    # thread_password.start()
-    # thread_button.start()
-    # thread_close_gate.start()
+    thread_distance_sensor.start()
+    thread_password.start()
+    thread_button.start()
+    thread_close_gate.start()
 
     # Aguardar as threads terminarem
-    # thread_distance_sensor.join()
-    # thread_password.join()
-    # thread_button.join()
-    # thread_close_gate.join()
+    thread_distance_sensor.join()
+    thread_password.join()
+    thread_button.join()
+    thread_close_gate.join()
 
 
 def display():
@@ -90,11 +86,10 @@ def distance_sensor():
 
                 if open_gate:
                     print("Abrir Portão!")
-                    # open_gate()
+                    open_gate()
 
                 else:
-                    print("Não Abrir!")
-                    # not_open_gate()
+                    not_open_gate()
 
 
 def password():
@@ -111,15 +106,13 @@ def password():
             print("Termine de digitar a senha e pressione # para confirmar.")
         
         print("Senha digitada!")
-        
+
         if characters == SYSTEM_PASSWORD:
             characters = ""
-            print("Correct password!")
-            # open_gate()
+            open_gate()
         else:
             characters = ""
-            print("Wrong password!")
-            # not_open_gate()
+            not_open_gate()
 
 
 def close_gate():
@@ -166,8 +159,8 @@ def open_gate():
     finally:
         # Liberar o Lock
         lock.release()
-        # blink_led(led_green)
-        blink_led(led_red)
+        # blink_led_buzzer(led_green)
+        blink_led_buzzer(led_red)
         display()
 
 
@@ -181,12 +174,17 @@ def not_open_gate():
 
 def blink_led(led):
     """Blink led"""
-    for _ in range(QNT_BLINK):
+    time_start = time.time()
+    while (time.time() - time_start) < TIME_BLINK:
         led.blink()
+    led.off()
 
 
 def blink_led_buzzer(led):
     """Blink led"""
-    for _ in range(QNT_BLINK):
+    time_start = time.time()
+    while (time.time() - time_start) < TIME_BLINK:
         led.blink()
         buzzer.beep()
+    led.off()
+    buzzer.off()
