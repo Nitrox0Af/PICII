@@ -18,7 +18,7 @@ time_of_change = time.time()
 # lock = threading.Lock()
 
 GPIO.setmode(GPIO.BCM)
-ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
+# ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
 keyboard.setup()
 # button = Button(BUTTON_PIN)
 # led_red = LED(RED_LED_PIN)
@@ -31,7 +31,9 @@ def main():
     """Main function."""
     display()
 
-    distance_sensor()
+    password()
+
+    # distance_sensor()
 
     # Criar as threads
     # thread_distance_sensor = threading.Thread(target=distance_sensor)
@@ -112,10 +114,12 @@ def password():
         
         if characters == SYSTEM_PASSWORD:
             characters = ""
-            open_gate()
+            print("Correct password!")
+            # open_gate()
         else:
             characters = ""
-            not_open_gate()
+            print("Wrong password!")
+            # not_open_gate()
 
 
 def close_gate():
