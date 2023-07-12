@@ -33,13 +33,13 @@ def main():
     while True:
         display()
         response = keyboard.get_char()
+        print(response)
 
+        os.system('clear')
         if response == '1':
-            os.system('clear')
             print("Iniciando processo de reconhecimento facial...")
             recognizer_face()
         elif response == '2':
-            os.system('clear')
             print("\nDigite a senha: ")
             password()
         else:
