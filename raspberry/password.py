@@ -21,6 +21,7 @@ def main():
         print(char)
     
     print("Senha digitada!")
+    print(characters)
 
     if characters == SYSTEM_PASSWORD:
         characters = ""
