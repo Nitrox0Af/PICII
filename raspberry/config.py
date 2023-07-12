@@ -23,7 +23,7 @@ KEY_MATRIX = [
     ['*', '0', '#']
 ]
 
-DEBOUNCE_TIME = 0.16
+DEBOUNCE_TIME = 0.1
 
 BUTTON_PIN = 2
 
