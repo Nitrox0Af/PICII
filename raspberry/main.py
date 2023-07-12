@@ -7,7 +7,7 @@ import keyboard
 import reed
 import RPi. GPIO as GPIO
 from gpiozero import DistanceSensor, LED, Buzzer, Button
-from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, TIME_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME
+from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, TIME_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME, DEBOUNCE_TIME
 
 
 # Variável compartilhada
@@ -98,6 +98,7 @@ def password():
 
         while True:
             char = keyboard.get_char()
+            time.sleep(DEBOUNCE_TIME)
             if char == "#":
                 break
             characters += char
