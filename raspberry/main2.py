@@ -93,8 +93,8 @@ def recognizer_face():
         distance = round(ultrasonic.distance * 100, 2)
 
         if distance > MAX_DISTANCE:
-            print("Aproxime-se do sensor. A distância máxima é {MAX_DISTANCE}cm. Distancia atual: {distance}cm")
-            time.sleep(DEBOUNCE_TIME)
+            print(f"Aproxime-se do sensor. A distância máxima é {MAX_DISTANCE}cm. Distancia atual: {distance}cm")
+            time.sleep(2)
             have_person = 0
         elif distance <= MAX_DISTANCE:
             have_person += 1
