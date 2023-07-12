@@ -120,27 +120,27 @@ def recognizer_face():
 
 def password():
     characters = ""
+
     while True:
+        char = keyboard.get_char()
+        if char == "#":
+            break
+        characters += char
 
-        while True:
-            char = keyboard.get_char()
-            if char == "#":
-                break
-            characters += char
-
-            os.system('clear')
-            print("Termine de digitar a senha e pressione # para confirmar.")
-        
-        print("Senha digitada!")
-        
-        if characters == SYSTEM_PASSWORD:
-            characters = ""
-            print("Correct password!")
-            # open_gate()
-        else:
-            characters = ""
-            print("Wrong password!")
-            not_open_gate()
+        os.system('clear')
+        print("Termine de digitar a senha e pressione # para confirmar.")
+        print(char)
+    
+    print("Senha digitada!")
+    
+    if characters == SYSTEM_PASSWORD:
+        characters = ""
+        print("Correct password!")
+        # open_gate()
+    else:
+        characters = ""
+        print("Wrong password!")
+        not_open_gate()
 
 
 # def close_gate():
