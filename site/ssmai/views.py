@@ -38,7 +38,6 @@ def guest_json(request, phone):
             'phone': guest.phone,
             'nickname': guest.nickname,
             'relationship': guest.relationship,
-            # 'has_fingerprint': guest.has_fingerprint,
             'owner': guest.owner.email
         }
         access = Acesso(guest=guest)
@@ -71,39 +70,3 @@ def owner_json(request, email):
 
 def telegram(request):
     return render(request, 'telegram.html', {})
-
-
-# def check_fingerprint(request, phone):
-#     guest = get_object_or_404(Hospede, phone=phone)
-#     if guest:
-#         guest.has_fingerprint = True
-#         guest.save()
-#         guest_data = {
-#             'name': guest.name,
-#             'phone': guest.phone,
-#             'nickname': guest.nickname,
-#             'relationship': guest.relationship,
-#             'has_fingerprint': guest.has_fingerprint,
-#             'owner': guest.owner.email
-#         }
-#         return JsonResponse(guest_data)
-#     else:
-#         return HttpResponse('Hospede não encontrado.')
-    
-
-# def delete_fingerprint(request, phone):
-#     guest = get_object_or_404(Hospede, phone=phone)
-#     if guest:
-#         guest.has_fingerprint = False
-#         guest.save()
-#         guest_data = {
-#             'name': guest.name,
-#             'phone': guest.phone,
-#             'nickname': guest.nickname,
-#             'relationship': guest.relationship,
-#             'has_fingerprint': guest.has_fingerprint,
-#             'owner': guest.owner.email
-#         }
-#         return JsonResponse(guest_data)
-#     else:
-#         return HttpResponse('Hospede não encontrado.')

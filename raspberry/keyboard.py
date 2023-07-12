@@ -1,5 +1,4 @@
 import RPi.GPIO as GPIO
-import time
 from config import ROW_PINS, COL_PINS, KEY_MATRIX
 
 def setup():
@@ -12,7 +11,7 @@ def setup():
     for x in range(0, 3):
         GPIO.setup(COL_PINS[x], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-def keypad(col, row):
+def keypad(col=COL_PINS, row=ROW_PINS):
     for r in row:
         GPIO.output(r, GPIO.LOW)
         result = [GPIO.input(col[0]), GPIO.input(col[1]), GPIO.input(col[2])]
@@ -22,7 +21,7 @@ def keypad(col, row):
             return key
         GPIO.output(r, GPIO.HIGH)
 
-def main():
+def get_char():
     try:
         while True:
             key = keypad(COL_PINS, ROW_PINS)
@@ -31,7 +30,10 @@ def main():
     except KeyboardInterrupt:
         GPIO.cleanup()
 
-if __name__ == '__main__':
+def main():
     setup()
-    key = main()
+    key = get_char()
     print(key)
+
+if __name__ == '__main__':
+    main()

@@ -69,7 +69,6 @@ class Hospede(Base):
     phone = models.CharField('Telefone', max_length=11, unique=True, null=False, blank=False)
     nickname = models.CharField('Apelido', max_length=100, null=True, blank=True)
     relationship = models.CharField('Parentesco', max_length=100, null=True, blank=True)
-    # has_fingerprint = models.BooleanField('Digital cadastrada', default=False, null=False, blank=False)
     owner = models.ForeignKey(get_user_model(), verbose_name='Proprietário(a)', on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):

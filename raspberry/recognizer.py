@@ -73,14 +73,15 @@ def recognize_unknown(known_faces: dict, tolerance: float = 0.6) -> str:
         return "unknown"
 
 
-def identify_person(identifier: str) -> bool:
+def identify_person(identifier) -> bool:
     """Identify the person"""
     if identifier == "unknown":
         print("This is the image of an unknown person!")
 
     elif not identifier:
         print("No faces found in image!")
-        return False
+        open_gate = False
+        return open_gate
 
     elif identifier == OWNER:
         identifier = "Você"

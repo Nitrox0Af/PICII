@@ -1,13 +1,11 @@
 import cv2
 import time
 import keyboard
+from config import POTHO_PATH, WAITING_TIME
 
-from config import POTHO_PATH, TIME_TO_TAKE_PHOTO
-
-def show_and_capture():
+def take_photo():
     """Display webcam video and capture photo."""
     cap = cv2.VideoCapture(0)
-
     time_start = time.time()
     time_end = time.time()
 
@@ -15,11 +13,10 @@ def show_and_capture():
         ret, frame = cap.read()
         if frame is None:
             continue
-
         time_end = time.time()
 
         height, width, _ = frame.shape
-        message = "Fique olhando para a camera e espere alguns segundos"
+        message = "Fique olhando para a camera e espere 5 segundos"
         font = cv2.FONT_HERSHEY_SIMPLEX
         font_scale = 0.5
         thickness = 1
@@ -31,17 +28,19 @@ def show_and_capture():
         cv2.putText(frame, message, (x, y + text_size[1]), font, font_scale, (255, 255, 255), thickness, cv2.LINE_AA)
         cv2.imshow("Webcam", frame)
 
-        if (time_end - time_start) >= TIME_TO_TAKE_PHOTO:
+        key = cv2.waitKey(1)
+
+        if (time_end - time_start) >= WAITING_TIME or key == ord('2'): #or (dist < 40 and key2 == "A"):
             cv2.imwrite(POTHO_PATH, frame)
             cap.release()
             cv2.destroyAllWindows()
             break
 
-def show_photo_and_get_response():
+def show_photo():
     """Display captured photo and get response."""
     img = cv2.imread(POTHO_PATH)
     height, width, _ = img.shape
-    message = "Essa foto ficou boa? Aperte 2 para continuar ou 3 para tirar outra foto."
+    message = "Essa foto ficou boa? Espere 5 segundo ou aperte 2 para continuar ou 3 para tirar outra foto."
     font = cv2.FONT_HERSHEY_SIMPLEX
     font_scale = 0.5
     thickness = 1
@@ -53,20 +52,29 @@ def show_photo_and_get_response():
     cv2.putText(img, message, (x, y + text_size[1]), font, font_scale, (255, 255, 255), thickness, cv2.LINE_AA)
     cv2.imshow("Captured Photo", img)
 
+def get_response():
+    """Get response."""
+    time_start = time.time()
+    time_end = time.time()
     while True:
-        key2 = cv2.waitKey(1)
-        key = keyboard.main()
-        print("Opção escolhida:", key)
-        return key
+            key2 = cv2.waitKey(1)
+            time_end = time.time()
+            key = keyboard.keypad()
+
+            if key == '2' or key == '3' or (time_end - time_start) >= WAITING_TIME or key2 == ord('2'):
+                cv2.destroyAllWindows()
+                return key
 
 
-def main():
+def main() -> bool:
     """Main function."""
-    show_and_capture()
-    response = show_photo_and_get_response()
+    take_photo()
+    show_photo()
+    response = get_response()
 
     if response == "2":
         print("Foto aceita!")
+        return True
 
     elif response == "3":
         print("Tirando outra foto...")
