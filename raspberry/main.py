@@ -1,6 +1,7 @@
 import os
 import threading
 import time
+import RPi. GPIO as GPIO
 import photo_capture
 import recognizer
 import keyboard
@@ -16,6 +17,7 @@ time_of_change = time.time()
 # Criar um objeto Lock
 lock = threading.Lock()
 
+GPIO.setmode(GPIO.BCM)
 ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
 keyboard.setup()
 button = Button(BUTTON_PIN)

@@ -2,8 +2,6 @@ import RPi.GPIO as GPIO
 from config import ROW_PINS, COL_PINS, KEY_MATRIX
 
 def setup():
-    GPIO.setmode(GPIO.BCM)
-
     for x in range(0, 4):
         GPIO.setup(ROW_PINS[x], GPIO.OUT)
         GPIO.output(ROW_PINS[x], GPIO.HIGH)

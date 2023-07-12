@@ -9,7 +9,6 @@ class Relay:
 
     def setup(self):
         """Set up the GPIO pin for the relay."""
-        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.OUT)
         self.turn_off()
 

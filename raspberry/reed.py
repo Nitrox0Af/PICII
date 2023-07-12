@@ -3,7 +3,6 @@ import RPi. GPIO as GPIO
 from config import REED_SENSOR_PIN
 
 def setup():
-    GPIO.setmode(GPIO.BOARD)
     GPIO.setup(REED_SENSOR_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 def get_input():
