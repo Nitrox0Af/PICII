@@ -20,7 +20,7 @@ ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
 keyboard.setup()
 button = Button(BUTTON_PIN)
 led_red = LED(RED_LED_PIN)
-led_green = LED(GREEN_LED_PIN)
+# led_green = LED(GREEN_LED_PIN)
 buzzer = Buzzer(BUZZER_PIN)
 reed.setup()
 
@@ -130,7 +130,8 @@ def close_gate():
                 finally:
                     # Liberar o Lock
                     lock.release()
-                    blink_led_buzzer(led_green)
+                    # blink_led_buzzer(led_green)
+                    blink_led_buzzer(led_red)
                     display()
                     
         time.sleep(DELAY_REED)
@@ -155,7 +156,8 @@ def open_gate():
     finally:
         # Liberar o Lock
         lock.release()
-        blink_led(led_green)
+        # blink_led(led_green)
+        blink_led(led_red)
         display()
 
 
