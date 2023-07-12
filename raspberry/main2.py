@@ -70,7 +70,7 @@ def display():
 def distance_sensor():
     have_person = 0
     while True:
-        distance = ultrasonic.distance * 100
+        distance = round(ultrasonic.distance * 100, 2)
 
         if distance > MAX_DISTANCE:
             time.sleep(1)
