@@ -2,10 +2,16 @@ import os
 import time
 import photo_capture
 import recognizer
+import keyboard
+import RPi. GPIO as GPIO
 from gpiozero import DistanceSensor
-from config import MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME
+from config import MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, ECHO_PIN, TRIG_PIN
 
-def main(ultrasonic):
+GPIO.setmode(GPIO.BCM)
+ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
+keyboard.setup()
+
+def main():
     """Main function."""
     have_person = 0
     while True:
