@@ -91,22 +91,22 @@ def recognizer_face():
         have_person = 0
         distance = round(ultrasonic.distance * 100, 2)
 
-        if distance > MAX_DISTANCE:
-            print(f"Aproxime-se do sensor.\nA distância máxima é {MAX_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
-            time.sleep(WAITING_TIME)
-            have_person = 0
-        elif distance <= MAX_DISTANCE:
-            have_person += 1
-            print(f"Pessoa detectada a {distance}cm")
-            time.sleep(WAITING_TIME)
-        elif distance < MIN_DISTANCE:
-            print(f"\nAfaste-se do sensor. \nA distância minima é {MIN_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
-            time.sleep(WAITING_TIME)
-
         if time.time() - time_start > WAITING_TIME:
             print("Tempo de espera esgotado!")
             not_open_gate()
             break
+
+        if distance > MAX_DISTANCE:
+            print(f"Aproxime-se do sensor.\nA distância máxima é {MAX_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
+            time.sleep(WAITING_TIME)
+            have_person = 0
+        elif distance < MIN_DISTANCE:
+            print(f"\nAfaste-se do sensor. \nA distância minima é {MIN_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
+            time.sleep(WAITING_TIME)
+        elif distance <= MAX_DISTANCE:
+            have_person += 1
+            print(f"Pessoa detectada a {distance}cm")
+            time.sleep(WAITING_TIME)
         
         if have_person >= QNTD_RECOGNIZE:
             os.system('clear')
