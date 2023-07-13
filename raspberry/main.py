@@ -144,10 +144,10 @@ def close_gate():
 
 def open_gate():
     """Open gate"""
-    if not OPEN:
+    if reed.get_input():
         print("\nAbrir Portão!")
         blink_led_buzzer(led_red)
-        # close_gate()
+        close_gate()
         display()
     else:
         print("\nPortão já está aberto!")
