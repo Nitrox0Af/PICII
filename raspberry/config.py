@@ -14,7 +14,7 @@ WAITING_TIME = 5
 
 POTHO_PATH = "./unknown_face/photo.jpg"
 
-ROW_PINS = [26, 20, 19, 16]
+ROW_PINS = [19, 26, 16, 20]
 COL_PINS = [6, 13, 5]
 KEY_MATRIX = [
     ['1', '2', '3'],
