@@ -27,7 +27,6 @@ buzzer = Buzzer(BUZZER_PIN)
 def main():
     """Main function."""
     button.when_pressed = open_gate
-    button.when_released = button_released
 
     while True:
         display()
@@ -198,6 +197,8 @@ def open_gate():
         OPEN = True
         blink_led_buzzer(led_red)
         display()
+    else:
+        print("Portão já está aberto!")
 
 
 def not_open_gate():
@@ -254,10 +255,6 @@ def measure_distance():
     
     return distance
 
-def button_released():
-    """Button released"""
-    print("Button released!")
-    pass
 
 try:
     main()
