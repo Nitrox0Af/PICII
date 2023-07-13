@@ -29,7 +29,8 @@ def main():
     """Main function."""
     while True:
         button.when_pressed = open_gate
-        # display()
+        button.when_released = button_released
+        display()
         response = keyboard.get_char()
         time.sleep(DEBOUNCE_TIME)
         print("Opção selecionada:	")
@@ -91,7 +92,7 @@ def recognizer_face():
         have_person = 0
         distance = round(measure_distance())
 
-        if time.time() - time_start > WAITING_TIME:
+        if time.time() - time_start > WAITING_TIME*2:
             print("Tempo de espera esgotado!")
             not_open_gate()
             break
@@ -107,6 +108,7 @@ def recognizer_face():
             have_person += 1
             print(f"Pessoa detectada a {distance}cm")
             time.sleep(WAITING_TIME)
+            time_start = time.time()
         
         if have_person >= QNTD_RECOGNIZE:
             os.system('clear')
@@ -131,12 +133,7 @@ def recognizer_face():
 def password():
     characters = ""
 
-    time_start = time.time()
     while True:
-        if time.time() - time_start > WAITING_TIME:
-            print("Tempo de espera esgotado!")
-            not_open_gate()
-            break
         char = keyboard.get_char()
         time.sleep(DEBOUNCE_TIME)
         if char == "#":
@@ -200,7 +197,7 @@ def open_gate():
         time_of_change = time.time()
         OPEN = True
         blink_led(led_red)
-        # display()
+        display()
 
 def not_open_gate():
     """Not open gate"""
@@ -256,6 +253,8 @@ def measure_distance():
     
     return distance
 
-
+def button_released():
+    """Button released"""
+    return None
 
 main()
