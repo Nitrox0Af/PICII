@@ -30,7 +30,7 @@ def main():
     """Main function."""
     while True:
         button.when_pressed = open_gate
-        display()
+        # display()
         response = keyboard.get_char()
         time.sleep(DEBOUNCE_TIME)
         print("Opção selecionada:	")
