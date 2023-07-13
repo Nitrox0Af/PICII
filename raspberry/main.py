@@ -1,21 +1,18 @@
 import os
-import threading
+import cv2
 import time
+import RPi. GPIO as GPIO
 import photo_capture
 import recognizer
 import keyboard
 import reed
-import RPi. GPIO as GPIO
 from gpiozero import DistanceSensor, LED, Buzzer, Button
 from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, TIME_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME, DEBOUNCE_TIME
 
 
-# Variável compartilhada
 OPEN = False
 time_of_change = time.time()
 
-# Criar um objeto Lock
-lock = threading.Lock()
 
 GPIO.setmode(GPIO.BCM)
 ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
@@ -29,49 +26,65 @@ reed.setup()
 
 def main():
     """Main function."""
-    display()
+    button.when_pressed = open_gate
 
-    # Criar as threads
-    thread_distance_sensor = threading.Thread(target=distance_sensor)
-    thread_password = threading.Thread(target=password)
-    thread_button = threading.Thread(target=button)
-    thread_close_gate = threading.Thread(target=close_gate)
+    while True:
+        display()
+        response = keyboard.get_char()
+        time.sleep(DEBOUNCE_TIME)
+        print("Opção selecionada:	", response)
 
-    # Iniciar as threads
-    thread_distance_sensor.start()
-    thread_password.start()
-    thread_button.start()
-    thread_close_gate.start()
-
-    # Aguardar as threads terminarem
-    thread_distance_sensor.join()
-    thread_password.join()
-    thread_button.join()
-    thread_close_gate.join()
+        if response == '1':
+            os.system('clear')
+            print("\nIniciando processo de reconhecimento facial...")
+            recognizer_face()
+        elif response == '2':
+            os.system('clear')
+            print("\nDigite a senha: ")
+            password()
+        else:
+            print("\nOpção inválida!")
+            time.sleep(DEBOUNCE_TIME)
+            continue
 
 
 def display():
     """Displays"""
     os.system('clear')
-    print("Para entrar na residência: ")
-    print("Digite a senha e pressione # para confirmar.")
-    print("Ou aproxime-se do sensor de distância para ter seu rosto reconhecido.")
+    print("\n")
+    print("\n")
+    print("Digite uma opção para entrar na residência: ")
+    print("\n")
+    print("1 - Entrar com Reconhecimento Facial")
+    print("\n")
+    print("2 - Entrar com Senha")
+    print("\n")
+    print("\n")
 
 
-def distance_sensor():
+def recognizer_face():
+    time_start = time.time()
     have_person = 0
     while True:
-        distance = ultrasonic.distance * 100
+        distance = round(ultrasonic.distance * 100)
+
+        if time.time() - time_start > WAITING_TIME*2:
+            print("Tempo de espera esgotado!")
+            not_open_gate()
+            break
 
         if distance > MAX_DISTANCE:
-            time.sleep(1)
+            print(f"\nAproxime-se do sensor.\nA distância máxima é {MAX_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
+            time.sleep(WAITING_TIME)
+            have_person = 0
+        elif distance < MIN_DISTANCE:
+            print(f"\nAfaste-se do sensor. \nA distância minima é {MIN_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
+            time.sleep(WAITING_TIME)
         elif distance <= MAX_DISTANCE:
             have_person += 1
-            print(f"Pessoa detectada a {distance}cm")
+            print(f"\nPessoa detectada a {distance}cm")
             time.sleep(WAITING_TIME)
-        elif distance < MIN_DISTANCE:
-            print(f"Afaste-se do sensor. A distância minima é {MIN_DISTANCE}cm. Distancia atual: {distance}cm")
-            time.sleep(WAITING_TIME)
+            time_start = time.time()
         
         if have_person >= QNTD_RECOGNIZE:
             os.system('clear')
@@ -79,90 +92,65 @@ def distance_sensor():
 
             print("Iniciando processo de tirar foto...")
             take_photo = photo_capture.main()
-
+            
             if take_photo:
                 print("Iniciando processo de reconhecimento...")
                 open_gate = recognizer.main()
-
                 if open_gate:
-                    print("Abrir Portão!")
-                    open_gate()
-
+                        print("Abrir Portão!")
+                        open_gate()
+                        break
                 else:
+                    print("Não Abrir!")
                     not_open_gate()
+                    break
 
 
 def password():
     characters = ""
+
     while True:
+        char = keyboard.get_char()
+        time.sleep(DEBOUNCE_TIME)
+        if char == "#":
+            break
+        characters += char
 
-        while True:
-            char = keyboard.get_char()
-            time.sleep(DEBOUNCE_TIME)
-            if char == "#":
-                break
-            characters += char
-
-            os.system('clear')
-            print("Termine de digitar a senha e pressione # para confirmar.")
-        
-        print("Senha digitada!")
-
-        if characters == SYSTEM_PASSWORD:
-            characters = ""
-            open_gate()
-        else:
-            characters = ""
-            not_open_gate()
+        os.system('clear')
+        print("\nTermine de digitar a senha e pressione # para confirmar.")
+    
+    print("Senha digitada!")
+    
+    if characters == SYSTEM_PASSWORD:
+        characters = ""
+        print("Correct password!")
+        open_gate()
+    else:
+        characters = ""
+        print("Wrong password!")
+        not_open_gate()
 
 
 def close_gate():
     """Close gate"""
-    state_reed = reed.get_input()
+    time_of_change = time.time()
     while True:
-        last_state_reed = state_reed
-        state_reed = reed.get_input()
-
-        if last_state_reed == 1 and state_reed == 0:
+        if not reed.get_input():
             if (time.time() - time_of_change) >= OPEN_TIME:
-                # Bloquear o Lock
-                lock.acquire()
-                try:
-                    if OPEN:
-                        print("Fechar Portão!")
-                        OPEN = False
-                finally:
-                    # Liberar o Lock
-                    lock.release()
-                    # blink_led_buzzer(led_green)
-                    blink_led_buzzer(led_red)
-                    display()
+                print("Fechar Portão!")
                     
         time.sleep(DELAY_REED)
 
 
-def button():
-    """Button"""
-    while True:
-        button.wait_for_press()
-        open_gate()
-
-
 def open_gate():
     """Open gate"""
-    # Bloquear o Lock
-    lock.acquire()
-    try:
-        if not OPEN:
-            print("Abrir Portão!")
-            time_of_change = time.time()
-            OPEN = True
-    finally:
-        # Liberar o Lock
-        lock.release()
-        # blink_led_buzzer(led_green)
+    if reed.get_input():
+        print("Abrir Portão!")
         blink_led_buzzer(led_red)
+        # close_gate()
         display()
+    else:
+        print("Portão já está aberto!")
 
 
 def not_open_gate():
@@ -170,7 +158,6 @@ def not_open_gate():
     print("Não Abrir!")
     blink_led_buzzer(led_red)
     display()
-
 
 
 def blink_led(led):
@@ -191,4 +178,7 @@ def blink_led_buzzer(led):
     buzzer.off()
 
 
+try:
     main()
+except KeyboardInterrupt:
+    GPIO.cleanup()
