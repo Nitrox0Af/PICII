@@ -1,6 +1,6 @@
 import os
 import cv2
-import threading
+# import threading
 import time
 import RPi. GPIO as GPIO
 import photo_capture
@@ -11,7 +11,6 @@ from gpiozero import LED, Buzzer, Button
 from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, TIME_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME, DEBOUNCE_TIME
 
 
-# Variável compartilhada
 OPEN = False
 time_of_change = time.time()
 
@@ -27,15 +26,10 @@ buzzer = Buzzer(BUZZER_PIN)
 
 def main():
     """Main function."""
-    # Criar as threads
-    thread_button = threading.Thread(target=button)
-
-    # Iniciar as threads
-    thread_button.start()
-
     while True:
         button.when_pressed = open_gate
         button.when_released = button_released
+
         display()
         response = keyboard.get_char()
         time.sleep(DEBOUNCE_TIME)
@@ -205,18 +199,19 @@ def open_gate():
         blink_led_buzzer(led_red)
         display()
 
+
 def not_open_gate():
     """Not open gate"""
     print("Não Abrir!")
     blink_led_buzzer(led_red)
     display()
 
+
 def blink_led_buzzer():
     """Not open gate"""
     print("Não Abrir!")
     blink_led(led_red)
     display()
-
 
 
 def blink_led(led):
@@ -259,16 +254,8 @@ def measure_distance():
     
     return distance
 
-
 def button_released():
     """Button released"""
-    return None
-
-
-def button():
-    """Button"""
-    while True:
-        button.wait_for_press()
-        open_gate()
+    pass
 
 main()
