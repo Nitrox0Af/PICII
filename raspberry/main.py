@@ -69,7 +69,7 @@ def recognizer_face():
         distance = round(ultrasonic.distance * 100)
 
         if time.time() - time_start > WAITING_TIME*2:
-            print("Tempo de espera esgotado!")
+            print("\nTempo de espera esgotado!")
             not_open_gate()
             break
 
@@ -82,7 +82,7 @@ def recognizer_face():
             time.sleep(WAITING_TIME)
         elif distance <= MAX_DISTANCE:
             have_person += 1
-            print(f"\nPessoa detectada a {distance}cm")
+            print(f"\nPerfeito! Você detectado(a) a {distance}cm")
             time.sleep(WAITING_TIME)
             time_start = time.time()
         
@@ -90,18 +90,18 @@ def recognizer_face():
             os.system('clear')
             have_person = 0
 
-            print("Iniciando processo de tirar foto...")
+            print("\nIniciando processo de tirar foto...")
             take_photo = photo_capture.main()
             
             if take_photo:
-                print("Iniciando processo de reconhecimento...")
+                print("\nIniciando processo de reconhecimento...")
                 open_gate = recognizer.main()
                 if open_gate:
-                        print("Abrir Portão!")
+                        print("\nAbrir Portão!")
                         open_gate()
                         break
                 else:
-                    print("Não Abrir!")
+                    print("\nNão Abrir!")
                     not_open_gate()
                     break
 
@@ -119,7 +119,7 @@ def password():
         os.system('clear')
         print("\nTermine de digitar a senha e pressione # para confirmar.")
     
-    print("Senha digitada!")
+    print("\nSenha digitada!")
     
     if characters == SYSTEM_PASSWORD:
         characters = ""
@@ -137,7 +137,7 @@ def close_gate():
     while True:
         if not reed.get_input():
             if (time.time() - time_of_change) >= OPEN_TIME:
-                print("Fechar Portão!")
+                print("\nFechar Portão!")
                     
         time.sleep(DELAY_REED)
 
@@ -145,17 +145,17 @@ def close_gate():
 def open_gate():
     """Open gate"""
     if reed.get_input():
-        print("Abrir Portão!")
+        print("\nAbrir Portão!")
         blink_led_buzzer(led_red)
         # close_gate()
         display()
     else:
-        print("Portão já está aberto!")
+        print("\nPortão já está aberto!")
 
 
 def not_open_gate():
     """Not open gate"""
-    print("Não Abrir!")
+    print("\nNão Abrir!")
     blink_led_buzzer(led_red)
     display()
 
