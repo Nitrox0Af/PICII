@@ -138,6 +138,7 @@ def close_gate():
         if not reed.get_input():
             if (time.time() - time_of_change) >= OPEN_TIME:
                 print("\nFechar Portão!")
+                blink_led(led_red)
                     
         time.sleep(DELAY_REED)
 
@@ -156,7 +157,7 @@ def open_gate():
 def not_open_gate():
     """Not open gate"""
     print("\nNão Abrir!")
-    blink_led_buzzer(led_red)
+    blink_led(led_red)
     display()
 
 
