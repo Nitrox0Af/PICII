@@ -15,8 +15,6 @@ from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZ
 OPEN = False
 time_of_change = time.time()
 
-# Criar um objeto Lock
-lock = threading.Lock()
 
 GPIO.setmode(GPIO.BCM)
 ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
@@ -88,37 +86,40 @@ def display():
 
 
 def recognizer_face():
-    have_person = 0
-    distance = round(ultrasonic.distance * 100, 2)
-
-    if distance > MAX_DISTANCE:
-        print(f"Aproxime-se do sensor.\nA distância máxima é {MAX_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
-        time.sleep(WAITING_TIME)
+    while True:
         have_person = 0
-    elif distance <= MAX_DISTANCE:
-        have_person += 1
-        print(f"Pessoa detectada a {distance}cm")
-        time.sleep(WAITING_TIME)
-    elif distance < MIN_DISTANCE:
-        print(f"\nAfaste-se do sensor. \nA distância minima é {MIN_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
-        time.sleep(WAITING_TIME)
-    
-    if have_person >= QNTD_RECOGNIZE:
-        os.system('clear')
-        have_person = 0
+        distance = round(ultrasonic.distance * 100, 2)
 
-        print("Iniciando processo de tirar foto...")
-        take_photo = photo_capture.main()
+        if distance > MAX_DISTANCE:
+            print(f"Aproxime-se do sensor.\nA distância máxima é {MAX_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
+            time.sleep(WAITING_TIME)
+            have_person = 0
+        elif distance <= MAX_DISTANCE:
+            have_person += 1
+            print(f"Pessoa detectada a {distance}cm")
+            time.sleep(WAITING_TIME)
+        elif distance < MIN_DISTANCE:
+            print(f"\nAfaste-se do sensor. \nA distância minima é {MIN_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
+            time.sleep(WAITING_TIME)
         
-        if take_photo:
-            print("Iniciando processo de reconhecimento...")
-            open_gate = recognizer.main()
-            if open_gate:
-                    print("Abrir Portão!")
-                    # open_gate()
-            else:
-                print("Não Abrir!")
-                not_open_gate()
+        if have_person >= QNTD_RECOGNIZE:
+            os.system('clear')
+            have_person = 0
+
+            print("Iniciando processo de tirar foto...")
+            take_photo = photo_capture.main()
+            
+            if take_photo:
+                print("Iniciando processo de reconhecimento...")
+                open_gate = recognizer.main()
+                if open_gate:
+                        print("Abrir Portão!")
+                        open_gate()
+                        break
+                else:
+                    print("Não Abrir!")
+                    not_open_gate()
+                    break
 
 
 def password():
@@ -197,7 +198,7 @@ def password():
 #         display()
 
 
-def not_open_gate():
+def blink_led_buzzer():
     """Not open gate"""
     print("Não Abrir!")
     blink_led(led_red)
@@ -213,10 +214,13 @@ def blink_led(led):
     led.off()
 
 
-# def blink_led_buzzer(led):
-#     """Blink led"""
-#     for _ in range(QNT_BLINK):
-#         led.blink()
-#         buzzer.beep()
+def blink_led_buzzer(led):
+    """Blink led"""
+    time_start = time.time()
+    while (time.time() - time_start) < TIME_BLINK:
+        led.blink()
+        buzzer.beep()
+    led.off()
+    buzzer.off()
 
 main()
