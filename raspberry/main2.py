@@ -7,7 +7,7 @@ import photo_capture
 import recognizer
 import keyboard
 # import reed
-from gpiozero import DistanceSensor, LED, Buzzer, Button
+from gpiozero import LED, Buzzer, Button
 from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, TIME_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME, DEBOUNCE_TIME
 
 
@@ -17,7 +17,6 @@ time_of_change = time.time()
 
 
 GPIO.setmode(GPIO.BCM)
-ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
 keyboard.setup()
 button = Button(BUTTON_PIN)
 led_red = LED(RED_LED_PIN)
@@ -90,7 +89,7 @@ def recognizer_face():
     time_start = time.time()
     while True:
         have_person = 0
-        distance = round(ultrasonic.distance * 100, 2)
+        distance = round(measure_distance())
 
         if time.time() - time_start > WAITING_TIME:
             print("Tempo de espera esgotado!")
@@ -233,5 +232,30 @@ def blink_led_buzzer(led):
         buzzer.beep()
     led.off()
     buzzer.off()
+
+
+def measure_distance():
+    # Envia um pulso curto no pino TRIG
+    GPIO.output(TRIG_PIN, GPIO.HIGH)
+    time.sleep(0.00001)
+    GPIO.output(TRIG_PIN, GPIO.LOW)
+    
+    # Espera até que o pino ECHO esteja em nível alto
+    while GPIO.input(ECHO_PIN) == GPIO.LOW:
+        pulse_start = time.time()
+    
+    # Espera até que o pino ECHO volte para o nível baixo
+    while GPIO.input(ECHO_PIN) == GPIO.HIGH:
+        pulse_end = time.time()
+    
+    # Calcula a duração do pulso do ECHO
+    pulse_duration = pulse_end - pulse_start
+    
+    # Calcula a distância com base na velocidade do som (343m/s) e na duração do pulso
+    distance = pulse_duration * 34300 / 2
+    
+    return distance
+
+
 
 main()
