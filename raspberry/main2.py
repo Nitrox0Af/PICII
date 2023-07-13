@@ -202,7 +202,7 @@ def open_gate():
         print("Abrir Portão!")
         time_of_change = time.time()
         OPEN = True
-        blink_led(led_red)
+        blink_led_buzzer(led_red)
         display()
 
 def not_open_gate():
