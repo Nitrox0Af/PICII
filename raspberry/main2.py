@@ -27,6 +27,12 @@ buzzer = Buzzer(BUZZER_PIN)
 
 def main():
     """Main function."""
+    # Criar as threads
+    thread_button = threading.Thread(target=button)
+
+    # Iniciar as threads
+    thread_button.start()
+
     while True:
         button.when_pressed = open_gate
         button.when_released = button_released
@@ -253,8 +259,16 @@ def measure_distance():
     
     return distance
 
+
 def button_released():
     """Button released"""
     return None
+
+
+def button():
+    """Button"""
+    while True:
+        button.wait_for_press()
+        open_gate()
 
 main()
