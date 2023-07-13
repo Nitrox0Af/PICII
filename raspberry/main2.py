@@ -256,7 +256,6 @@ def measure_distance():
 
 def button_released():
     """Button released"""
-    GPIO.cleanup()
     pass
 
 try:
