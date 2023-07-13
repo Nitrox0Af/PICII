@@ -86,6 +86,7 @@ def display():
 
 
 def recognizer_face():
+    time_start = time.time()
     while True:
         have_person = 0
         distance = round(ultrasonic.distance * 100, 2)
@@ -101,6 +102,11 @@ def recognizer_face():
         elif distance < MIN_DISTANCE:
             print(f"\nAfaste-se do sensor. \nA distância minima é {MIN_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
             time.sleep(WAITING_TIME)
+
+        if time.time() - time_start > WAITING_TIME:
+            print("Tempo de espera esgotado!")
+            not_open_gate()
+            break
         
         if have_person >= QNTD_RECOGNIZE:
             os.system('clear')
@@ -125,7 +131,12 @@ def recognizer_face():
 def password():
     characters = ""
 
+    time_start = time.time()
     while True:
+        if time.time() - time_start > WAITING_TIME:
+            print("Tempo de espera esgotado!")
+            not_open_gate()
+            break
         char = keyboard.get_char()
         time.sleep(DEBOUNCE_TIME)
         if char == "#":
