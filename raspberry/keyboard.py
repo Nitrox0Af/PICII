@@ -21,13 +21,10 @@ def keypad(col=COL_PINS, row=ROW_PINS):
         GPIO.output(r, GPIO.HIGH)
 
 def get_char():
-    try:
-        while True:
-            key = keypad(COL_PINS, ROW_PINS)
-            if key is not None:
-                return key
-    except KeyboardInterrupt:
-        GPIO.cleanup()
+    while True:
+        key = keypad(COL_PINS, ROW_PINS)
+        if key is not None:
+            return key
 
 def main():
     GPIO.setmode(GPIO.BCM)

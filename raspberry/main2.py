@@ -6,6 +6,7 @@ import RPi. GPIO as GPIO
 import photo_capture
 import recognizer
 import keyboard
+from signal import pause
 # import reed
 from gpiozero import LED, Buzzer, Button
 from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, TIME_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME, DEBOUNCE_TIME
@@ -26,10 +27,11 @@ buzzer = Buzzer(BUZZER_PIN)
 
 def main():
     """Main function."""
+    button.when_pressed = open_gate
+    button.when_released = button_released
+    pause()
+    
     while True:
-        button.when_pressed = open_gate
-        button.when_released = button_released
-
         display()
         response = keyboard.get_char()
         time.sleep(DEBOUNCE_TIME)
