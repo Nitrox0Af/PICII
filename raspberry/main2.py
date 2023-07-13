@@ -19,7 +19,7 @@ time_of_change = time.time()
 GPIO.setmode(GPIO.BCM)
 ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
 keyboard.setup()
-# button = Button(BUTTON_PIN)
+button = Button(BUTTON_PIN)
 led_red = LED(RED_LED_PIN)
 # led_green = LED(GREEN_LED_PIN)
 buzzer = Buzzer(BUZZER_PIN)
@@ -29,6 +29,7 @@ buzzer = Buzzer(BUZZER_PIN)
 def main():
     """Main function."""
     while True:
+        button.when_pressed = open_gate
         display()
         response = keyboard.get_char()
         time.sleep(DEBOUNCE_TIME)
