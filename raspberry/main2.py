@@ -256,6 +256,7 @@ def measure_distance():
 
 def button_released():
     """Button released"""
+    print("Button released!")
     pass
 
 try:
