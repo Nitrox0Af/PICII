@@ -194,6 +194,7 @@ def password():
 
 def open_gate():
     """Open gate"""
+    global OPEN, time_of_change
     if not OPEN:
         print("Abrir Portão!")
         time_of_change = time.time()
