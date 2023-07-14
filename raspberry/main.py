@@ -19,7 +19,7 @@ ultrasonic = DistanceSensor(echo=ECHO_PIN, trigger=TRIG_PIN)
 keyboard.setup()
 button = Button(BUTTON_PIN)
 led_red = LED(RED_LED_PIN)
-# led_green = LED(GREEN_LED_PIN)
+led_green = LED(GREEN_LED_PIN)
 buzzer = Buzzer(BUZZER_PIN)
 reed.setup()
 
@@ -61,7 +61,6 @@ def display():
     print("\n")
     print("\n")
 
-
 def recognizer_face():
     have_person = 0
     distance = round(ultrasonic.distance * 100)
@@ -78,7 +77,6 @@ def recognizer_face():
         print(f"\nPerfeito! Você foi detectado(a) a {distance}cm")
     
     if have_person >= QNTD_RECOGNIZE:
-        os.system('clear')
         have_person = 0
 
         print("\nIniciando processo de tirar foto...")
@@ -112,11 +110,11 @@ def password():
     
     if characters == SYSTEM_PASSWORD:
         characters = ""
-        print("Correct password!")
+        print("Senha certa!")
         open_gate()
     else:
         characters = ""
-        print("Wrong password!")
+        print("Senha errada!")
         not_open_gate()
 
 
@@ -127,19 +125,18 @@ def close_gate():
         if not reed.get_input():
             if (time.time() - time_of_change) >= OPEN_TIME:
                 print("\nFechar Portão!")
-                blink_led(led_red)
+                blink_led_buzzer(led_red)
                 break
         else:
             print("\nArguardando o Potão ser Fechado!")
-            blink_led(led_red)
+            blink_led(led_green)
 
 
 def open_gate():
     """Open gate"""
     if reed.get_input():
         print("\nAbrir Portão!")
-        # blink_led(led_green)
-        blink_led(led_red)
+        blink_led(led_green)
         close_gate()
         display()
     else:
