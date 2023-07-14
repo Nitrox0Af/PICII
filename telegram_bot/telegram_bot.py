@@ -56,8 +56,6 @@ def set_chat_id(email: str, chat_id: str):
     if response.status_code == 200:
         return True
     else:
-        print(response.text)
-        print(response.status_code)
         return False
 
 

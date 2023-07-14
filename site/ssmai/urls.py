@@ -6,6 +6,6 @@ urlpatterns = [
     path('', index, name='index'),
     path('encoding/<str:filename>/', encoding, name='encoding'),
     path('guest/json/<str:phone>/', guest_json, name='guest-json'),
-    path('owner/json/<str:phone>/', owner_json, name='owner-json'),
+    path('owner/json/<str:email>/', owner_json, name='owner-json'),
     path('telegram/', telegram, name='telegram')
 ]
