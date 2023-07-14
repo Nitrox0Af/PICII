@@ -53,9 +53,16 @@ def owner_json(request, email):
     if owner:
         if request.method == 'POST':
             chat_id = request.POST.get('chat_id')
-            owner.chat_id = chat_id
-            owner.first_access = False
-            owner.save()
+            if owner.first_access:
+                owner.chat_id = chat_id
+                owner.first_access = False
+                owner.save()
+                return HttpResponse('Chat ID salvo com sucesso')
+            else:
+                if owner.chat_id == chat_id:
+                    return HttpResponse('Chat ID salvo com sucesso')
+                else:
+                    return HttpResponse('Chat ID ja cadastrado')
 
         owner_data = {
             'name': owner.get_full_name(),

@@ -36,16 +36,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def get_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handler function for text messages"""
     chat_id = update.effective_chat.id
-    message_received = update.message.text.strip().replace(" ", "").lower()
-    if set_chat_id(message_received, chat_id):
-        text = "Você foi cadastrado(a) com sucesso!"
-        await context.bot.send_message(chat_id=chat_id, text=text)
-    else:
-        text = "E-mail inválido. Tente novamente"
-        await context.bot.send_message(chat_id=chat_id, text=text)
+    email_received = update.message.text.strip().replace(" ", "").lower()
+    text = set_chat_id(email_received, chat_id)
+    await context.bot.send_message(chat_id=chat_id, text=text)
 
 
-def set_chat_id(email: str, chat_id: str):
+def set_chat_id(email: str, chat_id: str) -> str:
     """Set the chat_id"""
     url = f'http://{HOSTNAME}:8000/owner/json/{email}/'  
     data = {
@@ -54,9 +50,12 @@ def set_chat_id(email: str, chat_id: str):
     response = requests.post(url, data=data)
 
     if response.status_code == 200:
-        return True
+        if response.text == "Chat ID salvo com sucesso":
+            return "Você foi cadastrado(a) com sucesso!"
+        elif response.text == "Chat ID ja cadastrado":
+            return "Telegram já cadastrado! Se deseja trocar de conta do Telegram, entre em contato com a nossa equipe."
     else:
-        return False
+        return "E-mail inválido. Tente novamente"
 
 
 if __name__ == '__main__':
