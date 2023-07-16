@@ -6,12 +6,9 @@ import photo_capture
 import recognizer
 import keyboard
 import reed
+import gate
 from gpiozero import DistanceSensor, LED, Buzzer, Button
-from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, SECURITY_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, TIME_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME, DEBOUNCE_TIME
-
-
-OPEN = False
-time_of_change = time.time()
+from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, SECURITY_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, TIME_BLINK, BUZZER_PIN, BUTTON_PIN, OPEN_TIME, DEBOUNCE_TIME
 
 
 GPIO.setmode(GPIO.BCM)
@@ -22,6 +19,7 @@ led_red = LED(RED_LED_PIN)
 led_green = LED(GREEN_LED_PIN)
 buzzer = Buzzer(BUZZER_PIN)
 reed.setup()
+gate.setup()
 
 
 def main():
@@ -190,6 +188,7 @@ def open_gate():
     """Open gate"""
     if reed.get_input():
         print("\nAbrir Portão!")
+        gate.open_door()
         blink_led(led_green)
         close_gate()
         display()
