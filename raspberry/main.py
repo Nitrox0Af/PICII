@@ -7,7 +7,7 @@ import recognizer
 import keyboard
 import reed
 from gpiozero import DistanceSensor, LED, Buzzer, Button
-from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, TIME_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME, DEBOUNCE_TIME
+from config import TRIG_PIN, ECHO_PIN, MAX_DISTANCE, MIN_DISTANCE, QNTD_RECOGNIZE, WAITING_TIME, SYSTEM_PASSWORD, SECURITY_PASSWORD, RED_LED_PIN, GREEN_LED_PIN, TIME_BLINK, BUZZER_PIN, BUTTON_PIN, DELAY_REED, OPEN_TIME, DEBOUNCE_TIME
 
 
 OPEN = False
@@ -42,6 +42,10 @@ def main():
             os.system('clear')
             print("\nDigite a senha: ")
             password()
+        elif response == '3':
+            os.system('clear')
+            print("\nDigite a senha segura: ")
+            get_new_password()
         else:
             print("\nOpção inválida!")
             time.sleep(DEBOUNCE_TIME)
@@ -53,11 +57,13 @@ def display():
     os.system('clear')
     print("\n")
     print("\n")
-    print("Digite uma opção para entrar na residência: ")
+    print("Digite uma opção: ")
     print("\n")
     print("1 - Entrar com Reconhecimento Facial")
     print("\n")
     print("2 - Entrar com Senha")
+    print("\n")
+    print("3 - Alterar Senha")
     print("\n")
     print("\n")
 
@@ -93,9 +99,8 @@ def recognizer_face():
                 not_open_gate()
 
 
-def password():
+def get_password() -> str:
     characters = ""
-
     while True:
         char = keyboard.get_char()
         time.sleep(DEBOUNCE_TIME)
@@ -105,6 +110,55 @@ def password():
 
         os.system('clear')
         print("\nTermine de digitar a senha e pressione # para confirmar.")
+    return characters
+
+
+def get_new_password():
+    characters = get_password()
+    
+    print("\nSenha digitada!")
+    
+    if characters == SECURITY_PASSWORD:
+        characters = ""
+        os.system('clear')
+        print("\nSenha segura certa!")
+
+        print("\nDigite a nova senha com mais de 3 digitos: ")
+        characters = get_password()
+        if len(characters) <= 3 or (all(char == characters[0] for char in characters)):
+            os.system('clear')
+            print("\nSenha digitada!")
+            print("\nSenha não alterada!\nA senha deve ter mais de 3 digitos e não deve ter todos os caracteres iguais!")
+            not_open_gate()
+        else:
+            os.system('clear')
+            print("\nDigite novamente a mesma senha para confirmar: ")
+            characters_confirm = get_password()
+            if characters != characters_confirm:
+                os.system('clear')
+                print("\nSenha digitada!")
+                print("\nSenha não alterada!\nAs senhas não conferem!")
+                not_open_gate()
+            else:
+                os.system('clear')
+                print("\nSenha digitada!")
+                file = open("config.py", "r+")
+                lines = file.readlines()
+                lines[0] = f'SYSTEM_PASSWORD = "{characters_confirm}"\n'
+                file.seek(0)
+                file.writelines(lines)
+                file.close()
+                print("\nSenha segura alterada com sucesso!")
+                blink_led_buzzer(led_green)
+
+    else:
+        characters = ""
+        print("Senha errada!")
+        not_open_gate()
+
+
+def password():
+    characters = get_password()
     
     print("\nSenha digitada!")
     
