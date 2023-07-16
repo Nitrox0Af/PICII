@@ -175,11 +175,13 @@ def password():
 
 def close_gate():
     """Close gate"""
+    led_green.on()
     time_of_change = time.time()
     while True:
         if not reed.get_input():
             if (time.time() - time_of_change) >= OPEN_TIME:
                 print("\nFechar Portão!")
+                led_green.off()
                 break
         else:
             print("\nArguardando o Potão ser Fechado!")
@@ -190,9 +192,7 @@ def open_gate():
     if reed.get_input():
         print("\nAbrir Portão!")
         gate.open_door()
-        led_green.on()
         close_gate()
-        led_green.off()
     else:
         print("\nPortão já está aberto!")
         blink_led(led_red)
