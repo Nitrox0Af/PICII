@@ -105,7 +105,7 @@ def photo_post_save(sender, instance, created, **kwargs):
         file_name = str(instance.file.name).replace("photo/", "")
         encodings = generate_encodings(path + str(file_name))
         if len(encodings) == 0:
-            print(f"No faces found in image {file_name}")
+            print(f"Nenhuma face encontrada na imagem {file_name}")
         filename = f"{instance.guest.phone}--{str(file_name)}"
         topic = f"ssmai/encodings/{instance.guest.owner.email}"
         message = f"ADDED: {filename}"

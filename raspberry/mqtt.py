@@ -23,17 +23,17 @@ def main():
     try:
         client.loop_forever()
     except KeyboardInterrupt:
-        print("Interruption of the connection with the MQTT broker")
+        print("Interrupção da conexão com o broker MQTT")
         client.disconnect()
 
 
 def on_connect(client, userdata, flags, rc):
     """Callback that will be executed when the connection with the MQTT broker is established"""
     if rc == 0:
-        print("Successful Connection")
+        print("Conexão bem-sucedida MQTT")
         client.subscribe(f"ssmai/encodings/{OWNER}")
     else:
-        print(f"Connection fail. Return code: {rc}")
+        print(f"Falha na conexão. Código de retorno: {rc}")
 
 
 def on_message(client, userdata, msg):
@@ -47,7 +47,7 @@ def on_message(client, userdata, msg):
     elif messages[0] == "DELETED":
         delete_encoding(filename)
     else:
-        print("Invalid message.")
+        print("Mensagem inválida.")
 
 
 def get_encoding(filename):
@@ -60,9 +60,9 @@ def get_encoding(filename):
     if response.status_code == 200:
         with open(path, "wb") as file:
             file.write(response.content)
-        print("File successfully downloaded and saved.")
+        print("Arquivo baixado e salvo com sucesso.")
     else:
-        print("Failed to download the file.")
+        print("Falha ao baixar o arquivo.")
 
 
 def delete_encoding(filename):
@@ -70,9 +70,9 @@ def delete_encoding(filename):
     path = f"./encoding/{filename}.pkl"
     try:
         os.remove(path)
-        print("File removed successfully.")
+        print("Arquivo removido com sucesso.")
     except FileNotFoundError:
-        print("File not found.")
+        print("Arquivo não encontrado.")
 
 
 if __name__ == "__main__":

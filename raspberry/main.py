@@ -192,9 +192,9 @@ def open_gate():
     if reed.get_input():
         print("\nAbrir Portão!")
         gate.open_door()
-        blink_led_buzzer(led_green)
+        led_green.on()
         close_gate()
-        display()
+        led_green.off()
     else:
         print("\nPortão já está aberto!")
         blink_led(led_red)

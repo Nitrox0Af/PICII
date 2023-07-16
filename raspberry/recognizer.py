@@ -49,10 +49,10 @@ def recognize_unknown(known_faces: dict, tolerance: float = 0.6) -> str:
     """Takes a photo and recognizes the unknown person"""
     unknown_face_encodings = generate_encodings(POTHO_PATH)
     if len(unknown_face_encodings) == 0:
-        print(f"No faces found in image!")
+        print(f"Nenhuma face encontrada na imagem!")
         return False
     
-    print("Cycling through all face encodings in unknown image")
+    print("Percorrendo todas as codificações faciais na imagem desconhecida")
     found_match = False
     for unknown_face_encoding in unknown_face_encodings:
 
@@ -60,31 +60,28 @@ def recognize_unknown(known_faces: dict, tolerance: float = 0.6) -> str:
             matches = face_recognition.compare_faces(face_encodings, unknown_face_encoding, tolerance=tolerance)
 
             if np.any(matches):
-                print("Found Match!!!")
+                print("Encontrado correspondência!!!")
                 found_match = True
-                print(f"Person identified: {identifier}")
+                print(f"Pessoa identificada: {identifier}")
 
                 average_distance = np.average(face_recognition.face_distance(face_encodings, unknown_face_encoding))
-                print(f"Has an average distance of {round(average_distance, 3)}")
+                print(f"Tem uma distância média de  {round(average_distance, 3)}")
                 return identifier
 
     if not found_match:
-        print("This person is not recognized")
+        print("Esta pessoa não é reconhecida.")
         return "unknown"
 
 
 def identify_person(identifier) -> bool:
     """Identify the person"""
     if identifier == "unknown":
-        print("This is the image of an unknown person!")
+        print("Esta é a imagem de uma pessoa desconhecida!")
 
     elif not identifier:
-        print("No faces found in image!")
+        print("Nenhuma face encontrada na imagem!")
         open_gate = False
         return open_gate
-
-    elif identifier == OWNER:
-        identifier = "Você"
 
     else:
         guest = get_guest(identifier)
