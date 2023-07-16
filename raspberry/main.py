@@ -141,12 +141,14 @@ def get_new_password():
             else:
                 os.system('clear')
                 print("\nSenha digitada!")
+                global SYSTEM_PASSWORD
                 file = open("config.py", "r+")
                 lines = file.readlines()
                 lines[0] = f'SYSTEM_PASSWORD = "{characters_confirm}"\n'
                 file.seek(0)
                 file.writelines(lines)
                 file.close()
+                SYSTEM_PASSWORD = characters_confirm
                 print("\nSenha segura alterada com sucesso!")
                 blink_led_buzzer(led_green)
 
