@@ -183,7 +183,6 @@ def close_gate():
                 break
         else:
             print("\nArguardando o Potão ser Fechado!")
-            blink_led(led_red)
 
 
 def open_gate():
