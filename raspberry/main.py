@@ -74,35 +74,48 @@ def display():
 
 
 def recognizer_face():
+    time_start = time.time()
     have_person = 0
-    distance = round(ultrasonic.distance * 100)
+    while True:
+        distance = round(ultrasonic.distance * 100)
 
-    if distance > MAX_DISTANCE:
-        print(f"\nAproxime-se do sensor.\nA distância máxima é {MAX_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
-        time.sleep(WAITING_TIME)
-        have_person = 0
-    elif distance < MIN_DISTANCE:
-        print(f"\nAfaste-se do sensor. \nA distância minima é {MIN_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
-        time.sleep(WAITING_TIME)
-    elif distance <= MAX_DISTANCE:
-        have_person += 1
-        print(f"\nPerfeito! Você foi detectado(a) a {distance}cm")
-    
-    if have_person >= QNTD_RECOGNIZE:
-        have_person = 0
+        if time.time() - time_start > WAITING_TIME*3:
+            print("\nTempo de espera esgotado!")
+            not_open_gate()
+            break
 
-        print("\nIniciando processo de tirar foto...")
-        take_photo = photo_capture.main()
+        if distance > MAX_DISTANCE:
+            print(f"\nAproxime-se do sensor.\nA distância máxima é {MAX_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
+            time.sleep(WAITING_TIME)
+            have_person = 0
+        elif distance < MIN_DISTANCE:
+            print(f"\nAfaste-se do sensor. \nA distância minima é {MIN_DISTANCE}cm. \nDistancia atual: {distance}cm\n\n")
+            time.sleep(WAITING_TIME)
+        elif distance <= MAX_DISTANCE:
+            have_person += 1
+            print(f"\nPerfeito! Você detectado(a) a {distance}cm")
+            time.sleep(WAITING_TIME)
+            time_start = time.time()
         
-        if take_photo:
-            print("\nIniciando processo de reconhecimento...")
-            open_gate = recognizer.main()
-            if open_gate:
-                    print("\nAbrir Portão!")
-                    open_gate()
-            else:
-                print("\nNão Abrir!")
-                not_open_gate()
+        if have_person >= QNTD_RECOGNIZE:
+            os.system('clear')
+            have_person = 0
+
+            print("\nIniciando processo de tirar foto...")
+            take_photo = photo_capture.main()
+            
+            if take_photo:
+                print("\nIniciando processo de reconhecimento...")
+                open_gate = recognizer.main()
+                if open_gate:
+                        print("\nAbrir Portão!")
+                        open_gate()
+                        break
+                else:
+                    print("\nNão Abrir!")
+                    not_open_gate()
+                    break
+
 
 
 def get_password() -> str:
