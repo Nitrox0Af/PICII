@@ -106,8 +106,8 @@ def recognizer_face():
             
             if take_photo:
                 print("\nIniciando processo de reconhecimento...")
-                open_gate = recognizer.main()
-                if open_gate:
+                open_gate_flag = recognizer.main()
+                if open_gate_flag:
                         print("\nAbrir Portão!")
                         open_gate()
                         break
