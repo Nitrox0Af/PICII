@@ -27,6 +27,13 @@ def main():
     button.when_pressed = open_gate
 
     while True:
+        os.system('clear')
+        if not reed.get_input():
+            print("porta Aberta")
+        while not reed.get_input():
+            led_green.on()
+        if reed.get_input():
+            led_green.off()
         display()
         response = keyboard.get_char()
         time.sleep(DEBOUNCE_TIME)
@@ -177,19 +184,17 @@ def close_gate():
     """Close gate"""
     led_green.on()
     time_of_change = time.time()
-    while True:
-        if not reed.get_input():
-            if (time.time() - time_of_change) >= OPEN_TIME:
-                print("\nFechar Portão!")
-                led_green.off()
-                break
-        else:
-            print("\nArguardando o Potão ser Fechado!")
+    print("\nArguardando o Potão ser Fechado!")
+    while reed.get_input():
+        a=1        
+    print("\nPortão fechado!")
+    led_green.off()
+    
 
 
 def open_gate():
     """Open gate"""
-    if reed.get_input():
+    while reed.get_input():
         print("\nAbrir Portão!")
         gate.open_door()
         close_gate()
