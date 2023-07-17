@@ -4,6 +4,7 @@ from config import GATE, DELAY_GATE
 
 def setup():
     GPIO.setup(GATE, GPIO.OUT)
+    GPIO.output(GATE, GPIO.HIGH)
 
 def open_door():
     GPIO.output(GATE, GPIO.LOW)
