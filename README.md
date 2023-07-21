@@ -39,7 +39,7 @@ A opção de abrir a porta por reconhecimento facial é uma segunda alternativa.
 ## Autores
 
 - Gabrielly Cariman<br>
-  <img src="img/gab.jpeg" width="20" height="20"> Estudante de Engenharia de Computação com interesse em Visão Computacional.
+  <img src="img/gab.jpeg" width="45" height="45"> Estudante de Engenharia de Computação com interesse em Visão Computacional.
 
 - Mayke Wallace<br>
-  <img src="img/Mayke.jpg" width="20" height="20"> Estudante de Engenharia de Computação com experiência em Desenvolvimento de Software.
+  <img src="img/Mayke.jpg" width="45" height="45"> Estudante de Engenharia de Computação com experiência em Desenvolvimento de Software.
