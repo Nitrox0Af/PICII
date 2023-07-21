@@ -9,22 +9,22 @@ Com o objetivo de produzir um trabalho que integra software e hardware para a ma
 
 ### **hardware**:
 #### Lista de materiais:
-    - 01 Piezo Buzzer;
-    - 01 LED vermelho;
-    - 01 LED verde;
-    - Reistores:
-        - 2 330 Ω; 
-        - 4 1 kΩ; 
-        - 1 10 kΩ;
-    - 01 raspberry pi 3 b+ ( **Raspberry OS 64-bit** )
-    - 01 TIP42C
-    - 01 TIP31C
-    - Jumpers
-    - 01 reed switch
-    - 01 ímâ
-    - 01 maquete de porta eletronica
-    - 01 camera
-    - 01 ultrassom
+- 01 Piezo Buzzer;
+- 01 LED vermelho;
+- 01 LED verde;
+- Resistores:
+- 2x 330 Ω
+- 4x 1k Ω
+- 1x 10k Ω
+- 01 Raspberry Pi 3 B+ (Raspberry OS 64-bit)
+- 01 TIP42C
+- 01 TIP31C
+- Jumpers
+- 01 Reed Switch
+- 01 Ímã
+- 01 Maquete de porta eletrônica
+- 01 Câmera
+- 01 Ultrassom
  
 #### Funcionamento:
 O sistema é bem simples. O sensor Reed Switch monitora se a porta está fechada ou aberta. Caso a porta esteja aberta, as opções de entrar com o reconhecimento facial ou com a sequência de dígitos ficam bloqueadas até a porta voltar ao estado de fechada, pois não faria sentido tentar abrir uma porta que já está aberta. Com a porta fechada, existem duas formas de poder abri-la, como mencionado anteriormente: com reconhecimento facial ou sequência de senha.
