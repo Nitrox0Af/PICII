@@ -36,6 +36,16 @@ Em caso de erro na digitação da senha correta, o sistema notificará que a sen
 
 A opção de abrir a porta por reconhecimento facial é uma segunda alternativa. Ao ser selecionada, o sistema fica monitorando a distância que um rosto de uma pessoa está em relação à câmera. Ao chegar a menos de 40 cm da câmera e após 3 segundos, a câmera tirará uma foto da pessoa presente. Após a confirmação, o sistema fará o match do rosto da pessoa com os rostos presentes no banco de dados do site. Ao obter um resultado, uma mensagem será enviada para o Telegram cadastrado. Pelo Telegram, o dono do produto receberá a foto de quem está querendo abrir a porta e poderá selecionar duas opções: abrir a porta ou mantê-la fechada.
 
+## Agradecimentos
+Em agadrecimento, queriamos fazem mensão a Equipe de Robotica da UFES (ERUS) e Software Defined Networks Research Group (NERDS), por nos emprestar várias ferramentas, componentes para o desenvolvimento do trabalho, espeço físico. Aos professores Ricardo e Rodolfo (Professores responsáveis pelo PIC II 2023), por tirarem muitas das nossas duvidas e nos encaminharem as pessoas certas. Ao Fernando (Atual membro da ERUS), por disponibilizar tempo para a impressão 3D dos nossos modelos.
+
+Agradecemos a todos que contribuíram para este projeto!
+
+| ![Foto 1](img/ERUS.png) | ![Foto 2](img/NERDs.jpg) | ![Foto 3](img/Fernando.jpg) |
+|:-----------------------:|:-----------------------:|:-----------------------:|
+|   Autor 1               |   Autor 2               |   Autor 3               |
+
+
 ## Autores
 
 - Gabrielly Cariman<br>
