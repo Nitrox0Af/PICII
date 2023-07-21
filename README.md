@@ -35,3 +35,8 @@ Por padrão, as senhas são de 4 dígitos e são "1234". Entretanto, existe uma 
 Em caso de erro na digitação da senha correta, o sistema notificará que a senha colocada está errada, o LED vermelho piscará 3 vezes e um buzzer emitirá um som de apito por 1 segundo.
 
 A opção de abrir a porta por reconhecimento facial é uma segunda alternativa. Ao ser selecionada, o sistema fica monitorando a distância que um rosto de uma pessoa está em relação à câmera. Ao chegar a menos de 40 cm da câmera e após 3 segundos, a câmera tirará uma foto da pessoa presente. Após a confirmação, o sistema fará o match do rosto da pessoa com os rostos presentes no banco de dados do site. Ao obter um resultado, uma mensagem será enviada para o Telegram cadastrado. Pelo Telegram, o dono do produto receberá a foto de quem está querendo abrir a porta e poderá selecionar duas opções: abrir a porta ou mantê-la fechada.
+
+## Autores
+
+- Gabrielly Cariman ![Gabrielly Cariman](img/gab.jpeg): Estudante de Engenharia de Computação com interesse em Visão Computacional.
+- Mayke Wallace ![Mayke Wallace](img/Mayke.jpg): Estudante de Engenharia de Computação com experiência em Desenvolvimento de Software.
