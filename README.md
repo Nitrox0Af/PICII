@@ -2,4 +2,4 @@
 
 ## Introdução:
 Com o objetivo de produzir um trabalho que integra software e hardware, para a materia de Projeto Integrado a Computação II (PIC II), os alunos da graduação do curso de Engenharia de Computação da Universidade Federal do Espirito Santos, Gabrielly Cariman e Mayke Wallace, desenvolveram um projeto voltado para a área de segurança. A ideia era construir um sistema domiciliar baseado em reconhecimento facial ultilizando inteliencia artificial, e dado isso, o grupo foi nomeado como Security System Mediated by Artificial Intelligence (SSMAI). O trabalho foi dividido em *tasks*, que tinham uma *label* em comum, ou eram de hardware ou de software que foram comumente divididas pela equipe. A explicação do produto final encontra-se abaixo:
-SSMAI[YouTube](https://www.youtube.com/watch?v=Hd1foBAOOVI&t=1s) 
+[![SSMAI]()](https://www.youtube.com/watch?v=Hd1foBAOOVI&t=1s)
