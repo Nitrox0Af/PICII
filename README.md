@@ -43,7 +43,6 @@ Agradecemos a todos que contribuíram para este projeto!
 
 | ![Foto 1](img/ERUS.png) | ![Foto 2](img/NERDs.jpg) | ![Foto 3](img/Fernando.jpg) |
 |:-----------------------:|:-----------------------:|:-----------------------:|
-|   Autor 1               |   Autor 2               |   Autor 3               |
 
 
 ## Autores
