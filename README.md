@@ -13,9 +13,9 @@ Com o objetivo de produzir um trabalho que integra software e hardware para a ma
     - 01 LED vermelho;
     - 01 LED verde;
     - Reistores:
-        - 2 330 &Omega; 
-        - 4 1k &Omega; 
-        - 1 10k &Omega;
+        - 2 330 Ω; 
+        - 4 1 kΩ; 
+        - 1 10 kΩ;
     - 01 raspberry pi 3 b+ ( **Raspberry OS 64-bit** )
     - 01 TIP42C
     - 01 TIP31C
