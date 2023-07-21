@@ -42,4 +42,4 @@ A opção de abrir a porta por reconhecimento facial é uma segunda alternativa.
   <img src="img/gab.jpeg" width="45" height="45"> Estudante de Engenharia de Computação com interesse em Visão Computacional.
 
 - Mayke Wallace<br>
-  <img src="img/Mayke.jpg" width="45" height="60"> Estudante de Engenharia de Computação com experiência em Desenvolvimento de Software.
+  <img src="img/Mayke.jpg" width="45" height="60"> Estudante de Engenharia de Computação com interesse em sistemas embarcados.
