@@ -43,7 +43,7 @@ Agradecemos a todos que contribuíram para este projeto!
 
 | ![Foto 1](img/ERUS.png) | ![Foto 2](img/NERDs.jpg) | ![Foto 3](img/Fernando.jpg) |
 |:-----------------------:|:-----------------------:|:-----------------------:|
-|[![Site]](https://erus.ufes.br)|[![Site]](http://nerds.ufes.br) | [![Instagram]](https://instagram.com/print3r_decor?igshid=ZDc4ODBmNjlmNQ==)|
+|[Site](https://erus.ufes.br)|[Site](http://nerds.ufes.br) | [Instagram](https://instagram.com/print3r_decor?igshid=ZDc4ODBmNjlmNQ==)|
 
 
 ## Autores
