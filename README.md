@@ -9,13 +9,14 @@ Com o objetivo de produzir um trabalho que integra software e hardware para a ma
 
 ### **hardware**:
 #### Lista de materiais:
+
 - 01 Piezo Buzzer;
 - 01 LED vermelho;
 - 01 LED verde;
 - Resistores:
-- 2x 330 Ω
-- 4x 1k Ω
-- 1x 10k Ω
+-   2x 330 Ω
+-   4x 1k Ω
+-   1x 10k Ω
 - 01 Raspberry Pi 3 B+ (Raspberry OS 64-bit)
 - 01 TIP42C
 - 01 TIP31C
