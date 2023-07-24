@@ -158,8 +158,8 @@ Fonte: Produção dos próprios autores.
     - 4x 1k Ω
     - 1x 10k Ω
 - 01 Raspberry Pi 3 B+ (Raspberry OS 64-bit)
-- 01 TIP42C
-- 01 TIP31C
+- 01 Transistor TIP42C
+- 01 Transistor TIP31C
 - Jumpers
 - 01 Reed Switch
 - 01 Ímã
