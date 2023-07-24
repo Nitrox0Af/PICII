@@ -15,6 +15,7 @@
 <div align="center">
 
 ![SSMAI](artes/LOGO.png)
+Fonte: Produção dos próprios autores.
 
 </div>
 
@@ -33,6 +34,7 @@
 - [Demonstração](#demonstração)
 - [Pitch](#pitch)
 - [Agradecimentos](#agradecimentos)
+- [Referências](#referências)
 - [Autores](#autores)
 
 
@@ -46,6 +48,7 @@ O trabalho foi dividido em tarefas (tasks), que tinham uma label em comum, sendo
 <div align="center">
 
 [![Trello](img/trello.png)](https://trello.com/b/aGhxs52E/grupo-i-security-system-mediated-by-artificial-intelligence-ssmai)
+Fonte: Produção dos próprios autores.
 
 </div>
 
@@ -73,6 +76,7 @@ O funcionamento do Bot [SSMAICadatroBot](https://t.me/SSMAICadastroBot) pode ser
 <div align="center">
 
 ![Cadastro no Telgram](img/telegram.gif)
+Fonte: Produção dos próprios autores.
 
 </div>
 
@@ -84,6 +88,7 @@ No site, o primeiro passo é realiza o cadastro inicial das pessoas que adquirir
 <div align="center">
 
 ![Cadastro no Site](img/cadastro.gif)
+Fonte: Produção dos próprios autores.
 
 </div>
 
@@ -92,6 +97,7 @@ Posteriormente, as pessoas cadastradas acessam o site e se registram no bot do T
 <div align="center">
 
 ![Login no Site](img/login.gif)
+Fonte: Produção dos próprios autores.
 
 </div>
 
@@ -100,6 +106,7 @@ Após adquirir o produto, uma Raspberry Pi é instalada na casa do proprietário
 <div align="center">
 
 ![Cadastro de Hóspedes](img/hospede.gif)
+Fonte: Produção dos próprios autores.
 
 </div>
 
@@ -111,14 +118,23 @@ As fotos dos hóspedes são armazenadas localmente e o banco de dados SQLite con
 Nesta pasta, estão todos os códigos necessários para o funcionamento da Raspberry Pi. Alguns dos arquivos incluídos são:
 
 - [**config.py**](https://github.com/Nitrox0Af/Security-System-Mediated-by-Artificial-Intelligence---SSMAI/blob/main/raspberry/config.py): Define todos os GPIOS da Raspberry Pi e requer que o email do proprietário seja alterado para fins de configuração.
+
 - [**mqtt.py**](https://github.com/Nitrox0Af/Security-System-Mediated-by-Artificial-Intelligence---SSMAI/blob/main/raspberry/mqtt.py): Estabelece a conexão com o MQTT para requisição ou exclusão de encodings de pessoas cadastradas no site. Sempre fica rodando na Raspberry. Um exemplo do que acontece quando uma foto é adicionada e depois deletada no site pode ser visto abaixo. Ele faz uma requisição para o site para pegar o encoding e depois deleta esse encoding, quando recebe pelo MQTT que a foto foi deletada.
 ![MQTT](img/mqtt.png)
+<div align="center"> Fonte: Produção dos próprios autores.</div>
+
 - [**main.py**](https://github.com/Nitrox0Af/Security-System-Mediated-by-Artificial-Intelligence---SSMAI/blob/main/raspberry/main.py): Responsável por fazer a interface com a pessoa que deseja entrar na casa e determinar se o acesso será concedido por reconhecimento facial ou senha. Sempre fica rodando na Raspberry.
+
 - [**gate.py**](https://github.com/Nitrox0Af/Security-System-Mediated-by-Artificial-Intelligence---SSMAI/blob/main/raspberry/gate.py): Controla a abertura da porta quando uma pessoa é autorizada a entrar.
+
 - [**keyboard.py**](https://github.com/Nitrox0Af/Security-System-Mediated-by-Artificial-Intelligence---SSMAI/blob/main/raspberry/keyboard.py): Realiza a interação com o teclado para capturar as teclas pressionadas.
+
 - [**photo_capture.py**](https://github.com/Nitrox0Af/Security-System-Mediated-by-Artificial-Intelligence---SSMAI/blob/main/raspberry/photo_capture.py): Responsável por tirar fotos das pessoas e mostrar a imagem capturada.
+
 - [**recognizer.py**](https://github.com/Nitrox0Af/Security-System-Mediated-by-Artificial-Intelligence---SSMAI/blob/main/raspberry/recognizer.py): Gera o encoding da imagem da pessoa e compara com os encodings armazenados na Raspberry Pi, que foram requisitados do site. Além disso, interage com o bot do Telegram definido no arquivo [**telegram_bot.py**](https://github.com/Nitrox0Af/Security-System-Mediated-by-Artificial-Intelligence---SSMAI/blob/main/raspberry/telegram_bot.py), enviando a foto da pessoa que deseja entrar e perguntando se o proprietário deseja permitir o acesso, como pode ser visto a seguir.
 ![Respondendo Bot no Telegram](img/entrar.png)
+<div align="center"> Fonte: Produção dos próprios autores.</div>
+
 - [**reed.py**](https://github.com/Nitrox0Af/Security-System-Mediated-by-Artificial-Intelligence---SSMAI/blob/main/raspberry/reed.py): Responsável por obter leituras do sensor magnético reed.
 
 No monitor externo, localizado do lado de fora da casa, é exibido um menu inicial para que as pessoas que desejam entrar possam fazer suas escolhas facilmente. O menu apresenta as seguintes opções, como mostrado na figura abaixo:
@@ -126,6 +142,7 @@ No monitor externo, localizado do lado de fora da casa, é exibido um menu inici
 <div align="center">
 
 ![Menu Inicial](img/menu.png)
+Fonte: Produção dos próprios autores.
 
 </div>
 
@@ -159,6 +176,7 @@ Em uma primeira etapa, foi desenvolvida uma placa de circuito impresso com a fin
 <div align="center">
 
 ![PCB](img/circuito.png)
+Fonte: Produção dos próprios autores.
 
 </div>
 
@@ -169,6 +187,7 @@ Diante disso, a protoboard foi utilizada para realizar todas as ligações de fo
 <div align="center">
 
 ![Protoboard](img/hardware.jpg)
+Fonte: Produção dos próprios autores.
 
 </div>
 
@@ -180,14 +199,18 @@ A identificação de para que cada pino da Raspberry é usado pode ser vista aba
 
 <div align="center">
 
-![Raspberry](img/rp2_pinout.png)
+[![Raspberry](img/rp2_pinout.png)](https://learn.microsoft.com/en-us/windows/iot-core/learn-about-hardware/pinmappings/pinmappingsrpi)
+Fonte: Warwick et al.
 
 </div>
 
 **Pinos**
 - 3V3: Qualquer coisa conectada a esses pinos sempre receberá 3,3V de energia
+
 - 5V: 	Qualquer coisa conectada a esses pinos sempre receberá 5V de energia
+
 - GND: "Zero" volts, terra, usado como a referência para o circuito
+
 - GPIO N: Esses pinos são para uso geral e podem ser configurados como pinos de entrada ou saída
 
 **Conexões dos LEDs**
@@ -196,29 +219,52 @@ As conexões dos LEDs foram feitas de forma parecida com a da imagem abaixo. Por
 
 <div align="center">
 
-![LED](img/led.png)
+[![LED](img/led.png)](https://projects.raspberrypi.org/en/projects/physical-computing/2)
+Fonte: FOUNDATION. Lighting an LED.
 
 </div>
+
+Os LEDs foram usados para sinalizar se a porta deveria ficar fechada ou aberta.
 
 **Conexão do Buzzer**
 
-As conexões do Buzzer foi feita de forma parecida com a da imagem abaixo. Porém, o Buzzer foi conectado ao GPIO 21.
+A conexão do Buzzer foi feita de forma parecida com a da imagem abaixo. Porém, o Buzzer foi conectado ao GPIO 21.
 
 <div align="center">
 
-![LED](img/buzzer.png)
+[![LED](img/buzzer.png)](https://projects.raspberrypi.org/en/projects/physical-computing/8)
+Fonte: FOUNDATION. Using a buzzer.
 
 </div>
+
+O Buzzer foi usado para sinalizar quando a porta deveria ficar fechada e uma pessoa errava a senha ou não era reconhecida, por exemplo.
 
 **Conexão do Sensor de Distância Ultrassônico**
 
-As conexões do Sensor de Distância Ultrassônico foi feita de forma parecida com a da imagem abaixo. Porém, foram usados resistores de 330 Ω  e 1k Ω para o divisor de tensão e o ECHO do Sensor de Distância Ultrassônico foi conectado ao GPIO 27 e o TRIG realmente foi conectado ao GPIO 4.
+A conexão do Sensor de Distância Ultrassônico foi feita de forma parecida com a da imagem abaixo. Porém, foram usados resistores de 330 Ω  e 1k Ω para o divisor de tensão e o ECHO do Sensor de Distância Ultrassônico foi conectado ao GPIO 27 e o TRIG realmente foi conectado ao GPIO 4.
 
 <div align="center">
 
-![Sensor de Distância Ultrassônico](img/ultrassonico.png)
+[![Sensor de Distância Ultrassônico](img/ultrassonico.png)](https://projects.raspberrypi.org/en/projects/physical-computing/12)
+Fonte: FOUNDATION. Using an ultrasonic distance sensor.
 
 </div>
+
+O sensor Ultrassônico foi utilizado após uma pessoa selecionar que queria entrar usando o reconhecimento facial, ele verifica se a pessoa estava a pelo menos 40 cm de distância, para iniciar o processo de reconhecimento.
+
+**Conexão do Sensor Reed Switch**
+
+A conexão do Sensor Reed Switch, sensor eletromecânico usado para detectar a presença ou ausência de um campo magnético, foi feita de forma parecida com a da imagem abaixo. Porém, ele foi conectado ao GPIO 18.
+
+<div align="center">
+
+[![Sensor Reed Switch](img/reed.png)](https://www.electroniclinic.com/reed-switch-with-raspberry-pi-interfacing-and-python-programming/)
+
+Fonte: FAHAD, S. (2020).
+
+</div>
+
+Esse sensor foi usado para identificar se a porta estava aberta ou fechada. Para que ele funcionasse corretamente, também foi colado, na parte móvel da porta, um imã para gerar o campo magnético.
 
 As conexões dos outros componentes seguiram de forma semelhante. Conectando resistores, transistores, alimentação e GND de forma necessária para que o circuito funcione corretamente.
 
@@ -235,6 +281,8 @@ A primeira estrutura 3D criada foi um suporte para a webcam e o sensor ultrassom
     <img src="img/webcam.jpg" style="width: 50%; padding: 5px;">
 </div>
 
+Fonte: Produção dos próprios autores.
+
 </div>
 
 A segunda estrutura 3D consistiu em uma caixa desenvolvida para abrigar todo o nosso hardware, principlamente a protoboard, proporcionando proteção e organização, conforme ilustrado na imagem abaixo.
@@ -242,6 +290,7 @@ A segunda estrutura 3D consistiu em uma caixa desenvolvida para abrigar todo o n
 <div align="center">
 
 ![Caixa 3D](img/caixa_3d.jpg)
+Fonte: Produção dos próprios autores.
 
 </div>
 
@@ -263,7 +312,7 @@ Essas estruturas impressas desempenham um papel essencial na configuração fís
 
 <div align="center">
 
-  [![Pitch](https://img.youtube.com/vi/vKcD3VAtJnU/0.jpg)](https://youtu.be/vKcD3VAtJnU)
+[![Pitch](https://img.youtube.com/vi/vKcD3VAtJnU/0.jpg)](https://youtu.be/vKcD3VAtJnU)
 
 </div>
 
@@ -279,6 +328,21 @@ Agradecemos a todos que contribuíram para este projeto!
 |:-----------------------:|:-----------------------:|:-----------------------:|
 
 </div>
+
+
+## Referências
+
+- [WARWICK, T.; MESER, R.; WOJCIAKOWSKI, M.; CLAY, S. Raspberry Pi 2 & 3 Pin Mappings. Microsoft Learn.](https://learn.microsoft.com/en-us/windows/iot-core/learn-about-hardware/pinmappings/pinmappingsrpi)
+
+- [FOUNDATION, R. P. Lighting an LED.](https://projects.raspberrypi.org/en/projects/physical-computing/2)
+
+- [FOUNDATION, R. P. Using a buzzer.](https://projects.raspberrypi.org/en/projects/physical-computing/8)
+
+- [FOUNDATION, R. P. Using an ultrasonic distance sensor.](https://projects.raspberrypi.org/en/projects/physical-computing/12)
+
+- [FAHAD, S. (2020). Reed Switch with Raspberry Pi, interfacing and Python Programming.](https://www.electroniclinic.com/reed-switch-with-raspberry-pi-interfacing-and-python-programming/)
+
+- [PATEL, R. Raspberry Pi Pico and 4x3 Keypad.](https://www.instructables.com/Raspberry-Pi-Pico-and-4x3-Keypad/2)
 
 
 ## Autores
