@@ -16,7 +16,7 @@
 
     - Caso tenha erro com face-recognition, veja [aqui](https://www.youtube.com/watch?v=ALKggf-Mwmo) como resolver 
 
-1. Rode o seu arquivo de código principal: ``` python recognizer.py ```
+1. Rode o seu arquivo de código principal: ``` python main.py ```
 
 ## MQTT
 
@@ -37,17 +37,3 @@
 1. Instale as bibliotecas do requirements no seu ambiente virtual usando: ``` pip install -U -r requirements.txt ```
 
 1. Rode o seu arquivo de código principal: ``` python mqtt.py ```
-
-## Interface
-
-### Passos para rodar a interface com o usuário:
-
-1. Dê um nome e crie o ambiente virtual. Exemplo para criação do ambiente virtual de nome .env: ``` python3.8 -m venv .env ```
-
-1. **Ative o ambiente virtual usando** (sempre faça esse passo antes de rodar código): ``` source .env/bin/activate ```
-
-1. Instale o pacote necessário: ``` sudo apt-get install python3-tk ```
-
-1. Instale as bibliotecas do requirements no seu ambiente virtual usando: ``` pip install -U -r requirements.txt ```
-
-1. Rode o seu arquivo de código principal: ``` python user_interface.py ```
