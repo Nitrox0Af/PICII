@@ -260,7 +260,7 @@ A conexão do Sensor Reed Switch, sensor eletromecânico usado para detectar a p
 
 [![Sensor Reed Switch](img/reed.png)](https://www.electroniclinic.com/reed-switch-with-raspberry-pi-interfacing-and-python-programming/)
 
-Fonte: FAHAD, S. (2020).
+Fonte: FAHAD. (2020).
 
 </div>
 
