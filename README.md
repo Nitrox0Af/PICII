@@ -285,7 +285,7 @@ Agradecemos a todos que contribuíram para este projeto!
 
 <div align="center">
 
-| [<img src="img/gab.jpeg?v=4" width="115" height="130"><br><sub>Gabrielly Cariman</sub>](https://www.linkedin.com/in/gabrielly-barcelos-cariman) | [<img src="img/Mayke.jpg" width="115" height="130"><br><sub>Mayke Wallace</sub>](https://www.linkedin.com/in/mayke-wallace-silva-alves) 
+| [<img src="img/gab.jpeg?v=4" width="215" height="215"><br><sub>Gabrielly Cariman</sub>](https://www.linkedin.com/in/gabrielly-barcelos-cariman) | [<img src="img/Mayke.jpg" width="215" height="230"><br><sub>Mayke Wallace</sub>](https://www.linkedin.com/in/mayke-wallace-silva-alves) 
 | :------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------: 
 
 </div>
