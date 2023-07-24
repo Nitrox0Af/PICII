@@ -5,6 +5,7 @@
 ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)
+![Trello](https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white)
 
 
 # Security System Mediated by Artificial Intelligence - SSMAI
@@ -44,7 +45,7 @@ O trabalho foi dividido em tarefas (tasks), que tinham uma label em comum, sendo
 
 <div align="center">
 
-![Trello](img/trello.png)
+[![Trello](img/trello.png)](https://trello.com/b/aGhxs52E/grupo-i-security-system-mediated-by-artificial-intelligence-ssmai)
 
 </div>
 
