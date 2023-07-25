@@ -270,7 +270,7 @@ As conexões dos outros componentes seguiram de forma semelhante. Conectando res
 
 **Abertura da tranca**
 
-A porta tem um sistema automatico de fechadura, uma solenoide que abre se for alimentada com 12V a 700mA. Dito isso foi pensado de primeiro usar um relé para controle da energia da porta, entretanto, os pinos do relé n era compativel com a placa de ensaio, assim, pensou-se num cicuito que funcionase como uma chave, e com isso em mente criou-se o circuito a baixo.
+A porta tem um sistema automatico de fechadura, uma solenoide que abre se for alimentada com 12V a 700mA. Dito isso, foi pensado de primeiro usar um relé para controle da energia da porta, entretanto, os pinos do relé não era compatível com a placa de ensaio, assim, pensou-se num cicuito que funcionase como uma chave, e com isso em mente criou-se o circuito a baixo.
 
 <div align="center">
 
