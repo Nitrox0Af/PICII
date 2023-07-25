@@ -268,6 +268,24 @@ Esse sensor foi usado para identificar se a porta estava aberta ou fechada. Para
 
 As conexões dos outros componentes seguiram de forma semelhante. Conectando resistores, transistores, alimentação e GND de forma necessária para que o circuito funcione corretamente.
 
+//
+**Abertura da tranca**
+
+A porta tem um sistema automatico de fechadura, uma solenoide que abre se for alimentada com 12V a 700mA. Dito isso foi pensado de primeiro usar um relé para controle da energia da porta, entretanto, os pinos do relé n era compativel com a placa de ensaio, assim, pensou-se num cicuito que funcionase como uma chave, e com isso em mente criou-se o circuito a baixo.
+
+<div align="center">
+
+[![Fechadura Eletrônica](img/tranca.gif)]
+Fonte: Produção dos próprios autores.
+
+o circuito é simples, usando um tip31C e um tip42C cascateados, em
+
+</div>
+
+Esse sensor foi usado para identificar se a porta estava aberta ou fechada. Para que ele funcionasse corretamente, também foi colado, na parte móvel da porta, um imã para gerar o campo magnético.
+
+As conexões dos outros componentes seguiram de forma semelhante. Conectando resistores, transistores, alimentação e GND de forma necessária para que o circuito funcione corretamente.
+//
 ## Estrutura 3D
 
 Foram desenvolvidas estruturas 3D que posteriormente foram impressas na impressora 3D. Essas estruturas foram projetadas para fornecer suporte e estabilidade a todo o nosso projeto.
