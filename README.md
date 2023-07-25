@@ -289,7 +289,10 @@ A segunda estrutura 3D consistiu em uma caixa desenvolvida para abrigar todo o n
 
 <div align="center">
 
-![Caixa 3D](img/caixa_3d.jpg)
+<div style="display: flex;">
+    <img src="img/caixa.png" style="width: 50%; padding: 5px;">
+    <img src="img/caixa_3d.jpg" style="width: 50%; padding: 5px;">
+</div>
 Fonte: Produção dos próprios autores.
 
 </div>
