@@ -67,7 +67,7 @@ A opção de abrir a porta por reconhecimento facial é uma segunda alternativa.
 O código foi escrito em Python e pode ser encontrado em três pastas principais, cada pasta contém a explicação de como instalar e rodar os programas:
 
 ### [telegram_bot](https://github.com/Nitrox0Af/Security-System-Mediated-by-Artificial-Intelligence---SSMAI/tree/main/telegram_bot)
-Nesta pasta, encontra-se o código responsável por executar um bot do Telegram para cadastro de proprietários do nosso produto. O bot foi desenvolvido usando a biblioteca *python-telegram-bot*, que permite a interação com a plataforma do Telegram. Ele registra o email do proprietário e salva o Chat ID do Telegram para futuras comunicações. O sistema é executado na VM (Máquina Virtual) fornecida pela UFES (Universidade Federal do Espírito Santo), garantindo um ambiente seguro e controlado para a execução do código. Para acessar a VM, é necessário estar conectado presencialmente à rede da universidade ou utilizar uma VPN autorizada.
+Nesta pasta, encontra-se o código responsável por executar um bot do Telegram para cadastro de proprietários do nosso produto. O bot foi desenvolvido usando a biblioteca [*python-telegram-bot*](https://python-telegram-bot.org/), que permite a interação com a plataforma do Telegram. Ele registra o email do proprietário e salva o Chat ID do Telegram para futuras comunicações. O sistema é executado na VM (Máquina Virtual) fornecida pela UFES (Universidade Federal do Espírito Santo), garantindo um ambiente seguro e controlado para a execução do código. Para acessar a VM, é necessário estar conectado presencialmente à rede da universidade ou utilizar uma VPN autorizada.
 
 Na mesma VM, também está em execução o broker MQTT Mosquitto, que desempenha um papel fundamental na comunicação entre a Raspberry Pi e o site.
 
@@ -81,7 +81,7 @@ Fonte: Produção dos próprios autores.
 </div>
 
 ### [site](https://github.com/Nitrox0Af/Security-System-Mediated-by-Artificial-Intelligence---SSMAI/tree/main/site)
-O site é executado na mesma VM do bot do Telegram e foi desenvolvido usando o framework Django, framework web de código aberto, escrito em Python. O projeto Django, chamado "django_ssmai", contém a aplicação "ssmai". O banco de dados utilizado é o SQLite.
+O site é executado na mesma VM do bot do Telegram e foi desenvolvido usando o framework [Django](https://docs.djangoproject.com/pt-br/4.2/), framework web de código aberto, escrito em Python. O projeto Django, chamado "django_ssmai", contém a aplicação "ssmai". O banco de dados utilizado é o SQLite.
 
 No site, o primeiro passo é realiza o cadastro inicial das pessoas que adquiriram o produto, como mostrado abaixo:
 
@@ -112,7 +112,7 @@ Fonte: Produção dos próprios autores.
 
 O próprio proprietário também deve se cadastrar como hóspede, caso ele deseje usar o reconhecimento facial.
 
-As fotos dos hóspedes são armazenadas localmente e o banco de dados SQLite contém apenas o caminho para a foto. Além disso, é gerado um encoding usando a biblioteca *face_recognition*, e esse encoding é salvo localmente no formato pickle, representação binária. Quando uma nova foto é adicionada, um tópico MQTT informa a Raspberry Pi, que solicita o arquivo pickle correspondente através de uma requisição ao site.
+As fotos dos hóspedes são armazenadas localmente e o banco de dados SQLite contém apenas o caminho para a foto. Além disso, é gerado um encoding usando a biblioteca [*face_recognition*](https://pypi.org/project/face-recognition/), e esse encoding é salvo localmente no formato pickle, representação binária. Quando uma nova foto é adicionada, um tópico MQTT informa a Raspberry Pi, que solicita o arquivo pickle correspondente através de uma requisição ao site.
 
 ### [raspberry](https://github.com/Nitrox0Af/Security-System-Mediated-by-Artificial-Intelligence---SSMAI/tree/main/raspberry)
 Nesta pasta, estão todos os códigos necessários para o funcionamento da Raspberry Pi. Alguns dos arquivos incluídos são:
