@@ -278,7 +278,7 @@ A porta tem um sistema automatico de fechadura, uma solenoide que abre se for al
 [![Fechadura Eletrônica](img/tranca.gif)]
 Fonte: Produção dos próprios autores.
 
-o circuito é simples, usando um tip31C e um tip42C cascateados, em
+o circuito é simples, usando um tip31C e um tip42C cascateados(par Darlington), constroi-se uma configuração de chave, onde: quando tem-se a vontade de abrir a porta é mandado um sinal LOW na base do do transistor NPN ou um HIGH caso contrário
 
 </div>
 
